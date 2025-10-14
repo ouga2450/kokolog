@@ -55,9 +55,9 @@
 ## 機能候補
 ### MVPリリース時
 - ユーザー登録 / ログイン  
-- 習慣登録・チェック機能  
-- 習慣前後の気分記録  
-- 定刻気分ログ（朝・夜）  
+- 習慣登録機能  
+- 習慣前後の気分記録
+- 気分登録機能
 - 1日の記録一覧
 
 ### 本リリースまで
@@ -77,6 +77,22 @@
 - **インフラ**: Render / neon
 - **認証**: Devise  
 - **API**: LINE Messaging API / LINE Login API
+
+---
+
+### 画面遷移図
+Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kokolog?node-id=0-1&t=SEncSvWt1HWWR0MB-1
+
+---
+
+### READMEに記載した機能
+- [x] ユーザー登録機能
+- [x] ログイン機能
+- [x] 習慣登録機能
+- [x] 習慣記録機能
+- [x] 習慣編集機能
+- [x] 気分記録機能
+- [x] 一日の記録一覧
 
 ---
 
