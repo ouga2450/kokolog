@@ -46,8 +46,8 @@
 ## サービスの差別化ポイント・推しポイント
 - 他の習慣アプリ（Habitica, Habitify, みんちゃれなど）は「タスク管理」に偏重。  
 - **こころぐの強み**：  
-  - 習慣の **前後で気分を記録** できる  
-  - **定刻の気分ログ** を取れる  
+- 習慣の **前後で気分を記録** できる  
+- **定刻の気分ログ** を取れる  
 - 「やったかどうか」だけでなく **「心の変化」** を見える化することで、続ける楽しさを提供。  
 
 ---
@@ -85,14 +85,10 @@ Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kokolog?node-id=0-1&
 
 ---
 
-### READMEに記載した機能
-- [x] ユーザー登録機能
-- [x] ログイン機能
-- [x] 習慣登録機能
-- [x] 習慣記録機能
-- [x] 習慣編集機能
-- [x] 気分記録機能
-- [x] 一日の記録一覧
+### ER図
+
+https://gyazo.com/a7bc383860adaadf496fd78bf392dc5a
+https://drive.google.com/file/d/1glYMd5Y1NUmwrYsWvmLt5549EUGGYen7/view?usp=sharing
 
 ---
 
