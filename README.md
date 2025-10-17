@@ -87,7 +87,7 @@ Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kokolog?node-id=0-1&
 
 ### ER図
 
-drawio：https://gyazo.com/fe6c2e08b98c3b98cb4bfb07ca7a32f0
+drawio：https://gyazo.com/2cc89b450af434b2babf8108850666cc
 
 ---
 
