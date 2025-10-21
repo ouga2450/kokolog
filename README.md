@@ -61,22 +61,25 @@
 - 1日の記録一覧
 
 ### 本リリースまで
+- 習慣カテゴリ追加、検索機能
+- 習慣継続日数表示
+- 習慣による気分の改善度合い表示
 - 1日、月単位の記録をグラフ化
+- HotwireによるUX向上
 - カレンダーで日ごとの気分を表示
-- グループ習慣機能（仲間との共有）  
-- AIによる気分変化のアドバイス  
+- Google認証
 - LINEで通知・簡単記録機能
 
 ---
 
 ## 使用する技術スタック
-- **フレームワーク**: Ruby on Rails 8  
-- **フロントエンド**: Tailwind CSS / daisyUI / Hotwire / JavaScript
-- **データベース**: PostgreSQL  
+- **フレームワーク**: Ruby on Rails 7.2.2
+- **フロントエンド**: Tailwind CSS v4 / daisyUI / Hotwire（turbo/stimulus）
+- **データベース**: PostgreSQL
 - **開発環境**: Docker
 - **インフラ**: Render / neon
-- **認証**: Devise  
-- **API**: LINE Messaging API / LINE Login API
+- **認証**: Devise / Google認証
+- **API（予定）**: LINE Messaging API / LINE Login API
 
 ---
 
@@ -92,4 +95,4 @@ drawio：https://gyazo.com/2cc89b450af434b2babf8108850666cc
 ---
 
 ## 🌟 キャッチコピー
-> **こころぐ – 習慣でこころを健康に。気分を記録し、変化を見える化。**
+**こころぐ – 習慣でこころを健康に。気分を記録し、変化を見える化。**
