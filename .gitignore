@@ -38,3 +38,11 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+# 複数キーがある場合にそれらを無視する（DBが複数ある場合など）
+# 本アプリでは使用しないが、念のため記載
+/config/credentials/*.key
+
+# macOSのFinderが生成するファイル
+.DS_Store
+/vendor/bundle
