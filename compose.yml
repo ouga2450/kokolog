@@ -8,7 +8,7 @@ services: # コンテナの定義開始
     volumes: # データの永続化設定
       - postgresql_data:/var/lib/postgresql # DBデータを永続化
     ports: # ポート設定
-      - 5432:5432
+      - 5433:5432
     healthcheck: # コンテナの健康チェック設定
       test: ["CMD-SHELL", "pg_isready -d myapp_development -U postgres"]
       interval: 10s # チェック間隔
