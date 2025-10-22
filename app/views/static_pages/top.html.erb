@@ -1,12 +1,72 @@
-<div class="hero bg-base-200 min-h-[80vh]">
-  <div class="hero-content flex-col lg:flex-row">
-    <img src="https://placehold.co/400x300?text=kokolog" class="max-w-sm rounded-lg shadow-2xl" alt="placeholder" />
-    <div>
-      <h1 class="text-5xl font-bold">こころを記録する、こころぐ。</h1>
-      <p class="py-6 text-lg">
-        習慣の前後に「気分」を記録して、自分のこころを見える化しましょう。
+<div class="min-h-screen bg-base-200 flex flex-col items-center px-4 py-10">
+  <!-- カード本体 -->
+  <div class="card w-full max-w-md bg-base-100 shadow-xl">
+    <div class="card-body space-y-4 text-center">
+      
+      <!-- バッジ -->
+      <div class="badge badge-info badge-outline text-xs md:text-sm mb-1">
+        こころを記録。つながる習慣
+      </div>
+
+      <!-- 見出し -->
+      <h1 class="card-title text-xl md:text-2xl justify-center">
+        あなたの行動と気分の関係を
+        <br>
+        "見える化"
+      </h1>
+
+      <!-- 説明 -->
+      <p class="text-sm text-base-content/70 leading-relaxed">
+        kokologは、習慣の実行「前後」で気分をワンタップ記録。
+        ニュートラルを含む5段階評価で、毎日の変化や傾向をやさしく可視化します。
       </p>
-      <a href="#" class="btn btn-primary">はじめる</a>
+
+      <!-- プレビュー枠 -->
+      <div class="mockup-window border border-base-300 bg-base-200 h-32 flex items-center justify-center text-base-content/50 text-sm">
+        アプリ プレビュー（気分記録・トレンド）
+      </div>
+
+      <!-- タブ -->
+      <div role="tablist" class="tabs tabs-bordered w-full justify-center text-sm">
+        <a role="tab" class="tab tab-active">概要</a>
+        <a role="tab" class="tab">機能</a>
+        <a role="tab" class="tab">サポート</a>
+      </div>
+
+      <!-- ログインフォーム -->
+      <div class="divider text-sm">ログイン</div>
+      <form class="form-control space-y-3 text-left">
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text text-xs font-medium">メールアドレス</span>
+          </div>
+          <input type="email" placeholder="name@example.com" class="input input-bordered w-full" />
+        </label>
+
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text text-xs font-medium">パスワード</span>
+          </div>
+          <input type="password" placeholder="••••••••" class="input input-bordered w-full" />
+        </label>
+
+        <!-- ボタン群 -->
+        <button class="btn btn-primary w-full text-sm flex items-center justify-center gap-2 mt-3">
+          <%= heroicon "key", options: { class: "w-4 h-4" } %>
+          <span>ログイン</span>
+        </button>
+
+        <a href="#" class="btn btn-primary btn-secondary w-full text-sm flex items-center justify-center gap-2">
+          <%= heroicon "arrow-right-on-rectangle", options: { class: "w-4 h-4" } %>
+          <span>はじめる</span>
+        </a>
+      </form>
+
+      <p class="text-xs text-base-content/60 text-center mt-3 leading-tight">
+        ログインで利用規約に同意したものとみなします。<br>
+        <a href="#" class="link link-hover text-info">利用規約</a> /
+        <a href="#" class="link link-hover text-info">プライバシー</a>
+      </p>
     </div>
   </div>
 </div>
