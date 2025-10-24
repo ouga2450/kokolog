@@ -1,29 +1,78 @@
-<h2>Sign up</h2>
+<div class="min-h-screen flex items-center justify-center bg-base-200">
+  <div class="card bg-base-100 shadow-xl w-full max-w-sm">
+    <div class="card-body space-y-4">
+      <h2 class="text-xl font-bold text-center">アカウント作成</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <%= form_with model: resource,
+                    as: resource_name,
+                    url: registration_path(resource_name),
+                    local: true,
+                    html: { class: "space-y-3" } do |f| %>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+        <!-- メールアドレス -->
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text text-xs font-medium">メールアドレス</span>
+          </div>
+          <%= f.email_field :email,
+                            autofocus: true,
+                            placeholder: "name@example.com",
+                            class: "input input-bordered w-full",
+                            required: true %>
+        </label>
+
+        <!-- パスワード -->
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text text-xs font-medium">パスワード（8文字以上）</span>
+          </div>
+          <%= f.password_field :password,
+                               class: "input input-bordered w-full",
+                               required: true %>
+        </label>
+
+        <!-- パスワード再入力 -->
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text text-xs font-medium">パスワード（再入力）</span>
+          </div>
+          <%= f.password_field :password_confirmation,
+                               class: "input input-bordered w-full",
+                               required: true %>
+        </label>
+
+        <!-- ニックネーム -->
+        <label class="form-control w-full">
+          <div class="label">
+            <span class="label-text text-xs font-medium">表示名</span>
+          </div>
+          <%= f.text_field :name,
+                           placeholder: "ニックネーム",
+                           class: "input input-bordered w-full" %>
+        </label>
+
+        <!-- メインボタン -->
+        <div class="form-control mt-4">
+          <%= f.button type: "submit",
+                       class: "btn btn-primary w-full text-sm flex items-center justify-center gap-2" do %>
+            <%= heroicon "user-plus", options: { class: "w-4 h-4" } %>
+            <span>はじめる</span>
+          <% end %>
+        </div>
+
+      <% end %>
+
+      <!-- Googleログイン（将来用のダミー） -->
+      <button class="btn btn-outline w-full text-sm flex items-center justify-center gap-2">
+        <%= heroicon "globe-alt", options: { class: "w-4 h-4" } %>
+        <span>Googleで続行</span>
+      </button>
+
+      <!-- すでに登録済みリンク -->
+      <p class="text-center text-xs text-base-content/70">
+        すでにアカウントをお持ちですか？
+        <%= link_to "ログイン", new_user_session_path, class: "link link-primary" %>
+      </p>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
