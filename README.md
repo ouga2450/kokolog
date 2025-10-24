@@ -90,7 +90,7 @@ Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kokolog?node-id=0-1&
 
 ### ER図
 
-drawio：https://gyazo.com/2cc89b450af434b2babf8108850666cc
+drawio：https://drive.google.com/file/d/1vKFVkRrT0Z6NIwWHoRamnAydgwRMlh0k/view?usp=sharing
 
 ---
 
