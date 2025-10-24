@@ -1,15 +1,42 @@
 <header class="navbar bg-base-100 border-b shadow-sm px-4 sticky top-0 z-50">
+
+  <!-- 左側：ロゴ + ドロップダウン（SP時） -->
   <div class="flex-1">
+    <!-- モバイル用ドロップダウン -->
+    <div class="dropdown">
+      <button tabindex="0" class="btn btn-ghost lg:hidden">
+        <!-- Heroiconでハンバーガーアイコン -->
+        <%= heroicon "bars-3", options: { class: "w-6 h-6" } %>
+      </button>
+      <ul tabindex="0"
+          class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+        <% if user_signed_in? %>
+          <li><span><%= current_user.name %></span></li>
+          <li><%= link_to "マイページ", "#", class: "text-sm" %></li>
+          <li><%= link_to "ログアウト", destroy_user_session_path,
+                          data: { turbo_method: :delete }, class: "text-sm" %></li>
+        <% else %>
+          <li><%= link_to "ログイン", new_user_session_path, class: "text-sm" %></li>
+          <li><%= link_to "新規登録", new_user_registration_path, class: "text-sm" %></li>
+        <% end %>
+      </ul>
+    </div>
+
+    <!-- ロゴ -->
     <%= link_to "kokolog", root_path, class: "btn btn-ghost normal-case text-lg md:text-xl font-semibold" %>
   </div>
-  <div class="flex-none space-x-1 md:space-x-2">
+
+  <!-- 右側：PC表示用メニュー -->
+  <div class="flex-none hidden lg:flex space-x-2">
     <% if user_signed_in? %>
       <span class="text-sm md:text-base"><%= current_user.name %></span>
-      <%= link_to "マイページ", "#user_path(current_user)", class: "btn btn-ghost text-sm md:text-base" %>
-      <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete }, class: "btn btn-ghost text-sm md:text-base" %>
+      <%= link_to "マイページ", "#", class: "btn btn-ghost text-sm md:text-base" %>
+      <%= link_to "ログアウト", destroy_user_session_path,
+                  data: { turbo_method: :delete }, class: "btn btn-ghost text-sm md:text-base" %>
     <% else %>
       <%= link_to "ログイン", new_user_session_path, class: "btn btn-ghost text-sm md:text-base" %>
       <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary text-sm md:text-base" %>
     <% end %>
   </div>
+
 </header>
