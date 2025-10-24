@@ -3,7 +3,12 @@
     <%= link_to "kokolog", root_path, class: "btn btn-ghost normal-case text-lg md:text-xl font-semibold" %>
   </div>
   <div class="flex-none space-x-1 md:space-x-2">
-    <%= link_to "ログイン", "#(new_user_session_path)", class: "btn btn-ghost text-sm md:text-base" %>
-    <%= link_to "新規登録", "#(new_user_registration_path)", class: "btn btn-primary text-sm md:text-base" %>
+    <% if user_signed_in? %>
+      <%= link_to "マイページ", user_path(current_user), class: "btn btn-ghost text-sm md:text-base" %>
+      <%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "btn btn-ghost text-sm md:text-base" %>
+    <% else %>
+      <%= link_to "ログイン", new_user_session_path, class: "btn btn-ghost text-sm md:text-base" %>
+      <%= link_to "新規登録", new_user_registration_path, class: "btn btn-primary text-sm md:text-base" %>
+    <% end %>
   </div>
 </header>
