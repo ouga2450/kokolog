@@ -1,0 +1,94 @@
+<div class="space-y-6 p-4">
+
+  <!-- 今の気分 -->
+  <section class="card bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-sm font-semibold">今の気分は？</h2>
+      <div class="grid grid-cols-5 gap-2 mt-3">
+        <% %w[😞 😐 🙂 😊 😄].each do |emoji| %>
+          <button class="btn btn-outline btn-sm"><%= emoji %></button>
+        <% end %>
+      </div>
+      <div class="flex justify-between mt-4">
+        <button class="btn btn-primary btn-sm w-1/2 mr-1 flex items-center justify-center gap-1">
+          <%= heroicon "check", options: { class: "w-4 h-4" } %>
+          保存
+        </button>
+        <button class="btn btn-outline btn-sm w-1/2 ml-1 flex items-center justify-center gap-1">
+          <%= heroicon "pencil-square", options: { class: "w-4 h-4" } %>
+          詳細記録
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- 今日の習慣 -->
+  <section class="card bg-base-100 shadow-sm">
+    <div class="card-body space-y-3">
+      <div class="flex justify-between items-center">
+        <h2 class="card-title text-sm font-semibold">今日の習慣</h2>
+        <%= link_to "習慣一覧", "#", class: "text-xs link link-hover text-primary" %>
+      </div>
+
+      <% @habits = [
+        { title: "朝のコーヒー", time: "7:30" },
+        { title: "通勤", time: "8:00" },
+        { title: "読書20分", time: "22:00" }
+      ] %>
+
+      <% @habits.each do |habit| %>
+        <div class="flex justify-between items-center bg-base-200 rounded-lg p-3">
+          <div>
+            <p class="font-medium text-sm"><%= habit[:title] %></p>
+            <p class="text-xs opacity-70"><%= habit[:time] %></p>
+          </div>
+          <%= heroicon "check-circle", options: { class: "w-4 h-4 text-success" } %>
+        </div>
+      <% end %>
+
+      <button class="btn btn-primary btn-sm w-full mt-2 flex items-center justify-center gap-1">
+        <%= heroicon "plus", options: { class: "w-4 h-4" } %>
+        習慣を追加
+      </button>
+    </div>
+  </section>
+
+  <!-- 今日のログ -->
+  <section class="card bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-sm font-semibold">今日のログ</h2>
+      <div class="divide-y divide-base-200">
+        <% [["08:05", "コーヒー後の気分", "良い"], ["07:45", "コーヒー前", "普通"], ["07:30", "通勤前", "少しだるい"]].each do |time, title, mood| %>
+          <div class="flex justify-between items-center py-2">
+            <div>
+              <p class="font-medium text-sm"><%= title %></p>
+              <p class="text-xs opacity-70"><%= time %></p>
+            </div>
+            <span class="badge badge-outline"><%= mood %></span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+
+  <!-- 気分のトレンド -->
+  <section class="card bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-sm font-semibold">気分のトレンド</h2>
+      <div class="h-32 flex items-center justify-center text-sm text-base-content/50">
+        折れ線グラフプレースホルダー
+      </div>
+    </div>
+  </section>
+
+  <!-- カレンダー -->
+  <section class="card bg-base-100 shadow-sm">
+    <div class="card-body">
+      <h2 class="card-title text-sm font-semibold">カレンダー</h2>
+      <div class="h-32 flex items-center justify-center text-sm text-base-content/50">
+        カレンダープレースホルダー
+      </div>
+    </div>
+  </section>
+
+</div>
