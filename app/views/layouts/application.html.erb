@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-theme="cupcake">
   <head>
     <title><%= content_for(:title) || "kokolog" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -17,7 +17,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body data-theme="cupcake" class="bg-base-200 min-h-screen flex flex-col">
+  <body class="bg-base-200 min-h-screen flex flex-col">
     <!-- 簡易フラッシュメッセージ -->
     <p class="text-green-600 text-center"><%= notice %></p>
     <p class="text-red-600 text-center"><%= alert %></p>
@@ -30,6 +30,10 @@
       </div>
     </main>
 
-    <%= render 'shared/footer' %>
+    <% if user_signed_in? %>
+      <%= render "shared/footer_signed_in" %>
+    <% else %>
+      <%= render "shared/footer_guest" %>
+    <% end %>
   </body>
 </html>
