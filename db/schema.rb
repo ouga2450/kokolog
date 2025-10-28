@@ -10,9 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_24_042922) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_28_105101) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "moods", force: :cascade do |t|
+    t.integer "score", null: false
+    t.string "label", null: false
+    t.string "color", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["label"], name: "index_moods_on_label", unique: true
+    t.index ["score"], name: "index_moods_on_score", unique: true
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
