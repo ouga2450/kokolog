@@ -8,3 +8,5 @@ bundle exec rails assets:precompile
 bundle exec rails assets:clean
 # DB マイグレーションを実行
 bundle exec rails db:migrate
+# DB シードデータを投入
+bundle exec rails db:seed
