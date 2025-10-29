@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_29_050306) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_29_100343) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -19,6 +19,20 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_29_050306) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_feelings_on_name", unique: true
+  end
+
+  create_table "mood_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "mood_id", null: false
+    t.datetime "recorded_at", default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.bigint "feeling_id"
+    t.string "timing"
+    t.text "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feeling_id"], name: "index_mood_logs_on_feeling_id"
+    t.index ["mood_id"], name: "index_mood_logs_on_mood_id"
+    t.index ["user_id"], name: "index_mood_logs_on_user_id"
   end
 
   create_table "moods", force: :cascade do |t|
@@ -43,4 +57,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_10_29_050306) do
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
+
+  add_foreign_key "mood_logs", "feelings"
+  add_foreign_key "mood_logs", "moods"
+  add_foreign_key "mood_logs", "users"
 end
