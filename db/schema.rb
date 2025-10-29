@@ -10,9 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_10_28_105101) do
+ActiveRecord::Schema[7.2].define(version: 2025_10_29_050306) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "feelings", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_feelings_on_name", unique: true
+  end
 
   create_table "moods", force: :cascade do |t|
     t.integer "score", null: false
