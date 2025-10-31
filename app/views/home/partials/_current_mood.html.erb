@@ -5,26 +5,20 @@
       <p class="text-xs text-base-content/50">タップまたはスライダーで選択</p>
     </div>
 
-    <% moods = [
-      { emoji: "🤩", label: "最高" },
-      { emoji: "😊", label: "良い" },
-      { emoji: "😐", label: "普通" },
-      { emoji: "😕", label: "悪い" },
-      { emoji: "😞", label: "最悪" }
-    ] %>
-
     <!-- 絵文字ボタン群 -->
     <div class="grid grid-cols-5 gap-2 mt-3">
-      <% moods.each_with_index do |mood, index| %>
+      <% @moods.each_with_index do |mood, i| %>
         <button
           type="button"
           data-action="click->mood-selector#select"
-          data-mood-selector-index-value="<%= index %>"
+          data-mood-selector-index-value="<%= i %>"
+          data-mood-selector-id-value="<%= mood.id %>"
           data-mood-selector-target="button"
           class="mood-btn flex flex-col items-center justify-center p-3 rounded-xl border border-base-300 bg-base-200 hover:bg-base-300 transition-all duration-150"
           >
-          <span class="text-2xl"><%= mood[:emoji] %></span>
-          <span class="text-xs font-medium mt-1"><%= mood[:label] %></span>
+          <!-- moodsヘルパーメソッドで絵文字と日本語ラベルを取得 -->
+          <span class="text-2xl"><%= emoji_for_mood(mood) %></span>
+          <span class="text-xs font-medium mt-1"><%= jp_label_for_mood(mood) %></span>
         </button>
       <% end %>
     </div>
@@ -34,7 +28,7 @@
       <input
         type="range"
         min="0"
-        max="4"
+        max="<%= @moods.size - 1 %>"
         value="2"
         step="1"
         class="range range-primary w-full h-[0.25rem]"
