@@ -58,4 +58,3 @@ module MoodsHelper
     jp_label_for_label(mood.label)
   end
 end
-
