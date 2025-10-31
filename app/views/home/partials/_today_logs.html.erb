@@ -1,0 +1,16 @@
+<section class="card bg-base-100 shadow-sm">
+  <div class="card-body">
+    <h2 class="card-title text-sm font-semibold">今日のログ</h2>
+    <div class="divide-y divide-base-200">
+      <% [["08:05", "コーヒー後の気分", "良い"], ["07:45", "コーヒー前", "普通"], ["07:30", "通勤前", "少しだるい"]].each do |time, title, mood| %>
+        <div class="flex justify-between items-center py-2">
+          <div>
+            <p class="font-medium text-sm"><%= title %></p>
+            <p class="text-xs opacity-70"><%= time %></p>
+          </div>
+          <span class="badge badge-outline"><%= mood %></span>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>
