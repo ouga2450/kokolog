@@ -1,52 +1,62 @@
-<section class="card bg-base-100 shadow-sm" data-controller="mood-selector">
-  <div class="card-body">
-    <div class="flex justify-between items-center">
-      <h2 class="card-title text-sm font-semibold">今の気分は？</h2>
-      <p class="text-xs text-base-content/50">タップまたはスライダーで選択</p>
-    </div>
+<%= form_with model: MoodLog.new,
+                url: mood_logs_path,
+                method: :post,
+                data: {controller: "mood-selector"} do |f| %>
+  <section class="card bg-base-100 shadow-sm">
+    <div class="card-body">
+      <div class="flex justify-between items-center">
+        <h2 class="card-title text-sm font-semibold">今の気分は？</h2>
+        <p class="text-xs text-base-content/50">タップまたはスライダーで選択</p>
+      </div>
 
-    <!-- 絵文字ボタン群 -->
-    <div class="grid grid-cols-5 gap-2 mt-3">
-      <% @moods.each_with_index do |mood, i| %>
-        <button
-          type="button"
-          data-action="click->mood-selector#select"
-          data-mood-selector-index-value="<%= i %>"
-          data-mood-selector-id-value="<%= mood.id %>"
-          data-mood-selector-target="button"
-          class="mood-btn flex flex-col items-center justify-center p-3 rounded-xl border border-base-300 bg-base-200 hover:bg-base-300 transition-all duration-150"
-          >
-          <!-- moodsヘルパーメソッドで絵文字と日本語ラベルを取得 -->
-          <span class="text-2xl"><%= emoji_for_mood(mood) %></span>
-          <span class="text-xs font-medium mt-1"><%= jp_label_for_mood(mood) %></span>
+      <!-- 選択された気分IDを保持するhiddenフィールド -->
+      <%= f.hidden_field :mood_id,
+                          value: @moods.find_by(score: 2)&.id,
+                          data: { mood_selector_target: "field" } %>
+
+      <!-- 絵文字ボタン群 -->
+      <div class="grid grid-cols-5 gap-2 mt-3">
+        <% @moods.each_with_index do |mood, i| %>
+          <button
+            type="button"
+            data-action="click->mood-selector#select"
+            data-mood-selector-index-value="<%= i %>"
+            data-mood-selector-id-value="<%= mood.id %>"
+            data-mood-selector-target="button"
+            class="mood-btn flex flex-col items-center justify-center p-3 rounded-xl border border-base-300 bg-base-200 hover:bg-base-300 transition-all duration-150"
+            >
+            <!-- moodsヘルパーメソッドで絵文字と日本語ラベルを取得 -->
+            <span class="text-2xl"><%= emoji_for_mood(mood) %></span>
+            <span class="text-xs font-medium mt-1"><%= jp_label_for_mood(mood) %></span>
+          </button>
+        <% end %>
+      </div>
+
+      <!-- スライダー -->
+      <div class="mt-5 flex items-center justify-center">
+        <input
+          type="range"
+          min="0"
+          max="<%= @moods.size - 1 %>"
+          value="2"
+          step="1"
+          class="range range-primary w-full h-[0.25rem]"
+          data-action="input->mood-selector#slide"
+          data-mood-selector-target="slider"
+        />
+      </div>
+
+      <!-- 保存・詳細記録ボタン -->
+      <div class="flex justify-between mt-4">
+        <button type="submit" class="btn btn-primary btn-sm w-1/2 mr-1 flex items-center justify-center gap-1">
+          <%= heroicon "check", options: { class: "w-4 h-4" } %>
+          保存
         </button>
-      <% end %>
+        <button type="button" class="btn btn-outline btn-sm w-1/2 ml-1 flex items-center justify-center gap-1">
+          <%= heroicon "pencil-square", options: { class: "w-4 h-4" } %>
+          詳細記録
+        </button>
+      </div>
     </div>
-
-    <!-- スライダー -->
-    <div class="mt-5 flex items-center justify-center">
-      <input
-        type="range"
-        min="0"
-        max="<%= @moods.size - 1 %>"
-        value="2"
-        step="1"
-        class="range range-primary w-full h-[0.25rem]"
-        data-action="input->mood-selector#slide"
-        data-mood-selector-target="slider"
-      />
-    </div>
-
-    <!-- 保存・詳細記録ボタン -->
-    <div class="flex justify-between mt-4">
-      <button class="btn btn-primary btn-sm w-1/2 mr-1 flex items-center justify-center gap-1">
-        <%= heroicon "check", options: { class: "w-4 h-4" } %>
-        保存
-      </button>
-      <button class="btn btn-outline btn-sm w-1/2 ml-1 flex items-center justify-center gap-1">
-        <%= heroicon "pencil-square", options: { class: "w-4 h-4" } %>
-        詳細記録
-      </button>
-    </div>
-  </div>
-</section>
+  </section>
+<% end %>

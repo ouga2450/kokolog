@@ -2,7 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 // Connects to data-controller="mood-selector"
 export default class extends Controller {
-  static targets = ["button", "slider"]
+  static targets = ["button", "slider", "field"]
 
   connect() {
     console.log("✅ mood-selector connected!")
@@ -40,8 +40,21 @@ export default class extends Controller {
       btn.classList.toggle("bg-base-200", !isActive)
       btn.setAttribute("aria-pressed", isActive)
     })
+
+    const activeButton = this.buttonTargets[activeIndex]
+    if (activeButton) {
+      this.setMoodId(activeButton.dataset.moodSelectorIdValue)
+    }
   }
 
+  // MoodIdのセット
+  setMoodId(id) {
+    if (this.hasFieldTarget && id) {
+      this.fieldTarget.value = id
+    }
+  }
+
+  // インデックス値の正規化
   normalizeIndex(value) {
     const index = Number.parseInt(value, 10)
 

@@ -16,4 +16,8 @@ Rails.application.routes.draw do
 
   # ログイン後のホーム画面
   get "home", to: "home#index"
+
+  # mood_logsリソースのルーティング設定
+  # indexは別途logsコントローラーで定義予定
+  resources :mood_logs, only: [:create, :show, :edit, :update, :destroy]
 end
