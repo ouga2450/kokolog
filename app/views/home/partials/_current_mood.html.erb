@@ -1,0 +1,56 @@
+<section class="card bg-base-100 shadow-sm" data-controller="mood-selector">
+  <div class="card-body">
+    <div class="flex justify-between items-center">
+      <h2 class="card-title text-sm font-semibold">今の気分は？</h2>
+      <p class="text-xs text-base-content/50">タップまたはスライダーで選択</p>
+    </div>
+
+    <% moods = [
+      { emoji: "🤩", label: "最高" },
+      { emoji: "😊", label: "良い" },
+      { emoji: "😐", label: "普通" },
+      { emoji: "😕", label: "悪い" },
+      { emoji: "😞", label: "最悪" }
+    ] %>
+
+    <!-- 絵文字ボタン群 -->
+    <div class="grid grid-cols-5 gap-2 mt-3">
+      <% moods.each_with_index do |mood, index| %>
+        <button
+          type="button"
+          data-action="click->mood-selector#select"
+          data-mood-selector-index-value="<%= index %>"
+          data-mood-selector-target="button"
+          class="mood-btn flex flex-col items-center justify-center p-3 rounded-xl border border-base-300 bg-base-200 hover:bg-base-300 transition-all duration-150"
+          >
+          <span class="text-2xl"><%= mood[:emoji] %></span>
+          <span class="text-xs font-medium mt-1"><%= mood[:label] %></span>
+        </button>
+      <% end %>
+    </div>
+
+    <!-- スライダー -->
+    <div class="mt-5 flex items-center justify-center">
+      <input
+        type="range"
+        min="0"
+        max="4"
+        value="2"
+        step="1"
+        class="range range-primary w-full h-[0.25rem]"
+        data-action="input->mood-selector#slide"
+        data-mood-selector-target="slider"
+      />
+    </div>
+    <div class="flex justify-between mt-4">
+      <button class="btn btn-primary btn-sm w-1/2 mr-1 flex items-center justify-center gap-1">
+        <%= heroicon "check", options: { class: "w-4 h-4" } %>
+        保存
+      </button>
+      <button class="btn btn-outline btn-sm w-1/2 ml-1 flex items-center justify-center gap-1">
+        <%= heroicon "pencil-square", options: { class: "w-4 h-4" } %>
+        詳細記録
+      </button>
+    </div>
+  </div>
+</section>

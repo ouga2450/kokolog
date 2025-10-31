@@ -1,0 +1,29 @@
+<section class="card bg-base-100 shadow-sm">
+  <div class="card-body space-y-3">
+    <div class="flex justify-between items-center">
+      <h2 class="card-title text-sm font-semibold">今日の習慣</h2>
+      <%= link_to "習慣一覧", "#", class: "text-xs link link-hover text-primary" %>
+    </div>
+
+    <% @habits = [
+      { title: "朝のコーヒー", time: "7:30" },
+      { title: "通勤", time: "8:00" },
+      { title: "読書20分", time: "22:00" }
+    ] %>
+
+    <% @habits.each do |habit| %>
+      <div class="flex justify-between items-center bg-base-200 rounded-lg p-3">
+        <div>
+          <p class="font-medium text-sm"><%= habit[:title] %></p>
+          <p class="text-xs opacity-70"><%= habit[:time] %></p>
+        </div>
+        <%= heroicon "check-circle", options: { class: "w-4 h-4 text-success" } %>
+      </div>
+    <% end %>
+
+    <button class="btn btn-primary btn-sm w-full mt-2 flex items-center justify-center gap-1">
+      <%= heroicon "plus", options: { class: "w-4 h-4" } %>
+      習慣を追加
+    </button>
+  </div>
+</section>
