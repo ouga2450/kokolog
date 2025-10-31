@@ -1,33 +1,33 @@
-<footer class="btm-nav grid grid-flow-col auto-cols-fr bg-base-100 border-t border-base-200 text-sm">
-  <%= link_to home_path, class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-    <%= heroicon "home", options: { class: "w-5 h-5" } %>
-    <span class="text-xs">ホーム</span>
-  <% end %>
+<footer class="btm-nav fixed bottom-0 left-0 w-full z-40 grid grid-flow-col auto-cols-fr bg-base-100 border-t border-base-200 text-sm h-16 pb-[env(safe-area-inset-bottom)]">
+  <div class="w-full max-w-md mx-auto flex items-center justify-between px-4">
+    <%= link_to home_path, class: "flex flex-col items-center justify-center gap-1 py-2" do %>
+      <%= heroicon "home", options: { class: "w-5 h-5" } %>
+      <span class="text-xs">ホーム</span>
+    <% end %>
 
-  <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-    <%= heroicon "face-smile", options: { class: "w-5 h-5" } %>
-    <span class="text-xs">記録</span>
-  <% end %>
+    <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
+      <%= heroicon "face-smile", options: { class: "w-5 h-5" } %>
+      <span class="text-xs">記録</span>
+    <% end %>
 
-  <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-    <%= heroicon "clock", options: { class: "w-5 h-5" } %>
-    <span class="text-xs">振り返り</span>
-  <% end %>
+    <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
+      <%= heroicon "clock", options: { class: "w-5 h-5" } %>
+      <span class="text-xs">振り返り</span>
+    <% end %>
 
-  <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-    <%= heroicon "list-bullet", options: { class: "w-5 h-5" } %>
-    <span class="text-xs">ログ</span>
-  <% end %>
+    <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
+      <%= heroicon "list-bullet", options: { class: "w-5 h-5" } %>
+      <span class="text-xs">ログ</span>
+    <% end %>
 
-  <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-    <%= heroicon "calendar", options: { class: "w-5 h-5" } %>
-    <span class="text-xs">カレンダー</span>
-  <% end %>
+    <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
+      <%= heroicon "calendar", options: { class: "w-5 h-5" } %>
+      <span class="text-xs">カレンダー</span>
+    <% end %>
 
-  <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-    <%= heroicon "user", options: { class: "w-5 h-5" } %>
-    <span class="text-xs">プロフィール</span>
-  <% end %>
+    <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
+      <%= heroicon "user", options: { class: "w-5 h-5" } %>
+      <span class="text-xs">プロフィール</span>
+    <% end %>
+  </div>
 </footer>
-
-<p class="text-center text-xs text-base-content/60 py-2">©kokolog</p>
