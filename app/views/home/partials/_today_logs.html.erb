@@ -30,14 +30,15 @@
 
         <!-- 気分ログ -->
         <div class="swiper-slide">
-          <div class="divide-y divide-base-200 rounded-lg border border-base-200">
-            <% mood_logs_today = @mood_logs.today.includes(:mood).limit(10) %>
-            <% if mood_logs_today.present? %>
-              <% mood_logs_today.each do |log| %>
+          <% if @mood_logs_today.present? %>
+            <div class="space-y-2">
+              <% @mood_logs_today.each do |log| %>
                 <% mood = log.mood %>
-                <div class="flex items-center justify-between gap-2 px-4 py-3">
+                <div class="flex items-center justify-between rounded-lg bg-base-200 p-3">
                   <div>
-                    <p class="text-sm font-medium"><%= log.timing.presence || log.note.presence || jp_label_for_mood(mood) %></p>
+                    <p class="text-sm font-medium">
+                      <%= log.note.presence || jp_label_for_mood(mood) %>
+                    </p>
                     <p class="text-xs opacity-70"><%= log.recorded_at.in_time_zone.strftime("%H:%M") %></p>
                   </div>
                   <span class="badge badge-outline gap-1">
@@ -48,12 +49,12 @@
                   </span>
                 </div>
               <% end %>
-            <% else %>
-              <div class="px-4 py-6 text-center text-sm text-base-content/60">
-                今日の気分ログはまだありません。
-              </div>
-            <% end %>
-          </div>
+            </div>
+          <% else %>
+            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
+              今日の気分ログはまだありません。
+            </div>
+          <% end %>
         </div>
 
         <!-- 習慣ログ -->
