@@ -8,13 +8,21 @@
     <% end %>
 
     <!-- 右側：ハンバーガーメニュー -->
-    <div class="dropdown dropdown-end">
-      <button tabindex="0" class="btn btn-ghost">
-        <%= heroicon "bars-3", options: { class: "w-6 h-6" } %>
-      </button>
-      <ul tabindex="0"
-          class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 right-0">
+    <div class="relative" data-controller="nav-menu">
+      <input id="nav-menu-toggle"
+             type="checkbox"
+             class="hidden peer/nav-menu" />
 
+      <label for="nav-menu-toggle" class="btn btn-ghost swap peer-checked/nav-menu:swap-active">
+        <!-- 閉じている時（バー） -->
+        <%= heroicon "bars-3", options: { class: "w-6 h-6 swap-off" } %>
+        <!-- 開いている時（✕） -->
+        <%= heroicon "x-mark", options: { class: "w-6 h-6 swap-on" } %>
+      </label>
+
+      <!-- ドロップダウンメニューの中身 -->
+      <ul class="menu menu-sm absolute right-0 mt-3 w-52 rounded-box bg-base-100 p-2 shadow hidden
+                 peer-checked/nav-menu:flex peer-checked/nav-menu:flex-col z-[1]">
         <% if user_signed_in? %>
           <li><span class="text-sm font-semibold">"<%= current_user.name %>"でログイン中</span></li>
           <li><%= link_to "ホーム", home_path, class: "text-sm" %></li>
