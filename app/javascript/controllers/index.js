@@ -9,3 +9,6 @@ application.register("hello", HelloController)
 
 import MoodSelectorController from "./mood_selector_controller"
 application.register("mood-selector", MoodSelectorController)
+
+import SwiperController from "./swiper_controller"
+application.register("swiper", SwiperController)

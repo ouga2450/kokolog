@@ -1,16 +1,87 @@
-<section class="card bg-base-100 shadow-sm">
+<section class="card bg-base-100 shadow-sm" data-controller="swiper">
   <div class="card-body">
-    <h2 class="card-title text-sm font-semibold">今日のログ</h2>
-    <div class="divide-y divide-base-200">
-      <% [["08:05", "コーヒー後の気分", "良い"], ["07:45", "コーヒー前", "普通"], ["07:30", "通勤前", "少しだるい"]].each do |time, title, mood| %>
-        <div class="flex justify-between items-center py-2">
-          <div>
-            <p class="font-medium text-sm"><%= title %></p>
-            <p class="text-xs opacity-70"><%= time %></p>
-          </div>
-          <span class="badge badge-outline"><%= mood %></span>
+    <div class="flex flex-wrap items-center justify-between gap-3">
+      <h2 class="card-title text-sm font-semibold">今日のログ</h2>
+
+      <div class="tabs tabs-boxed bg-base-200 p-1 rounded-lg">
+        <button
+          type="button"
+          class="tab tab-sm tab-active"
+          data-index="0"
+          data-swiper-target="tab"
+          data-action="click->swiper#slideTo"
+        >
+          気分
+        </button>
+        <button
+          type="button"
+          class="tab tab-sm"
+          data-index="1"
+          data-swiper-target="tab"
+          data-action="click->swiper#slideTo"
+        >
+          習慣
+        </button>
+      </div>
+    </div>
+
+    <div class="swiper w-full mt-4" data-swiper-target="container">
+      <div class="swiper-wrapper">
+
+        <!-- 気分ログ -->
+        <div class="swiper-slide">
+          <% if @mood_logs_today.present? %>
+            <div class="space-y-2">
+              <% @mood_logs_today.each do |log| %>
+                <% mood = log.mood %>
+                <div class="flex items-center justify-between rounded-lg bg-base-200 p-3">
+                  <div>
+                    <p class="text-sm font-medium">
+                      <%= log.note.presence || jp_label_for_mood(mood) %>
+                    </p>
+                    <p class="text-xs opacity-70"><%= log.recorded_at.in_time_zone.strftime("%H:%M") %></p>
+                  </div>
+                  <span class="badge badge-outline gap-1">
+                    <% if (emoji = emoji_for_mood(mood)).present? %>
+                      <span class="text-sm"><%= emoji %></span>
+                    <% end %>
+                    <span><%= jp_label_for_mood(mood) %></span>
+                  </span>
+                </div>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
+              今日の気分ログはまだありません。
+            </div>
+          <% end %>
         </div>
-      <% end %>
+
+        <!-- 習慣ログ -->
+        <div class="swiper-slide">
+          <div class="space-y-2">
+            <% habits = [
+              { title: "朝のコーヒー", time: "7:30" },
+              { title: "通勤", time: "8:00" },
+              { title: "読書20分", time: "22:00" }
+            ] %>
+
+            <% habits.each do |habit| %>
+              <div class="flex items-center justify-between rounded-lg bg-base-200 p-3">
+                <div>
+                  <p class="text-sm font-medium"><%= habit[:title] %></p>
+                  <p class="text-xs opacity-70"><%= habit[:time] %></p>
+                </div>
+                <%= heroicon "check-circle", options: { class: "h-4 w-4 text-success" } %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ページネーション -->
+      <div class="swiper-pagination"></div>
     </div>
   </div>
 </section>

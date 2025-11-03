@@ -1,26 +1,39 @@
 <header class="navbar sticky top-0 z-50 bg-base-100 border-b shadow-sm">
   <!-- 中央揃え＆max-widthでカード幅に合わせる -->
-  <div class="w-full max-w-md mx-auto flex items-center justify-between px-4">
+  <div class="w-full max-w-lg mx-auto flex items-center justify-between px-4">
 
     <!-- 左側：ロゴ -->
-    <%= link_to "kokolog", root_path, class: "btn btn-ghost normal-case text-xl font-semibold" %>
+    <%= link_to root_path, class: "btn btn-ghost normal-case text-xl font-bold text-primary" do %>
+      kokolog
+    <% end %>
 
-    <!-- 右側：ハンバーガーメニュー（常時表示） -->
+    <!-- 右側：ハンバーガーメニュー -->
     <div class="dropdown dropdown-end">
       <button tabindex="0" class="btn btn-ghost">
         <%= heroicon "bars-3", options: { class: "w-6 h-6" } %>
       </button>
       <ul tabindex="0"
           class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 right-0">
+
         <% if user_signed_in? %>
-          <li><span class="text-sm"><%= current_user.name %></span></li>
-          <li><%= link_to "マイページ", home_path, class: "text-sm" %></li>
+          <li><span class="text-sm font-semibold">"<%= current_user.name %>"でログイン中</span></li>
+          <li><%= link_to "ホーム", home_path, class: "text-sm" %></li>
+          <li><%= link_to "ログ", "#log_path", class: "text-sm" %></li>
+          <li><%= link_to "習慣", "#habits_path", class: "text-sm" %></li>
+          <li><%= link_to "プロフィール設定", "#profile_path", class: "text-sm" %></li>
           <li><%= link_to "ログアウト", destroy_user_session_path,
-                          data: { turbo_method: :delete }, class: "text-sm" %></li>
+                          data: { turbo_method: :delete }, class: "text-sm text-error" %></li>
+          <li class="border-t my-1"></li>
+          <li><%= link_to "利用規約", "#", class: "text-xs text-base-content/70" %></li>
+          <li><%= link_to "プライバシーポリシー", "#", class: "text-xs text-base-content/70" %></li>
         <% else %>
           <li><%= link_to "ログイン", new_user_session_path, class: "text-sm" %></li>
           <li><%= link_to "新規登録", new_user_registration_path, class: "text-sm" %></li>
+          <li class="border-t my-1"></li>
+          <li><%= link_to "利用規約", "#", class: "text-xs text-base-content/70" %></li>
+          <li><%= link_to "プライバシーポリシー", "#", class: "text-xs text-base-content/70" %></li>
         <% end %>
+
       </ul>
     </div>
 
