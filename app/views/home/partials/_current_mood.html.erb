@@ -2,7 +2,7 @@
                 url: mood_logs_path,
                 method: :post,
                 data: {controller: "mood-selector"} do |f| %>
-  <section class="card bg-base-100 shadow-sm">
+  <section class="card bg-base-100 shadow-sm" data-controller="mood-form">
     <div class="card-body">
       <div class="flex justify-between items-center">
         <h2 class="card-title text-sm font-semibold">今の気分は？</h2>
@@ -46,15 +46,33 @@
         />
       </div>
 
+      <div class="mt-4 space-y-3 hidden" data-mood-form-target="details">
+        <div class="form-control">
+          <label class="label-text text-sm font-medium">メモ</label>
+          <%= f.text_area :note, rows: 3, class: "textarea textarea-bordered" %>
+        </div>
+
+        <div class="form-control">
+          <label class="label-text text-sm font-medium">感情タグ</label>
+          <%= f.select :feeling_id, Feeling.pluck(:name, :id), { include_blank: "選択してください" },
+                      class: "select select-bordered select-sm" %>
+        </div>
+      </div>
+
       <!-- 保存・詳細記録ボタン -->
       <div class="flex justify-between mt-4">
         <button type="submit" class="btn btn-primary btn-sm w-1/2 mr-1 flex items-center justify-center gap-1">
           <%= heroicon "check", options: { class: "w-4 h-4" } %>
           保存
         </button>
-        <button type="button" class="btn btn-outline btn-sm w-1/2 ml-1 flex items-center justify-center gap-1">
-          <%= heroicon "pencil-square", options: { class: "w-4 h-4" } %>
-          詳細記録
+
+        <button
+          type="button"
+          class="btn btn-outline btn-sm w-1/2 ml-1 flex items-center justify-center gap-1"
+          data-action="mood-form#toggle"
+        >
+          <span data-mood-form-target="toggleIcon">+</span>
+          <span data-mood-form-target="toggleLabel">詳細記録</span>
         </button>
       </div>
     </div>
