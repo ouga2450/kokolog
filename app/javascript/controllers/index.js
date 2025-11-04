@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ModalController from "./modal_controller"
+application.register("modal", ModalController)
+
 import MoodSelectorController from "./mood_selector_controller"
 application.register("mood-selector", MoodSelectorController)
 

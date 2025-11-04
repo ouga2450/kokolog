@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <html data-theme="cupcake">
   <head>
     <title><%= content_for(:title) || "kokolog" %></title>
@@ -17,7 +16,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="bg-base-200 min-h-screen flex flex-col">
+  <body class="bg-base-200 min-h-screen flex flex-col" data-controller="modal">
     <!-- 簡易フラッシュメッセージ -->
     <p class="text-green-600 text-center"><%= notice %></p>
     <p class="text-red-600 text-center"><%= alert %></p>
@@ -35,5 +34,18 @@
     <% end %>
 
     <%= render "shared/footer_copyright" %>
+
+    <!-- モーダル用フレーム -->
+    <dialog
+      data-modal-target="dialog"
+      data-action="click->modal#close cancel->modal#close"
+      class="modal"
+    >
+      <turbo-frame
+        id="modal_content"
+        data-modal-target="content"
+        data-action="turbo:frame-load->modal#open"
+      ></turbo-frame>
+    </dialog>
   </body>
 </html>

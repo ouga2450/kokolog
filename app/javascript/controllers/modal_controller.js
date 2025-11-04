@@ -1,23 +1,31 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dialog"]
+  static targets = ["dialog", "content"]
 
   // モーダルを開く
   open() {
+    if (!this.hasContentTarget) return
+    if (this.contentTarget.innerHTML.trim() === "") return
+
     this.dialogTarget.showModal()
   }
 
   // モーダルを閉じる
   close(event) {
-    // currentTargetがdialogで、かつクリックされた要素がdialog自身の場合はモーダル外クリックと判定して閉じる
-    const clickedOutside = event?.currentTarget?.nodeName === "DIALOG" && event.target === this.dialogTarget
-    if (clickedOutside) {
-      this.dialogTarget.close()
-      return
+    const currentTarget = event?.currentTarget
+
+    if (currentTarget === this.dialogTarget) {
+      const clickedBackdrop = event.target === this.dialogTarget
+      if (!clickedBackdrop) return
     }
 
-    // 閉じるボタンなどからの呼び出しの場合はそのまま閉じる
     this.dialogTarget.close()
+    this.resetContent()
+  }
+
+  resetContent() {
+    if (!this.hasContentTarget) return
+    this.contentTarget.innerHTML = ""
   }
 }

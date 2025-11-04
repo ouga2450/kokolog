@@ -9,6 +9,10 @@ class MoodLogsController < ApplicationController
     end
   end
 
+  def show
+    @mood_log = current_user.mood_logs.find(params[:id])
+  end
+
   private
 
   def mood_log_params
