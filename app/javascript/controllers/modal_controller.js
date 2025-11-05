@@ -1,31 +1,30 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dialog", "content"]
+  static targets = ["content"]
 
   // モーダルを開く
   open() {
     if (!this.hasContentTarget) return
     if (this.contentTarget.innerHTML.trim() === "") return
 
-    this.dialogTarget.showModal()
+    this.element.classList.remove("hidden")
   }
 
   // モーダルを閉じる
-  close(event) {
-    const currentTarget = event?.currentTarget
-
-    if (currentTarget === this.dialogTarget) {
-      const clickedBackdrop = event.target === this.dialogTarget
-      if (!clickedBackdrop) return
-    }
-
-    this.dialogTarget.close()
-    this.resetContent()
+  close() {
+    this.element.classList.add("hidden")
+    this.clearContent()
   }
 
-  resetContent() {
-    if (!this.hasContentTarget) return
-    this.contentTarget.innerHTML = ""
+  // コンテンツ領域でのクリックは閉じない
+  stopPropagation(event) {
+    event.stopPropagation()
+  }
+
+  // コンテンツ領域をリセット
+  clearContent() {
+    const frame = this.contentTarget.querySelector("#modal_content")
+    if (frame) frame.innerHTML = ""
   }
 }

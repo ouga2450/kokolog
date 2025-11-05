@@ -11,6 +11,12 @@ class MoodLogsController < ApplicationController
 
   def show
     @mood_log = current_user.mood_logs.find(params[:id])
+
+    if turbo_frame_request?
+      render :show
+    else
+      head :bad_request
+    end
   end
 
   private
