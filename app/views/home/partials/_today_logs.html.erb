@@ -57,11 +57,7 @@
                       </div>
                     </div>
 
-                    <%= link_to mood_log_path(log),
-                                class: "btn btn-outline btn-xs",
-                                data: { turbo_frame: "modal_content" } do %>
-                      詳細
-                    <% end %>
+                    <%= link_to "詳細", mood_log_path(log), class: "btn btn-outline btn-xs", data: { turbo_frame: "modal_content" } %>
                   </div>
 
                 </div>

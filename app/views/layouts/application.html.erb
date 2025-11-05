@@ -16,7 +16,7 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="bg-base-200 min-h-screen flex flex-col" data-controller="modal">
+  <body class="bg-base-200 min-h-screen flex flex-col">
     <!-- 簡易フラッシュメッセージ -->
     <p class="text-green-600 text-center"><%= notice %></p>
     <p class="text-red-600 text-center"><%= alert %></p>
@@ -27,6 +27,24 @@
       <div class="w-full max-w-md px-4 py-6">
         <%= yield %>
       </div>
+
+      <!-- モーダル（Stimulus制御） -->
+      <div
+        data-controller="modal"
+        data-action="click->modal#close"
+        class="modal-overlay hidden fixed inset-0 z-50 bg-black/40 flex justify-center items-center"
+      >
+        <div
+          data-modal-target="content"
+          data-action="click->modal#stopPropagation"
+          class="relative w-full max-w-md bg-base-100 shadow-2xl rounded-2xl p-8 space-y-6"
+        >
+          <turbo-frame
+            id="modal_content"
+            data-action="turbo:frame-load->modal#open"
+          ></turbo-frame>
+        </div>
+      </div>
     </main>
 
     <% if user_signed_in? %>
@@ -34,18 +52,5 @@
     <% end %>
 
     <%= render "shared/footer_copyright" %>
-
-    <!-- モーダル用フレーム -->
-    <dialog
-      data-modal-target="dialog"
-      data-action="click->modal#close cancel->modal#close"
-      class="modal"
-    >
-      <turbo-frame
-        id="modal_content"
-        data-modal-target="content"
-        data-action="turbo:frame-load->modal#open"
-      ></turbo-frame>
-    </dialog>
   </body>
 </html>
