@@ -31,15 +31,9 @@ def update
   @mood_log = current_user.mood_logs.find(params[:id])
 
   if @mood_log.update(mood_log_params)
+    flash.now[:notice] = "気分を更新しました。"
     respond_to do |format|
-      format.turbo_stream do
-        flash.now[:notice] = "気分を更新しました。"
-        render turbo_stream: turbo_stream.replace(
-          dom_id(@mood_log),
-          partial: "mood_logs/mood_log",
-          locals: { mood_log: @mood_log }
-        )
-      end
+      format.turbo_stream
       format.html { redirect_back fallback_location: home_path, notice: "気分を更新しました。" }
     end
   else

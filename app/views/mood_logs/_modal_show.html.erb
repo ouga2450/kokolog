@@ -36,20 +36,22 @@
         <div class="flex gap-2">
           <%= link_to "編集",
                       edit_mood_log_path(mood_log),
-                      class: "btn btn-sm btn-outline btn-primary",
-                      data: { turbo_frame: "modal_content", turbo_prefetch: "false" } %>
+                      class: "btn btn-sm btn-outline btn-primary h-9 min-h-9 px-4",
+                      data: { turbo_frame: "modal", turbo_prefetch: "false" } %>
 
           <%= button_to "削除",
                         mood_log_path(mood_log),
                         method: :delete,
                         data: { turbo_confirm: "本当に削除しますか？" },
-                        class: "btn btn-sm btn-outline btn-error" %>
+                        class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4",
+                        form: { class: "inline-block m-0 p-0" } %>
         </div>
-        <div class="modal-action">
-          <button type="button" data-action="click->modal#close" class="btn btn-outline">
-            閉じる
-          </button>
-        </div>
+
+        <button type="button"
+                data-action="click->modal#close"
+                class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+          閉じる
+        </button>
       </div>
     </div>
   </div>
