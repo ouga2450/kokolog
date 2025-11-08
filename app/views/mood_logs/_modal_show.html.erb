@@ -1,0 +1,58 @@
+<dialog open class="modal modal-open" data-controller="modal">
+  <div class="modal-box bg-base-100">
+    <div class="space-y-6">
+      <!-- タイトル -->
+      <div class="flex items-center justify-between border-b border-base-300 pb-2">
+        <h3 class="font-bold text-lg text-base-content">
+          🌿 気分ログ詳細
+        </h3>
+        <span class="badge badge-outline text-xs">
+          <%= mood_log.recorded_at.strftime("%Y-%m-%d %H:%M") %>
+        </span>
+      </div>
+
+      <!-- 内容 -->
+      <div class="space-y-3 text-sm">
+        <p>
+          <span class="font-semibold text-base-content/80">気分：</span>
+          <%= jp_label_for_mood(mood_log.mood) %>
+        </p>
+
+        <p>
+          <span class="font-semibold text-base-content/80">感情：</span>
+          <%= mood_log.feeling&.name.presence || "なし" %>
+        </p>
+
+        <div class="bg-base-200/60 rounded-lg p-3">
+          <p class="font-semibold text-base-content/80 mb-1">メモ</p>
+          <p class="whitespace-pre-wrap break-words text-base-content/70">
+            <%= mood_log.note.presence || "（メモはありません）" %>
+          </p>
+        </div>
+      </div>
+
+      <!-- アクションボタン -->
+      <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+        <div class="flex gap-2">
+          <%= link_to "編集",
+                      edit_mood_log_path(mood_log),
+                      class: "btn btn-sm btn-outline btn-primary h-9 min-h-9 px-4",
+                      data: { turbo_frame: "modal", turbo_prefetch: "false" } %>
+
+          <%= button_to "削除",
+                        mood_log_path(mood_log),
+                        method: :delete,
+                        data: { turbo_confirm: "本当に削除しますか？" },
+                        class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4",
+                        form: { class: "inline-block m-0 p-0" } %>
+        </div>
+
+        <button type="button"
+                data-action="click->modal#close"
+                class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+          閉じる
+        </button>
+      </div>
+    </div>
+  </div>
+</dialog>

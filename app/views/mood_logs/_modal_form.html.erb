@@ -1,0 +1,76 @@
+<%= turbo_frame_tag 'modal' do %>
+  <dialog open class="modal modal-open" data-controller="modal">
+    <div class="modal-box bg-base-100">
+      <%= form_with model: @mood_log, data: { turbo_frame: "modal" } do |f| %>
+        <div class="space-y-6">
+          <!-- タイトル -->
+          <div class="flex items-center justify-between border-b border-base-300 pb-2">
+            <h3 class="font-bold text-lg text-base-content">
+              ✏️ 気分ログを編集
+            </h3>
+            <span class="badge badge-outline text-xs">
+              <%= @mood_log.recorded_at.strftime("%Y-%m-%d %H:%M") %>
+            </span>
+          </div>
+
+          <!-- フォーム内容 -->
+          <div class="space-y-4 text-sm">
+            <!-- 気分 -->
+            <!-- collection_select だと jp_label_for_mood が使えないため、select を使用 -->
+            <div class="form-control">
+              <%= f.label :mood_id, "気分", class: "label-text font-semibold text-base-content/80" %>
+              <%= f.select :mood_id,
+                           Mood.all.map { |m| [jp_label_for_mood(m), m.id] },
+                           { include_blank: false },
+                           class: "select select-bordered w-full" %>
+            </div>
+
+            <!-- 感情 -->
+            <div class="form-control">
+              <%= f.label :feeling_id, "感情", class: "label-text font-semibold text-base-content/80" %>
+              <%= f.collection_select :feeling_id,
+                                      Feeling.all,
+                                      :id,
+                                      :name,
+                                      { include_blank: "選択なし" },
+                                      class: "select select-bordered w-full" %>
+            </div>
+
+            <!-- メモ -->
+            <div class="form-control">
+              <%= f.label :note, "メモ", class: "label-text font-semibold text-base-content/80" %>
+              <%= f.text_area :note,
+                              rows: 3,
+                              class: "textarea textarea-bordered w-full text-sm",
+                              placeholder: "メモを入力（任意）" %>
+            </div>
+
+            <!-- 記録日時 -->
+            <div class="form-control">
+              <%= f.label :recorded_at, "記録日時", class: "label-text font-semibold text-base-content/80" %>
+              <%= f.datetime_field :recorded_at,
+                                    class: "input input-bordered w-full text-sm" %>
+            </div>
+          </div>
+
+          <!-- アクションボタン -->
+          <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+            <div class="flex gap-2">
+              <%= f.submit "更新する", class: "btn btn-sm btn-primary h-9 min-h-9 px-4" %>
+              <%= link_to "削除",
+                          mood_log_path(@mood_log),
+                          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                          class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
+            </div>
+
+            <button type="button"
+                    data-action="click->modal#close"
+                    class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+              閉じる
+            </button>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </dialog>
+<% end %>

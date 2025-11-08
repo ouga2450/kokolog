@@ -1,30 +1,17 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["content"]
+  close(event) {
+    event.preventDefault()
+    // モーダルフレームを空にする（Turbo的に正しい閉じ方）
+    this.element.innerHTML = ""
 
-  // モーダルを開く
-  open() {
-    if (!this.hasContentTarget) return
-    if (this.contentTarget.innerHTML.trim() === "") return
+    // モーダル（dialogタグ）全体を閉じる
+    const dialog = this.element.closest("dialog") || this.element
+    dialog.close?.() // HTML標準のclose()メソッド呼び出し
 
-    this.element.classList.remove("hidden")
-  }
-
-  // モーダルを閉じる
-  close() {
-    this.element.classList.add("hidden")
-    this.clearContent()
-  }
-
-  // コンテンツ領域でのクリックは閉じない
-  stopPropagation(event) {
-    event.stopPropagation()
-  }
-
-  // コンテンツ領域をリセット
-  clearContent() {
-    const frame = this.contentTarget.querySelector("#modal_content")
-    if (frame) frame.innerHTML = ""
+    // Turbo frameの中身もクリアして完全に削除
+    const modalFrame = document.getElementById("modal")
+    if (modalFrame) modalFrame.innerHTML = ""
   }
 }

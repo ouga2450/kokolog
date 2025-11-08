@@ -1,3 +1,4 @@
-<turbo-frame id="modal_content">
-  <%= render "mood_logs/modal", mood_log: @mood_log %>
-</turbo-frame>
+<%= turbo_frame_tag 'modal' do %>
+  <%= render "mood_logs/modal_show", mood_log: @mood_log %>
+<% end %>
+

@@ -32,35 +32,9 @@
         <div class="swiper-slide">
           <% if @mood_logs_today.present? %>
             <div class="space-y-2">
-              <% @mood_logs_today.each do |log| %>
-                <% mood = log.mood %>
-                <div class="flex items-center justify-start gap-2 w-full">
-
-                  <!-- 左：時刻 -->
-                  <p class="text-xs text-base-content/70 w-10 text-center">
-                    <%= log.recorded_at.strftime("%H:%M") %>
-                  </p>
-
-                  <!-- 中央：気分カード -->
-                  <div class="w-[90%] flex items-center justify-between rounded-xl bg-base-200 p-3 shadow-sm">
-                    <div class="flex items-center gap-3">
-                      <% if (emoji = emoji_for_mood(mood)).present? %>
-                        <span class="text-xl"><%= emoji %></span>
-                      <% end %>
-                      <div>
-                        <p class="text-sm font-medium leading-none">
-                          <%= "気分：#{jp_label_for_mood(mood)}" %>
-                        </p>
-                        <p class="text-xs text-base-content/60 mt-1">
-                          <%= "感情：#{log.feeling&.name.presence || 'なし'}" %>
-                        </p>
-                      </div>
-                    </div>
-
-                    <%= link_to "詳細", mood_log_path(log), class: "btn btn-outline btn-xs", data: { turbo_frame: "modal_content" } %>
-                  </div>
-
-                </div>
+            <!-- ログカード一覧 -->
+              <% @mood_logs_today.each do |mood_log| %>
+                <%= render "mood_logs/mood_log", mood_log: mood_log %>
               <% end %>
             </div>
           <% else %>
