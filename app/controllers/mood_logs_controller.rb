@@ -11,15 +11,51 @@ class MoodLogsController < ApplicationController
 
   def show
     @mood_log = current_user.mood_logs.find(params[:id])
-
     if turbo_frame_request?
-      render :show
+      render :show, layout: false
     else
-      head :bad_request
+      redirect_to home_path
     end
   end
 
-  private
+  def edit
+    @mood_log = current_user.mood_logs.find(params[:id])
+    if turbo_frame_request?
+      render :edit, layout: false
+    else
+      redirect_to home_path
+    end
+  end
+
+def update
+  @mood_log = current_user.mood_logs.find(params[:id])
+
+  if @mood_log.update(mood_log_params)
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:notice] = "気分を更新しました。"
+        render turbo_stream: turbo_stream.replace(
+          dom_id(@mood_log),
+          partial: "mood_logs/mood_log",
+          locals: { mood_log: @mood_log }
+        )
+      end
+      format.html { redirect_back fallback_location: home_path, notice: "気分を更新しました。" }
+    end
+  else
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[:alert] = "更新に失敗しました。"
+        render turbo_stream: turbo_stream.replace(
+          "modal",
+          partial: "mood_logs/form",
+          locals: { mood_log: @mood_log }
+        )
+      end
+      format.html { redirect_back fallback_location: home_path, alert: "更新に失敗しました。" }
+    end
+  end
+end
 
   def mood_log_params
     params.require(:mood_log).permit(:mood_id, :feeling_id, :note, :logged_at)

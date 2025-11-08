@@ -1,0 +1,44 @@
+<dialog open class="modal modal-open" data-controller="modal">
+  <div class="modal-box bg-base-100">
+    <%= form_with(model: mood_log, url: mood_log_path(mood_log), method: :patch, data: { turbo_frame: "_top" }) do |f| %>
+      <div class="space-y-6">
+        <div class="flex items-center justify-between border-b border-base-300 pb-2">
+          <h3 class="font-bold text-lg text-base-content">🌿 気分ログ編集</h3>
+          <span class="badge badge-outline text-xs">
+            <%= mood_log.recorded_at.strftime("%Y-%m-%d %H:%M") %>
+          </span>
+        </div>
+
+        <div class="space-y-3 text-sm">
+          <div class="form-control">
+            <%= f.label :mood_id, "気分", class: "label-text font-semibold" %>
+            <%= f.select :mood_id, Mood.all.pluck(:label, :id), {}, class: "select select-bordered w-full" %>
+          </div>
+
+          <div class="form-control">
+            <%= f.label :feeling_id, "感情", class: "label-text font-semibold" %>
+            <%= f.select :feeling_id, Feeling.all.pluck(:name, :id), { include_blank: "なし" }, class: "select select-bordered w-full" %>
+          </div>
+
+          <div class="form-control">
+            <%= f.label :note, "メモ", class: "label-text font-semibold" %>
+            <%= f.text_area :note, rows: 3, class: "textarea textarea-bordered w-full" %>
+          </div>
+        </div>
+
+        <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+          <%= f.submit "保存", class: "btn btn-primary btn-sm" %>
+
+          <div class="flex gap-2">
+            <%= button_to "削除",
+                          mood_log_path(mood_log),
+                          method: :delete,
+                          data: { turbo_confirm: "本当に削除しますか？" },
+                          class: "btn btn-sm btn-outline btn-error" %>
+            <button type="button" class="btn btn-sm" data-action="click->modal#close">閉じる</button>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</dialog>
