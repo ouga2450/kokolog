@@ -52,6 +52,6 @@ def update
 end
 
   def mood_log_params
-    params.require(:mood_log).permit(:mood_id, :feeling_id, :note, :logged_at)
+    params.require(:mood_log).permit(:mood_id, :feeling_id, :note, :recorded_at)
   end
 end
