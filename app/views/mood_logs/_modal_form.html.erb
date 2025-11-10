@@ -16,13 +16,14 @@
           <!-- フォーム内容 -->
           <div class="space-y-4 text-sm">
             <!-- 気分 -->
-            <!-- collection_select だと jp_label_for_mood が使えないため、select を使用 -->
             <div class="form-control">
               <%= f.label :mood_id, "気分", class: "label-text font-semibold text-base-content/80" %>
-              <%= f.select :mood_id,
-                           Mood.all.map { |m| [jp_label_for_mood(m), m.id] },
-                           { include_blank: false },
-                           class: "select select-bordered w-full" %>
+              <%= f.collection_select :mood_id,
+                                      Mood.all,
+                                      :id,
+                                      ->(mood) { jp_label_for_mood(mood) },  # ← procでラベル指定
+                                      { include_blank: false },
+                                      class: "select select-bordered w-full" %>
             </div>
 
             <!-- 感情 -->
@@ -49,7 +50,9 @@
             <div class="form-control">
               <%= f.label :recorded_at, "記録日時", class: "label-text font-semibold text-base-content/80" %>
               <%= f.datetime_local_field :recorded_at,
-                                          class: "input input-bordered w-full text-sm" %>
+                  value: (@mood_log.recorded_at&.strftime("%Y-%m-%dT%H:%M") || Time.current.strftime("%Y-%m-%dT%H:%M")),
+                  step: 60,
+                  class: "input input-bordered w-full text-sm" %>
             </div>
           </div>
 
