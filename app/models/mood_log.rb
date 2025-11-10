@@ -1,6 +1,7 @@
 class MoodLog < ApplicationRecord
   # recorded_atのデフォルト値を現在時刻に設定（マイグレーションのdefaultオプションはDB側で設定されるため、validationエラーを防ぐ目的でモデル側でも設定）
   before_validation :set_default_recorded_at, on: :create
+  before_validation :truncate_recorded_at_to_minute
   # --- 関連 ---
   belongs_to :user
   belongs_to :mood
@@ -23,5 +24,11 @@ class MoodLog < ApplicationRecord
 
   def set_default_recorded_at
     self.recorded_at ||= Time.current
+  end
+
+  # 秒以下を切り捨てて、HTMLバリデーションと整合を取る
+  def truncate_recorded_at_to_minute
+    return if recorded_at.blank?
+    self.recorded_at = recorded_at.change(sec: 0, usec: 0)
   end
 end
