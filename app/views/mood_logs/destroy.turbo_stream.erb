@@ -1,0 +1,6 @@
+<%= turbo_stream.remove dom_id(@mood_log) %>
+
+<%#= turbo_stream.replace "flash", partial: "shared/flash" %>
+
+<!-- replaceを使うとタグごと消えてモーダルが開けなくなるためupdateを使用 -->
+<%= turbo_stream.update "modal", "" %> <!-- モーダルの中身を空にする -->

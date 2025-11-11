@@ -59,7 +59,7 @@
           <!-- アクションボタン -->
           <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
             <div class="flex gap-2">
-              <%= f.submit "更新する", class: "btn btn-sm btn-primary h-9 min-h-9 px-4" %>
+              <%= f.submit "更新", class: "btn btn-sm btn-primary h-9 min-h-9 px-4" %>
               <%= link_to "削除",
                           mood_log_path(@mood_log),
                           data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },

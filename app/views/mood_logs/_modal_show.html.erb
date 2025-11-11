@@ -39,12 +39,10 @@
                       class: "btn btn-sm btn-outline btn-primary h-9 min-h-9 px-4",
                       data: { turbo_frame: "modal", turbo_prefetch: "false" } %>
 
-          <%= button_to "削除",
-                        mood_log_path(mood_log),
-                        method: :delete,
-                        data: { turbo_confirm: "本当に削除しますか？" },
-                        class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4",
-                        form: { class: "inline-block m-0 p-0" } %>
+          <%= link_to "削除",
+                          mood_log_path(@mood_log),
+                          data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                          class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
         </div>
 
         <button type="button"
