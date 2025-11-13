@@ -5,4 +5,6 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
   # --- 関連 ---
   has_many :mood_logs, dependent: :destroy
+  has_many :habits, dependent: :destroy
+  has_many :goals, dependent: :destroy
 end
