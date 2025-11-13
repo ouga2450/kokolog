@@ -54,8 +54,8 @@
 
 ## 機能候補
 ### MVPリリース時
-- ユーザー登録 / ログイン  
-- 習慣登録機能  
+- ユーザー登録 / ログイン
+- 習慣登録機能
 - 習慣前後の気分記録
 - 気分登録機能
 - 1日の記録一覧
@@ -90,7 +90,9 @@ Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kokolog?node-id=0-1&
 
 ### ER図
 
-[ER図](image.png)
+![ER図](./kokolog.svg)
+
+[▶︎ dbdiagramで開く](https://dbdiagram.io/d/kokolog-684047aa76955641c29f01ca)
 ---
 
 ## 🌟 キャッチコピー
