@@ -2,6 +2,7 @@ class MoodLog < ApplicationRecord
   # recorded_atのデフォルト値を現在時刻に設定（マイグレーションのdefaultオプションはDB側で設定されるため、validationエラーを防ぐ目的でモデル側でも設定）
   before_validation :set_default_recorded_at, on: :create
   before_validation :truncate_recorded_at_to_minute
+
   # --- 関連 ---
   belongs_to :user
   belongs_to :mood
@@ -10,6 +11,10 @@ class MoodLog < ApplicationRecord
 
   # --- バリデーション ---
   validates :user_id, :mood_id, :recorded_at, presence: true
+  validates :timing, presence: true
+
+  # --- enum ---
+  enum timing: { before: 0, after: 1 }
 
   # --- スコープ ---
   scope :today, -> { where(recorded_at: Time.zone.today.all_day) } # Time.currentではall_dayが使用できないため、Time.zone.todayを採用

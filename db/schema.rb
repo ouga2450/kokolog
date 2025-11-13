@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_13_041158) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_13_102228) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -45,6 +45,22 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_13_041158) do
     t.index ["status"], name: "index_goals_on_status"
     t.index ["user_id", "goal_type", "status"], name: "index_goals_on_user_id_and_goal_type_and_status"
     t.index ["user_id"], name: "index_goals_on_user_id"
+  end
+
+  create_table "habit_logs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "habit_id", null: false
+    t.bigint "goal_id", null: false
+    t.datetime "started_at", null: false
+    t.datetime "ended_at"
+    t.integer "performed_value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["goal_id"], name: "index_habit_logs_on_goal_id"
+    t.index ["habit_id"], name: "index_habit_logs_on_habit_id"
+    t.index ["started_at"], name: "index_habit_logs_on_started_at"
+    t.index ["user_id", "habit_id"], name: "index_habit_logs_on_user_id_and_habit_id"
+    t.index ["user_id"], name: "index_habit_logs_on_user_id"
   end
 
   create_table "habits", force: :cascade do |t|
@@ -98,6 +114,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_13_041158) do
 
   add_foreign_key "goals", "habits"
   add_foreign_key "goals", "users"
+  add_foreign_key "habit_logs", "goals"
+  add_foreign_key "habit_logs", "habits"
+  add_foreign_key "habit_logs", "users"
   add_foreign_key "habits", "categories"
   add_foreign_key "habits", "users"
   add_foreign_key "mood_logs", "feelings"

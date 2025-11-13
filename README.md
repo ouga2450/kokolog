@@ -90,7 +90,9 @@ Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kokolog?node-id=0-1&
 
 ### ER図
 
-[ER図](image.png)
+![ER図](./kokolog.svg)
+
+[▶︎ dbdiagramで開く](https://dbdiagram.io/d/kokolog-684047aa76955641c29f01ca)
 ---
 
 ## 🌟 キャッチコピー

@@ -52,4 +52,10 @@ class Goal < ApplicationRecord
       errors.add(:start_date, "は終了日より前に設定してください")
     end
   end
+
+  # 目標が特定の日に達成されているか？
+  def achieved_on?(date)
+    logs = habit_logs.where(started_at: date.all_day)
+    logs.sum { |log| log.value_for_goal } >= target_value
+  end
 end
