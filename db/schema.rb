@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_13_015055) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_13_041158) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -27,6 +27,24 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_13_015055) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_feelings_on_name", unique: true
+  end
+
+  create_table "goals", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "habit_id", null: false
+    t.integer "goal_type", default: 0, null: false
+    t.integer "status", default: 0, null: false
+    t.integer "target_type", default: 0, null: false
+    t.integer "target_value"
+    t.date "start_date"
+    t.date "end_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["goal_type"], name: "index_goals_on_goal_type"
+    t.index ["habit_id"], name: "index_goals_on_habit_id"
+    t.index ["status"], name: "index_goals_on_status"
+    t.index ["user_id", "goal_type", "status"], name: "index_goals_on_user_id_and_goal_type_and_status"
+    t.index ["user_id"], name: "index_goals_on_user_id"
   end
 
   create_table "habits", force: :cascade do |t|
@@ -78,6 +96,8 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_13_015055) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "goals", "habits"
+  add_foreign_key "goals", "users"
   add_foreign_key "habits", "categories"
   add_foreign_key "habits", "users"
   add_foreign_key "mood_logs", "feelings"
