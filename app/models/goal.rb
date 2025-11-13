@@ -12,9 +12,44 @@ class Goal < ApplicationRecord
   validates :goal_type, presence: true
   validates :status, presence: true
   validates :target_type, presence: true
+  validate :start_date_must_be_before_end_date
 
   # --- 回数、時間目標の時のみ target_valueを必須にする ---
   validates :target_value,
     numericality: { greater_than: 0 },
     if: -> { target_type.in?(["count", "time"]) }
+
+  # --- scope ---
+  scope :effective_on, ->(date) {
+    active
+      .where("start_date IS NULL OR start_date <= ?", date)
+      .where("end_date IS NULL OR end_date >= ?", date)
+  }
+
+  scope :effective_today, -> {
+    effective_on(Date.current)
+  }
+
+  # 今日・今週・今月の目標取得用スコープ
+  scope :for_today, -> {
+    daily.effective_today
+  }
+
+  scope :for_this_week, -> {
+    weekly.effective_today
+  }
+
+  scope :for_this_month, -> {
+    monthly.effective_today
+  }
+
+  # --- インスタンスメソッド ---
+  # validate :start_dateがend_dateより前であること
+  def start_date_must_be_before_end_date
+    return if start_date.blank? || end_date.blank?
+
+    if start_date > end_date
+      errors.add(:start_date, "は終了日より前に設定してください")
+    end
+  end
 end
