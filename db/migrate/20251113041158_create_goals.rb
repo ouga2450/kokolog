@@ -14,7 +14,7 @@ class CreateGoals < ActiveRecord::Migration[7.2]
       t.timestamps
     end
     # 複合インデックスの追加
-    add_index :goals, [:user_id, :goal_type, :status]
+    add_index :goals, [ :user_id, :goal_type, :status ]
     add_index :goals, :status
     add_index :goals, :goal_type
   end

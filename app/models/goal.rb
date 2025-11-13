@@ -17,7 +17,7 @@ class Goal < ApplicationRecord
   # --- 回数、時間目標の時のみ target_valueを必須にする ---
   validates :target_value,
     numericality: { greater_than: 0 },
-    if: -> { target_type.in?(["count", "time"]) }
+    if: -> { target_type.in?([ "count", "time" ]) }
 
   # --- scope ---
   scope :effective_on, ->(date) {

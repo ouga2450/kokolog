@@ -14,6 +14,6 @@ class CreateHabitLogs < ActiveRecord::Migration[7.2]
     end
     # 複合インデックスの追加
     add_index :habit_logs, :started_at
-    add_index :habit_logs, [:user_id, :habit_id]
+    add_index :habit_logs, [ :user_id, :habit_id ]
   end
 end
