@@ -75,6 +75,6 @@ class MoodLogsController < ApplicationController
   end
 
   def mood_log_params
-    params.require(:mood_log).permit(:mood_id, :feeling_id, :note, :recorded_at)
+    params.require(:mood_log).permit(:mood_id, :feeling_id, :habit_log_id, :timing, :note, :recorded_at)
   end
 end

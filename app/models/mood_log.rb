@@ -11,7 +11,8 @@ class MoodLog < ApplicationRecord
 
   # --- バリデーション ---
   validates :user_id, :mood_id, :recorded_at, presence: true
-  validates :timing, presence: true
+  # selfで囲うことでundefinedエラーを防止(nilを返す)
+  validates :timing, presence: true, if: -> { self[:habit_log_id].present? }
 
   # --- enum ---
   enum timing: { before: 0, after: 1 }
