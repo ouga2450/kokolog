@@ -1,5 +1,5 @@
 class HabitsController < ApplicationController
-  before_action :set_habit, only: [:edit, :update, :destroy]
+  before_action :set_habit, only: [ :edit, :update, :destroy ]
 
   def new
     @habit_form = HabitForm.new(user_id: current_user.id)
