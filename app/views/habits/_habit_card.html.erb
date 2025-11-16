@@ -1,0 +1,23 @@
+<div class="flex items-center justify-between rounded-lg bg-base-200 p-3 <%= 'opacity-50' if habit.executed_today? %>">
+  <div class="flex items-center gap-3">
+    <!-- カテゴリの絵文字 -->
+    <span class="text-xl"><%= habit.category.icon %></span>
+
+    <div>
+      <p class="text-sm font-medium"><%= habit.name %></p>
+    </div>
+  </div>
+
+  <div>
+    <% if habit.executed_today? %>
+      <!-- 実行済みアイコン -->
+      <%= heroicon "check-circle", options: { class: "h-5 w-5 text-success" } %>
+    <% else %>
+      <!-- 実行ボタン -->
+      <%= link_to "実行",
+            #habit_logs_path(habit_id: habit.id),
+            class: "btn btn-primary btn-xs",
+            data: { turbo_method: :post } %>
+    <% end %>
+  </div>
+</div>

@@ -1,29 +1,101 @@
-<section class="card bg-base-100 shadow-sm">
+<section class="card bg-base-100 shadow-sm" data-controller="swiper">
   <div class="card-body space-y-3">
-    <div class="flex justify-between items-center">
+    <div class="flex flex-wrap items-center justify-between gap-3">
       <h2 class="card-title text-sm font-semibold">今日の習慣</h2>
-      <%= link_to "習慣一覧", "#", class: "text-xs link link-hover text-primary" %>
+
+      <%= link_to "一覧を見る",
+                  habits_path,
+                  class: "text-xs link link-hover text-primary" %>
     </div>
 
-    <% @habits = [
-      { title: "朝のコーヒー", time: "7:30" },
-      { title: "通勤", time: "8:00" },
-      { title: "読書20分", time: "22:00" }
-    ] %>
+    <!-- tabs -->
+    <div class="tabs tabs-boxed bg-base-200 p-1 rounded-lg">
+      <button
+        type="button"
+        class="tab tab-sm tab-active"
+        data-index="0"
+        data-swiper-target="tab"
+        data-action="click->swiper#slideTo"
+      >
+        毎日
+      </button>
+      <button
+        type="button"
+        class="tab tab-sm"
+        data-index="1"
+        data-swiper-target="tab"
+        data-action="click->swiper#slideTo"
+      >
+        週間
+      </button>
+      <button
+        type="button"
+        class="tab tab-sm"
+        data-index="2"
+        data-swiper-target="tab"
+        data-action="click->swiper#slideTo"
+      >
+        月間
+      </button>
+    </div>
 
-    <% @habits.each do |habit| %>
-      <div class="flex justify-between items-center bg-base-200 rounded-lg p-3">
-        <div>
-          <p class="font-medium text-sm"><%= habit[:title] %></p>
-          <p class="text-xs opacity-70"><%= habit[:time] %></p>
+    <!-- Swiper -->
+    <div class="swiper w-full mt-4" data-swiper-target="container">
+      <div class="swiper-wrapper">
+
+        <!-- 今日 -->
+        <div class="swiper-slide">
+          <% if @habits_today.present? %>
+            <div class="space-y-2">
+              <% @habits_today.each do |habit| %>
+                <%= render "habits/habit_card", habit: habit %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
+              今日の習慣はありません。
+            </div>
+          <% end %>
         </div>
-        <%= heroicon "check-circle", options: { class: "w-4 h-4 text-success" } %>
-      </div>
-    <% end %>
 
-    <button class="btn btn-primary btn-sm w-full mt-2 flex items-center justify-center gap-1">
-      <%= heroicon "plus", options: { class: "w-4 h-4" } %>
-      習慣を追加
-    </button>
+        <!-- 今週 -->
+        <div class="swiper-slide">
+          <% if @habits_this_week.present? %>
+            <div class="space-y-2">
+              <% @habits_this_week.each do |habit| %>
+                <%= render "habits/habit_card", habit: habit %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
+              今週の習慣はありません。
+            </div>
+          <% end %>
+        </div>
+
+        <!-- 今月 -->
+        <div class="swiper-slide">
+          <% if @habits_this_month.present? %>
+            <div class="space-y-2">
+              <% @habits_this_month.each do |habit| %>
+                <%= render "habits/habit_card", habit: habit %>
+              <% end %>
+            </div>
+          <% else %>
+            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
+              今月の習慣はありません。
+            </div>
+          <% end %>
+        </div>
+
+      </div>
+
+      <!-- ページネーション -->
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <%= link_to "習慣を追加",
+                new_habit_path,
+                class: "btn btn-primary btn-sm w-full mt-2 flex items-center justify-center gap-1" %>
   </div>
 </section>

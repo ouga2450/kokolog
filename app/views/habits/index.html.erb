@@ -1,0 +1,41 @@
+<div class="max-w-lg mx-auto mt-6 space-y-4">
+
+  <h2 class="text-xl font-semibold mb-4">習慣一覧</h2>
+
+  <% @habits.each do |habit| %>
+    <% executed = habit.habit_logs.where(started_at: Time.zone.today.all_day).exists? %>
+
+    <div class="card bg-base-100 shadow-sm p-4
+                <%= executed ? 'opacity-50' : '' %>">
+
+      <div class="flex justify-between items-center">
+        <div class="flex items-center gap-3">
+
+          <!-- カテゴリの絵文字 -->
+          <span class="text-2xl"><%= habit.category.icon %></span>
+
+          <div>
+            <p class="font-semibold"><%= habit.name %></p>
+            <% if habit.goals.active.any? %>
+              <p class="text-sm text-base-content/70">
+                <%= habit.goals.active.first.goal_type %> 目標
+              </p>
+            <% end %>
+          </div>
+
+        </div>
+
+        <!-- 実行ステータス -->
+        <% if executed %>
+          <span class="badge badge-success">実行済み</span>
+        <% else %>
+          <%= link_to "実行する",
+                #habit_logs_path(habit_id: habit.id),
+                data: { turbo_method: :post },
+                class: "btn btn-sm btn-primary" %>
+        <% end %>
+      </div>
+
+    </div>
+  <% end %>
+</div>

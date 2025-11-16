@@ -1,6 +1,15 @@
 class HabitsController < ApplicationController
   before_action :set_habit, only: [ :edit, :update, :destroy ]
 
+  def index
+    # 習慣取得
+    habits = current_user.habits.includes(:category, :goals).order(:id)
+    @habits = habits.limit(10)
+    @habits_today = habits.for_today
+    @habits_this_week = habits.for_this_week
+    @habits_this_month = habits.for_this_month
+  end
+
   def new
     @habit_form = HabitForm.new(user_id: current_user.id)
   end
@@ -10,7 +19,7 @@ class HabitsController < ApplicationController
     @habit_form = HabitForm.new(habit_params.merge(user_id: current_user.id))
 
     if @habit_form.save
-      redirect_to home_path, notice: "習慣を登録しました。"
+      redirect_back fallback_location: habits_path, notice: "習慣を登録しました。"
     else
       flash.now[:alert] = "入力内容に誤りがあります。"
       render :new, status: :unprocessable_entity
@@ -25,7 +34,7 @@ class HabitsController < ApplicationController
     @habit_form = HabitForm.new(habit_params.merge(id: @habit.id, user_id: current_user.id))
 
     if @habit_form.update
-      redirect_to home_path, notice: "習慣を更新しました。"
+      redirect_back fallback_location: habits_path, notice: "習慣を更新しました。"
     else
       flash.now[:alert] = "入力内容に誤りがあります。"
       render :edit, status: :unprocessable_entity
@@ -34,7 +43,7 @@ class HabitsController < ApplicationController
 
   def destroy
     @habit.destroy
-    redirect_to home_path, notice: "習慣を削除しました。"
+    redirect_to fallback_location: habits_path, notice: "習慣を削除しました。"
   end
 
   private
