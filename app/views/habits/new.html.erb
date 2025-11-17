@@ -1,132 +1,117 @@
-<div class="max-w-lg mx-auto mt-6">
-  <div class="card bg-base-100 shadow-md">
-    <div class="card-body space-y-4">
+<div class="w-full max-w-md mx-auto p-4">
+  <section class="card bg-base-100 shadow-sm" data-controller="toggle-form">
+    <div class="card-body space-y-2">
 
-      <h2 class="card-title text-lg font-semibold">
-        習慣を追加する
-      </h2>
+      <!-- タイトル -->
+      <h2 class="text-lg font-semibold">習慣追加</h2>
 
       <%= form_with model: @habit_form,
                     url: habits_path,
                     method: :post,
                     local: true do |f| %>
 
-        <!-- Swiper：UIを二分割する -->
-        <div data-controller="swiper" class="overflow-hidden">
-
-          <!-- タブ（Optional） -->
-          <div class="tabs tabs-boxed bg-base-200 p-1 rounded-lg mb-3">
-            <button type="button"
-              class="tab tab-sm tab-active"
-              data-index="0"
-              data-swiper-target="tab"
-              data-action="click->swiper#slideTo">
-              基本
-            </button>
-
-            <button type="button"
-              class="tab tab-sm"
-              data-index="1"
-              data-swiper-target="tab"
-              data-action="click->swiper#slideTo">
-              詳細（任意）
-            </button>
+        <!-- ▼ 必須項目 -->
+        <div class="space-y-4">
+          <div class="border-l-4 border-primary/50 pl-3">
+            <p class="text-base font-semibold">必須項目</p>
           </div>
 
-          <!-- Swiper本体 -->
-          <div class="swiper w-full" data-swiper-target="container">
-            <div class="swiper-wrapper">
+        <!-- 必須フォーム -->
+          <div class="form-control">
+            <%= f.label :name, "習慣名", class: "label-text text-sm font-semibold" %>
+            <%= f.text_field :name, class: "input input-bordered w-full" %>
+          </div>
 
-              <!-- Slide 1: 必須項目 ------------------------------>
-              <div class="swiper-slide space-y-4">
+          <div class="form-control">
+            <%= f.label :category_id, "カテゴリ", class: "label-text text-sm font-semibold" %>
+            <%= f.select :category_id,
+                  options_from_collection_for_select(
+                    Category.all,
+                    :id,
+                    ->(c){ "#{c.icon} #{c.name}" },
+                    @habit_form.category_id
+                  ),
+                  { prompt: "選択してください" },
+                  class: "select select-bordered w-full" %>
+          </div>
 
-                <!-- 習慣名 -->
-                <div class="form-control">
-                  <%= f.label :name, "習慣名", class: "label-text font-semibold" %>
-                  <%= f.text_field :name, class: "input input-bordered w-full" %>
-                </div>
+          <div class="form-control">
+            <%= f.label :goal_type, "目標タイプ", class: "label-text text-sm font-semibold" %>
+            <%= f.select :goal_type,
+                  Goal.goal_types.keys.map { |k| [k.humanize, k] },
+                  { prompt: "選択してください" },
+                  class: "select select-bordered w-full" %>
+          </div>
 
-                <!-- カテゴリ -->
-                <div class="form-control">
-                  <%= f.label :category_id, "カテゴリ", class: "label-text font-semibold" %>
-                  <%= f.select :category_id,
-                        options_from_collection_for_select(
-                          Category.all,
-                          :id,
-                          ->(c) { "#{c.icon} #{c.name}" },
-                          @habit_form.category_id
-                        ),
-                        { prompt: "選択してください" },
-                        { class: "select select-bordered w-full" } %>
-                </div>
+          <div class="form-control" data-controller="target-value">
+            <%= f.label :goal_type, "目標設定", class: "label-text text-sm font-semibold" %>
+            <%= f.select :target_type,
+                  Goal.target_types.keys.map { |k| [k.humanize, k] },
+                  { prompt: "選択してください" },
+                  class: "select select-bordered w-full",
+                  data: {
+                    action: "change->target-value#toggle",
+                    target_value_target: "typeSelect"
+                  } %>
 
-                <!-- Goalタイプ -->
-                <div class="form-control">
-                  <%= f.label :goal_type, "目標タイプ", class: "label-text font-semibold" %>
-                  <%= f.select :goal_type,
-                        Goal.goal_types.keys.map { |k| [k.humanize, k] },
-                        { prompt: "選択してください" },
-                        class: "select select-bordered w-full" %>
-                </div>
-
-                <!-- ターゲット種別 -->
-                <div class="form-control">
-                  <%= f.label :target_type, "ターゲット種別", class: "label-text font-semibold" %>
-                  <%= f.select :target_type,
-                        Goal.target_types.keys.map { |k| [k.humanize, k] },
-                        { prompt: "選択してください" },
-                        class: "select select-bordered w-full" %>
-                </div>
-
-              </div>
-
-              <!-- Slide 2: 詳細（任意） ------------------------------>
-              <div class="swiper-slide space-y-4">
-
-                <!-- ターゲット値 -->
-                <div class="form-control">
-                  <%= f.label :target_value, "目標値(半角数字)", class: "label-text font-semibold" %>
-                  <%= f.number_field :target_value,
-                        class: "input input-bordered w-full",
-                        min: 1 %>
-                </div>
-
-                <!-- 期間設定 -->
-                <div class="font-semibold text-base">期間設定</div>
-                <div class="grid grid-cols-2 gap-4">
-                  <div class="form-control">
-                    <%= f.label :start_date, "開始日", class: "label-text font-semibold" %>
-                    <%= f.date_field :start_date, class: "input input-bordered w-full" %>
-                  </div>
-
-                  <div class="form-control">
-                    <%= f.label :end_date, "終了日", class: "label-text font-semibold" %>
-                    <%= f.date_field :end_date, class: "input input-bordered w-full" %>
-                  </div>
-                </div>
-
-                <!-- 説明 -->
-                <div class="form-control">
-                  <%= f.label :description, "説明", class: "label-text font-semibold" %>
-                  <%= f.text_area :description, rows: 3,
-                        class: "textarea textarea-bordered w-full" %>
-                </div>
-
-              </div>
-
+            <div data-target-value-target="targetField" class="hidden mt-3">
+              <%= f.label :target_value, "目標値（半角数字）", class: "label-text text-sm font-semibold" %>
+              <%= f.number_field :target_value, min: 1,
+                    class: "input input-bordered w-full" %>
             </div>
-
-            <div class="swiper-pagination"></div>
           </div>
+        </div> <!-- 必須項目ここまで -->
+
+        <!-- ▼ 任意項目（フォーム直下） -->
+        <div data-toggle-form-target="details"
+             class="hidden space-y-4">
+
+          <div class="border-b border-base-300 mt-4 mb-4"></div>
+
+          <div class="border-l-4 border-secondary pl-3">
+            <p class="text-base font-semibold">任意項目</p>
+          </div>
+
+          <div>
+            <p class="text-sm font-semibold mb-1">期間設定</p>
+            <div class="grid grid-cols-2 gap-4">
+              <div class="form-control">
+                <%= f.date_field :start_date, class: "input input-bordered w-full" %>
+              </div>
+              <div class="form-control">
+                <%= f.date_field :end_date, class: "input input-bordered w-full" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-control">
+            <%= f.label :description, "説明", class: "label-text text-sm font-semibold" %>
+            <%= f.text_area :description, rows: 3,
+                  class: "textarea textarea-bordered w-full" %>
+          </div>
+
         </div>
 
-        <!-- 送信 -->
-        <div class="form-control mt-6">
-          <%= f.submit "登録する", class: "btn btn-primary w-full" %>
+        <!-- ▼ 一番下：登録ボタン & 任意項目トグル -->
+        <div class="w-[90%] mx-auto flex gap-4 mt-6">
+
+          <button type="submit"
+                  class="btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2">
+            <%= heroicon "check", options: { class: "w-4 h-4" } %>
+            登録する
+          </button>
+
+          <button type="button"
+                  class="btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2"
+                  data-action="toggle-form#toggle">
+            <span data-toggle-form-target="icon">+</span>
+            <span data-toggle-form-target="label">任意項目</span>
+          </button>
+
         </div>
 
       <% end %>
 
     </div>
-  </div>
+  </section>
 </div>

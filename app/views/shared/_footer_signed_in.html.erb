@@ -9,13 +9,13 @@
 
     <!-- 習慣管理 -->
     <%= link_to habits_path, class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-      <%= heroicon "list-bullet", options: { class: "w-5 h-5" } %>
+      <%= heroicon "arrow-path", options: { class: "w-5 h-5" } %>
       <span class="text-xs">習慣</span>
     <% end %>
 
     <!-- ログ（カレンダー＋振り返り統合） -->
     <%= link_to "#", class: "flex flex-col items-center justify-center gap-1 py-2" do %>
-      <%= heroicon "chart-bar", options: { class: "w-5 h-5" } %>
+      <%= heroicon "calendar-days", options: { class: "w-5 h-5" } %>
       <span class="text-xs">ログ</span>
     <% end %>
 

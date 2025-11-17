@@ -116,17 +116,21 @@
     </div>
 
     <!-- リンク -->
-    <div class="flex gap-2 mt-2">
+    <div class="w-[90%] mx-auto flex gap-4 mt-2">
+
       <%= link_to new_habit_path,
           class: "btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
         <%= heroicon "plus", variant: :outline, options: { class: "h-4 w-4" } %>
         習慣追加
       <% end %>
+
       <%= link_to habits_path,
           class: "btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
         <%= heroicon "bars-3", variant: :outline, options: { class: "h-4 w-4" } %>
         習慣一覧
       <% end %>
+
     </div>
   </div>
 </section>
+

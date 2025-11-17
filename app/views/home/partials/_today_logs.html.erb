@@ -83,18 +83,20 @@
         <div class="swiper-pagination"></div>
       </div>
       <!-- リンク -->
-      <div class="flex gap-2 mt-2">
-        <%= link_to "#review_path",   # ← 1日の振り返りページ（未実装なら仮でOK）
+      <div class="w-[90%] mx-auto flex gap-4 mt-2 justify-center">
+
+        <%= link_to "#review_path",
             class: "btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
           <%= heroicon "pencil-square", variant: :outline, options: { class: "h-4 w-4" } %>
           振り返り
         <% end %>
 
-        <%= link_to "#logs_path",   # ← 気分ログ＆習慣ログ一覧へ（あなたのルートに合わせて変更）
+        <%= link_to "#logs_path",
             class: "btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
-          <%= heroicon "clock", variant: :outline, options: { class: "h-4 w-4" } %>
+          <%= heroicon "calendar-days", variant: :outline, options: { class: "h-4 w-4" } %>
           ログ一覧
         <% end %>
+
       </div>
     </div>
   </div>

@@ -13,5 +13,11 @@ application.register("mood-selector", MoodSelectorController)
 import SwiperController from "./swiper_controller"
 application.register("swiper", SwiperController)
 
-import MoodFormController from "./mood_form_controller"
-application.register("mood-form", MoodFormController)
+import ToggleFormController from "./toggle_form_controller"
+application.register("toggle-form", ToggleFormController)
+
+import TargetValueController from "./target_value_controller"
+application.register("target-value", TargetValueController)
+
+import TabsController from "./tabs_controller"
+application.register("tabs", TabsController)
