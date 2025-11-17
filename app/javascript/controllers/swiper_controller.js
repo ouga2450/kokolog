@@ -48,8 +48,21 @@ export default class extends Controller {
 
     this.tabTargets.forEach((tab, index) => {
       const isActive = index === activeIndex
+
+      // アクセシビリティ対応
       tab.toggleAttribute("aria-selected", isActive)
-      tab.classList.toggle("tab-active", isActive)
+      tab.setAttribute("tabindex", isActive ? "0" : "-1")
+
+      // --- active（DaisyUI]） ---
+      tab.classList.toggle("btn", isActive)
+      tab.classList.toggle("btn-primary", isActive)
+      tab.classList.toggle("btn-sm", isActive)
+
+      // --- inactive（薄い文字だけ） ---
+      tab.classList.toggle("text-base-content/50", !isActive)
+
+      // DaisyUI tab 系クラスは使わないので削除
+      tab.classList.remove("tab-active")
     })
   }
 }

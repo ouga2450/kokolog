@@ -2,7 +2,7 @@
                 url: mood_logs_path,
                 method: :post,
                 data: {controller: "mood-selector"} do |f| %>
-  <section class="card bg-base-100 shadow-sm" data-controller="mood-form">
+  <section class="card bg-base-100 shadow-sm" data-controller="toggle-form">
     <div class="card-body">
       <div class="flex justify-between items-center">
         <h2 class="card-title text-sm font-semibold">今の気分は？</h2>
@@ -46,7 +46,7 @@
         />
       </div>
 
-      <div class="mt-4 space-y-3 hidden" data-mood-form-target="details">
+      <div class="mt-4 space-y-3 hidden" data-toggle-form-target="details">
         <div class="form-control">
           <label class="label-text text-sm font-medium">メモ</label>
           <%= f.text_area :note, rows: 3, class: "textarea textarea-bordered" %>
@@ -60,19 +60,19 @@
       </div>
 
       <!-- 保存・詳細記録ボタン -->
-      <div class="flex justify-between mt-4">
-        <button type="submit" class="btn btn-primary btn-sm w-1/2 mr-1 flex items-center justify-center gap-1">
+      <div class="w-[90%] mx-auto flex gap-4 mt-2">
+        <button type="submit" class="btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2">
           <%= heroicon "check", options: { class: "w-4 h-4" } %>
           保存
         </button>
 
         <button
           type="button"
-          class="btn btn-outline btn-sm w-1/2 ml-1 flex items-center justify-center gap-1"
-          data-action="mood-form#toggle"
+          class="btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2"
+          data-action="toggle-form#toggle"
         >
-          <span data-mood-form-target="toggleIcon">+</span>
-          <span data-mood-form-target="toggleLabel">詳細記録</span>
+          <span data-toggle-form-target="icon">+</span>
+          <span data-toggle-form-target="label">詳細記録</span>
         </button>
       </div>
     </div>

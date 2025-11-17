@@ -20,12 +20,14 @@ class Goal < ApplicationRecord
     if: -> { target_type.in?([ "count_based", "time_based" ]) }
 
   # --- scope ---
+  # activeかつdateが範囲内
   scope :effective_on, ->(date) {
     active
       .where("start_date IS NULL OR start_date <= ?", date)
       .where("end_date IS NULL OR end_date >= ?", date)
   }
 
+  # 現在有効な目標
   scope :effective_today, -> {
     effective_on(Date.current)
   }

@@ -3,22 +3,27 @@
     <div class="flex flex-wrap items-center justify-between gap-3">
       <h2 class="card-title text-sm font-semibold">今日のログ</h2>
 
-      <div class="tabs tabs-boxed bg-base-200 p-1 rounded-lg">
+      <div class="flex gap-2" role="tablist" aria-label="今日のログ切替">
         <button
           type="button"
-          class="tab tab-sm tab-active"
+          role="tab"
           data-index="0"
           data-swiper-target="tab"
           data-action="click->swiper#slideTo"
+          class="px-3 py-1 text-sm font-semibold rounded-btn"
+          aria-selected="true"
         >
           気分
         </button>
+
         <button
           type="button"
-          class="tab tab-sm"
+          role="tab"
           data-index="1"
           data-swiper-target="tab"
           data-action="click->swiper#slideTo"
+          class="px-3 py-1 text-sm font-semibold rounded-btn"
+          aria-selected="false"
         >
           習慣
         </button>
@@ -30,45 +35,69 @@
 
         <!-- 気分ログ -->
         <div class="swiper-slide">
-          <% if @mood_logs_today.present? %>
-            <div class="space-y-2">
-            <!-- ログカード一覧 -->
-              <% @mood_logs_today.each do |mood_log| %>
-                <%= render "mood_logs/mood_log", mood_log: mood_log %>
-              <% end %>
-            </div>
-          <% else %>
-            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
-              今日の気分ログはまだありません。
-            </div>
-          <% end %>
-        </div>
-
-        <!-- 習慣ログ -->
-        <div class="swiper-slide">
-          <div class="space-y-2">
-            <% habits = [
-              { title: "朝のコーヒー", time: "7:30" },
-              { title: "通勤", time: "8:00" },
-              { title: "読書20分", time: "22:00" }
-            ] %>
-
-            <% habits.each do |habit| %>
-              <div class="flex items-center justify-between rounded-lg bg-base-200 p-3">
-                <div>
-                  <p class="text-sm font-medium"><%= habit[:title] %></p>
-                  <p class="text-xs opacity-70"><%= habit[:time] %></p>
+          <div class="h-64 overflow-y-auto pr-1">
+            <% if @mood_logs_today.present? %>
+              <div class="space-y-2">
+              <!-- ログカード一覧 -->
+                <% @mood_logs_today.each do |mood_log| %>
+                  <%= render "mood_logs/mood_log", mood_log: mood_log %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="flex items-center justify-center w-full">
+                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                            flex items-center justify-center text-center">
+                  <p class="text-sm text-base-content/60">
+                    今日の気分ログはまだありません。
+                  </p>
                 </div>
-                <%= heroicon "check-circle", options: { class: "h-4 w-4 text-success" } %>
               </div>
             <% end %>
           </div>
         </div>
 
+        <!-- 習慣ログ -->
+        <div class="swiper-slide">
+          <div class="h-64 overflow-y-auto pr-1">
+            <% if @habit_logs_today.present? %>
+              <div class="space-y-2">
+              <!-- ログカード一覧 -->
+                <% @habit_logs_today.each do |habit_log| %>
+                  <%= render "habit_logs/habit_log", habit_log: habit_log %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="flex items-center justify-center w-full">
+                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                            flex items-center justify-center text-center">
+                  <p class="text-sm text-base-content/60">
+                    今日の気分ログはまだありません。
+                  </p>
+                </div>
+              </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+        <!-- ページネーション -->
+        <div class="swiper-pagination"></div>
       </div>
+      <!-- リンク -->
+      <div class="w-[90%] mx-auto flex gap-4 mt-2 justify-center">
 
-      <!-- ページネーション -->
-      <div class="swiper-pagination"></div>
+        <%= link_to "#review_path",
+            class: "btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
+          <%= heroicon "pencil-square", variant: :outline, options: { class: "h-4 w-4" } %>
+          振り返り
+        <% end %>
+
+        <%= link_to "#logs_path",
+            class: "btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
+          <%= heroicon "calendar-days", variant: :outline, options: { class: "h-4 w-4" } %>
+          ログ一覧
+        <% end %>
+
+      </div>
     </div>
   </div>
 </section>
