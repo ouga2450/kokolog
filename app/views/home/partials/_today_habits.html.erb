@@ -1,101 +1,132 @@
 <section class="card bg-base-100 shadow-sm" data-controller="swiper">
-  <div class="card-body space-y-3">
+  <div class="card-body">
     <div class="flex flex-wrap items-center justify-between gap-3">
       <h2 class="card-title text-sm font-semibold">今日の習慣</h2>
 
-      <%= link_to "一覧を見る",
-                  habits_path,
-                  class: "text-xs link link-hover text-primary" %>
+      <div class="flex gap-2" role="tablist" aria-label="今日の習慣切替">
+        <button
+          type="button"
+          role="tab"
+          data-index="0"
+          data-swiper-target="tab"
+          data-action="click->swiper#slideTo"
+          class="px-3 py-1 text-sm font-semibold rounded-btn"
+          aria-selected="true"
+        >
+          毎日
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          data-index="1"
+          data-swiper-target="tab"
+          data-action="click->swiper#slideTo"
+          class="px-3 py-1 text-sm font-semibold rounded-btn"
+          aria-selected="false"
+        >
+          毎週
+        </button>
+
+        <button
+          type="button"
+          role="tab"
+          data-index="2"
+          data-swiper-target="tab"
+          data-action="click->swiper#slideTo"
+          class="px-3 py-1 text-sm font-semibold rounded-btn"
+          aria-selected="false"
+        >
+          毎月
+        </button>
+      </div>
     </div>
 
-    <!-- tabs -->
-    <div class="tabs tabs-boxed bg-base-200 p-1 rounded-lg">
-      <button
-        type="button"
-        class="tab tab-sm tab-active"
-        data-index="0"
-        data-swiper-target="tab"
-        data-action="click->swiper#slideTo"
-      >
-        毎日
-      </button>
-      <button
-        type="button"
-        class="tab tab-sm"
-        data-index="1"
-        data-swiper-target="tab"
-        data-action="click->swiper#slideTo"
-      >
-        週間
-      </button>
-      <button
-        type="button"
-        class="tab tab-sm"
-        data-index="2"
-        data-swiper-target="tab"
-        data-action="click->swiper#slideTo"
-      >
-        月間
-      </button>
-    </div>
-
-    <!-- Swiper -->
     <div class="swiper w-full mt-4" data-swiper-target="container">
       <div class="swiper-wrapper">
 
         <!-- 今日 -->
         <div class="swiper-slide">
-          <% if @habits_today.present? %>
-            <div class="space-y-2">
-              <% @habits_today.each do |habit| %>
-                <%= render "habits/habit_card", habit: habit %>
-              <% end %>
-            </div>
-          <% else %>
-            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
-              今日の習慣はありません。
-            </div>
-          <% end %>
+          <div class="h-64 overflow-y-auto pr-1">
+            <% if @habits_today.present? %>
+              <div class="space-y-2">
+                <% @habits_today.each do |habit| %>
+                  <%= render "habits/habit_card", habit: habit %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="flex items-center justify-center w-full">
+                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                            flex items-center justify-center text-center">
+                  <p class="text-sm text-base-content/60">
+                    今日の習慣はまだありません。
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
 
         <!-- 今週 -->
         <div class="swiper-slide">
-          <% if @habits_this_week.present? %>
-            <div class="space-y-2">
-              <% @habits_this_week.each do |habit| %>
-                <%= render "habits/habit_card", habit: habit %>
-              <% end %>
-            </div>
-          <% else %>
-            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
-              今週の習慣はありません。
-            </div>
-          <% end %>
+          <div class="h-64 overflow-y-auto pr-1">
+            <% if @habits_this_week.present? %>
+              <div class="space-y-2">
+                <% @habits_this_week.each do |habit| %>
+                  <%= render "habits/habit_card", habit: habit %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="flex items-center justify-center w-full">
+                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                            flex items-center justify-center text-center">
+                  <p class="text-sm text-base-content/60">
+                    今週の習慣はまだありません。
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
 
         <!-- 今月 -->
         <div class="swiper-slide">
-          <% if @habits_this_month.present? %>
-            <div class="space-y-2">
-              <% @habits_this_month.each do |habit| %>
-                <%= render "habits/habit_card", habit: habit %>
-              <% end %>
-            </div>
-          <% else %>
-            <div class="rounded-lg bg-base-200 py-6 text-center text-sm text-base-content/60">
-              今月の習慣はありません。
-            </div>
-          <% end %>
+          <div class="h-64 overflow-y-auto pr-1">
+            <% if @habits_this_month.present? %>
+              <div class="space-y-2">
+                <% @habits_this_month.each do |habit| %>
+                  <%= render "habits/habit_card", habit: habit %>
+                <% end %>
+              </div>
+            <% else %>
+              <div class="flex items-center justify-center w-full">
+                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                            flex items-center justify-center text-center">
+                  <p class="text-sm text-base-content/60">
+                    今月の習慣はまだありません。
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
         </div>
-
       </div>
-
       <!-- ページネーション -->
       <div class="swiper-pagination"></div>
     </div>
 
-    <%= link_to "習慣を追加",
-                new_habit_path,
-                class: "btn btn-primary btn-sm w-full mt-2 flex items-center justify-center gap-1" %>
+    <!-- リンク -->
+    <div class="flex gap-2 mt-2">
+      <%= link_to new_habit_path,
+          class: "btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
+        <%= heroicon "plus", variant: :outline, options: { class: "h-4 w-4" } %>
+        習慣追加
+      <% end %>
+      <%= link_to habits_path,
+          class: "btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
+        <%= heroicon "bars-3", variant: :outline, options: { class: "h-4 w-4" } %>
+        習慣一覧
+      <% end %>
+    </div>
   </div>
 </section>
