@@ -2,8 +2,20 @@
   <section class="card bg-base-100 shadow-sm" data-controller="toggle-form">
     <div class="card-body space-y-2">
 
-      <!-- タイトル -->
-      <h2 class="text-lg font-semibold">習慣追加</h2>
+      <!-- タイトル＆戻るボタン -->
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold">習慣編集</h2>
+
+        <% back = request.referer %>
+        <% back = nil if back == request.url %>
+
+        <button
+          type="button"
+          class="btn btn-outline btn-sm"
+          onclick="window.location = '<%= back || habits_path %>'">
+          戻る
+        </button>
+      </div>
 
       <%= form_with model: @habit_form,
                     url: habits_path,
@@ -106,8 +118,8 @@
                   data-action="toggle-form#toggle">
             <span data-toggle-form-target="icon">+</span>
             <span data-toggle-form-target="label">任意項目</span>
-          </button>
 
+          </button>
         </div>
 
       <% end %>

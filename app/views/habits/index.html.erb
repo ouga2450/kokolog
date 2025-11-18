@@ -16,11 +16,13 @@
 
           <div>
             <p class="font-semibold"><%= habit.name %></p>
-            <% if habit.goals.active.any? %>
+
+            <% if habit.goal.present? %>
               <p class="text-sm text-base-content/70">
-                <%= habit.goals.active.first.goal_type %> 目標
+                <%= habit.goal.goal_type %> 目標
               </p>
             <% end %>
+
           </div>
 
         </div>

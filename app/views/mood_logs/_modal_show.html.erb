@@ -24,10 +24,9 @@
         </p>
 
         <div class="bg-base-200/60 rounded-lg p-3">
-          <p class="font-semibold text-base-content/80 mb-1">メモ</p>
-          <p class="whitespace-pre-wrap break-words text-base-content/70">
-            <%= mood_log.note.presence || "（メモはありません）" %>
-          </p>
+          <div class="font-semibold text-base-content/80 mb-1">メモ</div>
+          <div class="whitespace-pre-wrap break-words text-base-content/70"
+            ><%= mood_log.note.presence || "（メモはありません）" %></div>
         </div>
       </div>
 
