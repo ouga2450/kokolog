@@ -2,7 +2,7 @@ class Habit < ApplicationRecord
   # --- 関連 ---
   belongs_to :user
   belongs_to :category
-  has_many :goals, dependent: :destroy
+  has_one :goal, dependent: :destroy
   has_many :habit_logs, dependent: :destroy
 
   # --- バリデーション ---
@@ -14,19 +14,19 @@ class Habit < ApplicationRecord
 
   # 今日・今週・今月の目標取得
   scope :for_today, -> {
-    joins(:goals)
+    joins(:goal)
     .merge(Goal.for_today)
     .distinct
   }
 
   scope :for_this_week, -> {
-    joins(:goals)
+    joins(:goal)
     .merge(Goal.for_this_week)
     .distinct
   }
 
   scope :for_this_month, -> {
-    joins(:goals)
+    joins(:goal)
     .merge(Goal.for_this_month)
     .distinct
   }

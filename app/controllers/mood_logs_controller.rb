@@ -1,4 +1,6 @@
 class MoodLogsController < ApplicationController
+  before_action :set_mood_log, only: [ :show, :edit, :update, :destroy ]
+
   def create
     @mood_log = current_user.mood_logs.build(mood_log_params)
 
@@ -10,7 +12,6 @@ class MoodLogsController < ApplicationController
   end
 
   def show
-    @mood_log = current_user.mood_logs.find(params[:id])
     if turbo_frame_request?
       render :show, layout: false
     else
@@ -19,7 +20,6 @@ class MoodLogsController < ApplicationController
   end
 
   def edit
-    @mood_log = current_user.mood_logs.find(params[:id])
     if turbo_frame_request?
       render :edit, layout: false
     else
@@ -28,8 +28,6 @@ class MoodLogsController < ApplicationController
   end
 
   def update
-    @mood_log = current_user.mood_logs.find(params[:id])
-
     respond_to do |format|
       if @mood_log.update(mood_log_params)
         flash.now[:notice] = "気分記録を更新しました。"
@@ -51,8 +49,6 @@ class MoodLogsController < ApplicationController
   end
 
   def destroy
-    @mood_log = current_user.mood_logs.find(params[:id])
-
     respond_to do |format|
       if @mood_log.destroy
         flash.now[:notice] = "気分記録を削除しました。"
@@ -74,7 +70,20 @@ class MoodLogsController < ApplicationController
     end
   end
 
+  private
+
+  def set_mood_log
+    @mood_log = current_user.mood_logs.find(params[:id])
+  end
+
   def mood_log_params
-    params.require(:mood_log).permit(:mood_id, :feeling_id, :habit_log_id, :timing, :note, :recorded_at)
+    params.require(:mood_log).permit(
+      :mood_id,
+      :feeling_id,
+      :habit_log_id,
+      :timing,
+      :note,
+      :recorded_at
+    )
   end
 end
