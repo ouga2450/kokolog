@@ -54,9 +54,34 @@ class HabitsController < ApplicationController
   end
 
   def destroy
-    @habit.destroy
-    redirect_to (request.referer.presence || habits_path),
-              notice: "習慣を削除しました。"
+    if @habit.destroy
+      respond_to do |format|
+        format.turbo_stream do
+          flash.now[:notice] = "習慣を削除しました。"
+        end
+
+        format.html do
+          redirect_to (request.referer.presence || habits_path),
+                      notice: "習慣を削除しました。"
+        end
+      end
+    else
+      respond_to do |format|
+        format.turbo_stream do
+          flash.now[:alert] = "削除に失敗しました。"
+          render turbo_stream: turbo_stream.replace(
+            dom_id(@habit),
+            partial: "habits/error_message",
+            locals: { habit: @habit }
+          )
+        end
+
+        format.html do
+          redirect_to (request.referer.presence || habits_path),
+                      alert: "削除に失敗しました。"
+        end
+      end
+    end
   end
 
   private
