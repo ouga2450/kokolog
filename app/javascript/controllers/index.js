@@ -16,8 +16,8 @@ application.register("swiper", SwiperController)
 import ToggleFormController from "./toggle_form_controller"
 application.register("toggle-form", ToggleFormController)
 
-import TargetValueController from "./target_value_controller"
-application.register("target-value", TargetValueController)
+import AmountController from "./amount_controller"
+application.register("amount", AmountController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)

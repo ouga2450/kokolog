@@ -95,9 +95,9 @@ class HabitsController < ApplicationController
       :name,
       :description,
       :category_id,
-      :goal_type,
-      :target_type,
-      :target_value,
+      :goal_unit,
+      :frequency,
+      :amount,
       :start_date,
       :end_date
     )

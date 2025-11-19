@@ -18,8 +18,8 @@
       </div>
 
       <%= form_with model: @habit_form,
-                    url: habits_path,
-                    method: :post,
+                    url: habit_path(@habit_form.id),
+                    method: :patch,
                     local: true do |f| %>
 
         <!-- ▼ 必須項目 -->
@@ -28,12 +28,13 @@
             <p class="text-base font-semibold">必須項目</p>
           </div>
 
-        <!-- 必須フォーム -->
+          <!-- 名前 -->
           <div class="form-control">
             <%= f.label :name, "習慣名", class: "label-text text-sm font-semibold" %>
             <%= f.text_field :name, class: "input input-bordered w-full" %>
           </div>
 
+          <!-- カテゴリ -->
           <div class="form-control">
             <%= f.label :category_id, "カテゴリ", class: "label-text text-sm font-semibold" %>
             <%= f.select :category_id,
@@ -47,34 +48,35 @@
                   class: "select select-bordered w-full" %>
           </div>
 
+          <!-- ▼ 達成頻度（frequency） -->
           <div class="form-control">
-            <%= f.label :goal_type, "目標タイプ", class: "label-text text-sm font-semibold" %>
-            <%= f.select :goal_type,
-                  Goal.goal_types.keys.map { |k| [k.humanize, k] },
+            <%= f.label :frequency, "達成頻度", class: "label-text text-sm font-semibold" %>
+            <%= f.select :frequency,
+                  Goal.frequencies.keys.map { |k| [k.humanize, k] },
                   { prompt: "選択してください" },
                   class: "select select-bordered w-full" %>
           </div>
 
-          <div class="form-control" data-controller="target-value">
-            <%= f.label :goal_type, "目標設定", class: "label-text text-sm font-semibold" %>
-            <%= f.select :target_type,
-                  Goal.target_types.keys.map { |k| [k.humanize, k] },
+          <!-- ▼ 目標タイプ（goal_unit） + 目標値（amount） -->
+          <div class="form-control" data-controller="amount">
+            <%= f.label :goal_unit, "目標タイプ", class: "label-text text-sm font-semibold" %>
+            <%= f.select :goal_unit,
+                  Goal.goal_units.keys.map { |k| [k.humanize, k] },
                   { prompt: "選択してください" },
                   class: "select select-bordered w-full",
-                  data: {
-                    action: "change->target-value#toggle",
-                    target_value_target: "typeSelect"
-                  } %>
+                  data: {action: "change->amount#toggle"},
+                  "data-amount-target": "typeSelect" %>
 
-            <div data-target-value-target="targetField" class="hidden mt-3">
-              <%= f.label :target_value, "目標値（半角数字）", class: "label-text text-sm font-semibold" %>
-              <%= f.number_field :target_value, min: 1,
+            <div data-amount-target="amountField"
+                class="<%= @habit_form.goal_unit.in?(%w[count_based time_based]) ? '' : 'hidden' %> mt-3">
+              <%= f.label :amount, "目標値（半角数字）", class: "label-text text-sm font-semibold" %>
+              <%= f.number_field :amount, min: 1,
                     class: "input input-bordered w-full" %>
             </div>
           </div>
-        </div> <!-- 必須項目ここまで -->
+        </div>
 
-        <!-- ▼ 任意項目（フォーム直下） -->
+        <!-- ▼ 任意項目 -->
         <div data-toggle-form-target="details"
              class="hidden space-y-4">
 
@@ -84,6 +86,7 @@
             <p class="text-base font-semibold">任意項目</p>
           </div>
 
+          <!-- 期間 -->
           <div>
             <p class="text-sm font-semibold mb-1">期間設定</p>
             <div class="grid grid-cols-2 gap-4">
@@ -96,21 +99,21 @@
             </div>
           </div>
 
+          <!-- 説明 -->
           <div class="form-control">
             <%= f.label :description, "説明", class: "label-text text-sm font-semibold" %>
             <%= f.text_area :description, rows: 3,
                   class: "textarea textarea-bordered w-full" %>
           </div>
-
         </div>
 
-        <!-- ▼ 一番下：登録ボタン & 任意項目トグル -->
+        <!-- ▼ ボタン -->
         <div class="w-[90%] mx-auto flex gap-4 mt-6">
 
           <button type="submit"
                   class="btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2">
             <%= heroicon "check", options: { class: "w-4 h-4" } %>
-            登録する
+            更新する
           </button>
 
           <button type="button"
