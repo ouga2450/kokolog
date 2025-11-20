@@ -15,6 +15,7 @@ class HabitForm
   attribute :amount, :integer
   attribute :start_date, :date
   attribute :end_date, :date
+  attribute :status, :string
 
   # attr_reader（@habit や @goal にアクセス）
   attr_reader :habit, :goal
@@ -26,11 +27,12 @@ class HabitForm
 
   # Goal用
   validates :goal_unit, :frequency, presence: true
+  validates :status, presence: true
 
   # amount は count / time の時のみ必須
   validates :amount,
     numericality: { greater_than: 0 },
-    if: -> { goal_unit.in?(%w[count time]) }
+    if: -> { goal_unit.in?(%w[count_based time_based]) }
 
   # 日付チェック
   validate :start_date_must_be_before_end_date
@@ -51,7 +53,8 @@ class HabitForm
       frequency: goal.frequency,
       amount: goal.amount,
       start_date: goal.start_date,
-      end_date: goal.end_date
+      end_date: goal.end_date,
+      status: goal.status
     )
   end
 
@@ -79,7 +82,7 @@ class HabitForm
 
         start_date: start_date,
         end_date: end_date,
-        status: :active
+        status: status || :active
       )
     end
 
@@ -108,7 +111,8 @@ class HabitForm
         frequency: frequency,
         amount: amount,
         start_date: start_date,
-        end_date: end_date
+        end_date: end_date,
+        status: status || :active
       )
     end
 

@@ -4,9 +4,9 @@ class Goal < ApplicationRecord
   belongs_to :habit
 
   # --- enum ---
-  enum goal_unit: { check_based: 0, count_based: 1, time_based: 2 }      # 目標の種類
+  enum goal_unit: { check_based: 0, count_based: 1, time_based: 2 }  # 目標の種類
   enum frequency: { daily: 0, weekly: 1, monthly: 2 }  # 達成頻度
-  enum status: { draft: 0, active: 1, achieved: 2 }
+  enum status: { draft: 0, active: 1, achieved: 2 }  # 目標セット
 
   # --- バリデーション ---
   validates :goal_unit, presence: true
@@ -16,7 +16,7 @@ class Goal < ApplicationRecord
   # count / time の場合だけ amount が必要
   validates :amount,
     numericality: { greater_than: 0 },
-    if: -> { goal_unit.in?(%w[count time]) }
+    if: -> { goal_unit.in?(%w[count_based time_based]) }
 
   validate :start_date_must_be_before_end_date
 
@@ -56,6 +56,36 @@ class Goal < ApplicationRecord
       logs.count >= amount
     when "time"
       logs.sum(&:duration) >= amount.minutes
+    end
+  end
+
+  # 表示用
+  def display_goal
+    freq = case frequency
+          when "daily"   then "毎日"
+          when "weekly"  then "毎週"
+          when "monthly" then "毎月"
+          end
+
+    case goal_unit
+    when "check_based"
+      "#{freq}実行"
+    when "count_based"
+      "#{freq}#{amount}回"
+    when "time_based"
+      "#{freq}#{amount}分"
+    end
+  end
+
+  def display_period
+    if start_date.present? && end_date.present?
+      "#{start_date} 〜 #{end_date}"
+    elsif start_date.present?
+      "#{start_date} 〜（期限なし）"
+    elsif end_date.present?
+      "（開始日なし）〜 #{end_date}"
+    else
+      "期間なし"
     end
   end
 end

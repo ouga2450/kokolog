@@ -105,6 +105,15 @@
             <%= f.text_area :description, rows: 3,
                   class: "textarea textarea-bordered w-full" %>
           </div>
+
+          <!-- セット状態 -->
+          <div class="form-control">
+            <%= f.label :status, "セット状態", class: "label-text text-sm font-semibold" %>
+            <%= f.select :status,
+                  Goal.statuses.keys.map { |k| [k.humanize, k] },
+                  { prompt: "選択してください" },
+                  class: "select select-bordered w-full" %>
+          </div>
         </div>
 
         <!-- ▼ ボタン -->
