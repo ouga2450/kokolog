@@ -11,15 +11,15 @@
   <!-- 中央：習慣カード -->
   <div class="w-[95%] flex items-center justify-between rounded-xl bg-base-200 p-3 shadow-sm">
     <div class="flex items-center gap-3">
-      <% if (icon = habit_log.habit.category.icon).present? %>
+      <% if (icon = habit.category.icon).present? %>
         <span class="text-xl"><%= icon %></span>
       <% end %>
       <div>
         <p class="text-sm font-medium leading-none">
-          <%= habit_log.habit.name %>
+          <%= habit.name %>
         </p>
         <p class="text-xs text-base-content/60 mt-1">
-          <%= "カテゴリ：#{habit_log.habit.category.name}" %>
+          <%= "カテゴリ：#{habit.category.name}" %>
         </p>
       </div>
     </div>
