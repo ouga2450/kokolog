@@ -61,6 +61,12 @@ class HabitsController < ApplicationController
     if @habit.destroy
       respond_to do |format|
         format.turbo_stream do
+          case params[:from]
+          when "home"
+            @habit_home_card = @habit
+          when "index"
+            @habit_index_card = @habit
+          end
           flash.now[:notice] = "習慣を削除しました。"
         end
 

@@ -20,7 +20,7 @@
 
     <!-- 詳細モーダル -->
     <%= link_to "詳細",
-          habit_path(habit),
+          habit_path(habit, from: "home"),
           class: "btn btn-outline btn-xs",
           data: { turbo_frame: "modal" } %>
 

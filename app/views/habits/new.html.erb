@@ -37,7 +37,7 @@
                   { prompt: "選択してください" },
                   class: "select select-bordered w-full" %>
             <p class="text-xs text-base-content/60 mt-1">
-                この習慣の状態管理です。※空欄で実行状態となります
+                この習慣の状態管理です。
             </p>
           </div>
 
@@ -80,7 +80,7 @@
             <%= f.label :goal_unit, "目標タイプ", class: "label-text text-sm font-semibold" %>
             <%= f.select :goal_unit,
                   Goal.goal_units.keys.map { |k| [k.humanize, k] },
-                  { prompt: "例：✅チェック / 回数で管理 / 時間で管理" },
+                  { prompt: "例：チェック / 回数で管理 / 時間で管理" },
                   class: "select select-bordered w-full",
                   data: {action: "change->amount#toggle"},
                   "data-amount-target": "typeSelect" %>

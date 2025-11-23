@@ -91,13 +91,13 @@
 
           <!-- 編集 -->
           <%= link_to "編集",
-                      edit_habit_path(@habit),
+                      edit_habit_path(@habit, from: params[:from]),
                       data: { turbo: false },
                       class: "btn btn-outline btn-primary btn-sm" %>
 
           <!-- 削除 -->
           <%= link_to "削除",
-                      habit_path(@habit),
+                      habit_path(@habit, from: params[:from]),
                       data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
                       class: "btn btn-outline btn-error btn-sm" %>
         </div>
