@@ -40,7 +40,7 @@
               <div class="space-y-2">
               <!-- ログカード一覧 -->
                 <% @mood_logs_today.each do |mood_log| %>
-                  <%= render "home/mood_log_home_card", mood_log: mood_log %>
+                  <%= render "home/partials/mood_log_home_card", mood_log: mood_log %>
                 <% end %>
               </div>
             <% else %>
@@ -63,7 +63,7 @@
               <div class="space-y-2">
               <!-- ログカード一覧 -->
                 <% @habit_logs_today.each do |habit_log| %>
-                  <%= render "home/habit_log_home_card", habit_log: habit_log %>
+                  <%= render "home/partials/habit_log_home_card", habit_log: habit_log %>
                 <% end %>
               </div>
             <% else %>

@@ -23,4 +23,6 @@ Rails.application.routes.draw do
 
   # habitsリソースのルーティング設定
   resources :habits
+
+  resources :habit_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 end

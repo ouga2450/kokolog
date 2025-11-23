@@ -36,13 +36,17 @@
                   Goal.statuses.keys.map { |k| [k.humanize, k] },
                   { prompt: "選択してください" },
                   class: "select select-bordered w-full" %>
+            <p class="text-xs text-base-content/60 mt-1">
+                この習慣の状態管理です。
+            </p>
           </div>
 
           <!-- 名前 -->
           <div class="form-control">
             <%= f.label :name, "習慣名", class: "label-text text-sm font-semibold" %>
             <%= f.text_field :name,
-              class: "input input-bordered w-full" %>
+              class: "input input-bordered w-full",
+              placeholder: "例：日記、スクワット30回、読書10分" %>
           </div>
 
           <!-- カテゴリ -->
@@ -67,7 +71,7 @@
             <%= f.label :frequency, "達成頻度", class: "label-text text-sm font-semibold" %>
             <%= f.select :frequency,
                   Goal.frequencies.keys.map { |k| [k.humanize, k] },
-                  { prompt: "例：毎日 or 週3 or 月1など" },
+                  { prompt: "選択してください" },
                   class: "select select-bordered w-full" %>
           </div>
 
@@ -76,20 +80,17 @@
             <%= f.label :goal_unit, "目標タイプ", class: "label-text text-sm font-semibold" %>
             <%= f.select :goal_unit,
                   Goal.goal_units.keys.map { |k| [k.humanize, k] },
-                  { prompt: "例：✅チェック / 回数で管理 / 時間で管理" },
+                  { prompt: "例：チェック / 回数で管理 / 時間で管理" },
                   class: "select select-bordered w-full",
                   data: {action: "change->amount#toggle"},
                   "data-amount-target": "typeSelect" %>
 
             <div data-amount-target="amountField"
                 class="<%= @habit_form.goal_unit.in?(%w[count_based time_based]) ? '' : 'hidden' %> mt-3">
-              <%= f.label :amount, "セット数", class: "label-text text-sm font-semibold" %>
+              <%= f.label :amount, "目標値", class: "label-text text-sm font-semibold" %>
               <%= f.number_field :amount, min: 1,
-                    class: "input input-bordered w-full" %>
-
-              <p class="text-xs text-base-content/60 mt-1">
-                1セット＝その習慣を1回行うこと（例：スクワット30回＝1セット）
-              </p>
+                    class: "input input-bordered w-full",
+                    placeholder: "例：3（＝週3回実施）" %>
             </div>
           </div>
         </div>
@@ -121,7 +122,8 @@
           <div class="form-control">
             <%= f.label :description, "説明欄", class: "label-text text-sm font-semibold" %>
             <%= f.text_area :description, rows: 3,
-                  class: "textarea textarea-bordered w-full" %>
+                  class: "textarea textarea-bordered w-full",
+                  placeholder: "例：毎日スクワットを30回して身体を整える習慣です" %>
           </div>
         </div>
 
