@@ -51,12 +51,12 @@
             <% if @habits_today.present? %>
               <div class="space-y-2">
                 <% @habits_today.each do |habit| %>
-                  <%= render "habits/habit_card", habit: habit %>
+                  <%= render "home/partials/habit_home_card", habit: habit %>
                 <% end %>
               </div>
             <% else %>
               <div class="flex items-center justify-center w-full">
-                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
                             flex items-center justify-center text-center">
                   <p class="text-sm text-base-content/60">
                     今日の習慣はまだありません。
@@ -73,12 +73,12 @@
             <% if @habits_this_week.present? %>
               <div class="space-y-2">
                 <% @habits_this_week.each do |habit| %>
-                  <%= render "habits/habit_card", habit: habit %>
+                  <%= render "home/partials/habit_home_card", habit: habit %>
                 <% end %>
               </div>
             <% else %>
               <div class="flex items-center justify-center w-full">
-                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
                             flex items-center justify-center text-center">
                   <p class="text-sm text-base-content/60">
                     今週の習慣はまだありません。
@@ -95,12 +95,12 @@
             <% if @habits_this_month.present? %>
               <div class="space-y-2">
                 <% @habits_this_month.each do |habit| %>
-                  <%= render "habits/habit_card", habit: habit %>
+                  <%= render "home/partials/habit_home_card", habit: habit %>
                 <% end %>
               </div>
             <% else %>
               <div class="flex items-center justify-center w-full">
-                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
                             flex items-center justify-center text-center">
                   <p class="text-sm text-base-content/60">
                     今月の習慣はまだありません。

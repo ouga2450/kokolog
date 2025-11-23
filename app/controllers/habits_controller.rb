@@ -12,8 +12,6 @@ class HabitsController < ApplicationController
     @daily_habits   = @active_habits.daily
     @weekly_habits  = @active_habits.weekly
     @monthly_habits = @active_habits.monthly
-
-
   end
 
   def show

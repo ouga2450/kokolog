@@ -40,12 +40,12 @@
               <div class="space-y-2">
               <!-- ログカード一覧 -->
                 <% @mood_logs_today.each do |mood_log| %>
-                  <%= render "mood_logs/mood_log", mood_log: mood_log %>
+                  <%= render "home/mood_log_home_card", mood_log: mood_log %>
                 <% end %>
               </div>
             <% else %>
               <div class="flex items-center justify-center w-full">
-                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
                             flex items-center justify-center text-center">
                   <p class="text-sm text-base-content/60">
                     今日の気分ログはまだありません。
@@ -63,12 +63,12 @@
               <div class="space-y-2">
               <!-- ログカード一覧 -->
                 <% @habit_logs_today.each do |habit_log| %>
-                  <%= render "habit_logs/habit_log", habit_log: habit_log %>
+                  <%= render "home/habit_log_home_card", habit_log: habit_log %>
                 <% end %>
               </div>
             <% else %>
               <div class="flex items-center justify-center w-full">
-                <div class="w-[90%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
                             flex items-center justify-center text-center">
                   <p class="text-sm text-base-content/60">
                     今日の気分ログはまだありません。

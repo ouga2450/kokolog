@@ -50,11 +50,11 @@ class Goal < ApplicationRecord
     logs = habit.habit_logs.where(started_at: date.all_day)
 
     case goal_unit
-    when "check"
+    when "check_based"
       logs.exists?
-    when "count"
+    when "count_based"
       logs.count >= amount
-    when "time"
+    when "time_based"
       logs.sum(&:duration) >= amount.minutes
     end
   end
@@ -62,10 +62,10 @@ class Goal < ApplicationRecord
   # 表示用
   def display_goal
     freq = case frequency
-          when "daily"   then "毎日"
-          when "weekly"  then "毎週"
-          when "monthly" then "毎月"
-          end
+    when "daily"   then "毎日"
+    when "weekly"  then "毎週"
+    when "monthly" then "毎月"
+    end
 
     case goal_unit
     when "check_based"
