@@ -1,0 +1,40 @@
+<dialog open class="modal modal-open" data-controller="modal">
+  <div class="modal-box bg-base-100">
+    <div class="space-y-6">
+
+      <!-- タイトル -->
+      <div class="flex items-center justify-between border-b border-base-300 pb-2">
+        <h3 class="font-bold text-lg text-base-content">
+          🌿 習慣実行画面
+        </h3>
+      </div>
+
+      <!-- アクション -->
+      <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+
+        <div class="flex gap-2">
+
+          <!-- 編集 -->
+          <%= link_to "保存",
+                      "#create_habit_log_path(@habit_log)",
+                      data: { turbo: false },
+                      class: "btn btn-outline btn-primary btn-sm" %>
+
+          <!-- 削除 -->
+          <%= link_to "削除",
+                      "#habit_log_path(@habit, from: params[:from])",
+                      data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                      class: "btn btn-outline btn-error btn-sm" %>
+        </div>
+
+        <button type="button"
+                data-action="click->modal#close"
+                class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+          閉じる
+        </button>
+      </div>
+
+      </div>
+    </div>
+  </div>
+</dialog>

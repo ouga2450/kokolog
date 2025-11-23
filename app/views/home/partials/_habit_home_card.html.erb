@@ -36,9 +36,9 @@
 
       <!-- 未実行：実行ボタン（アイコンなし） -->
       <%= link_to "実行",
-            "#habit_logs_path(habit_id: habit.id)",
+            new_habit_log_path(habit_id: habit.id),
             class: "btn btn-primary btn-xs",
-            data: { turbo_method: :post } %>
+            data: { turbo_frame: "modal" } %>
 
     <% end %>
 
