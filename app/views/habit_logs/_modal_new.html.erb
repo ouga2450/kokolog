@@ -1,40 +1,58 @@
 <dialog open class="modal modal-open" data-controller="modal">
-  <div class="modal-box bg-base-100">
+  <div class="modal-box bg-base-100 max-w-md">
     <div class="space-y-6">
 
-      <!-- タイトル -->
+      <!-- ヘッダー -->
       <div class="flex items-center justify-between border-b border-base-300 pb-2">
-        <h3 class="font-bold text-lg text-base-content">
-          🌿 習慣実行画面
+        <h3 class="font-bold text-lg text-base-content flex items-center gap-2">
+          <span class="text-2xl"><%= habit_log.habit.category.icon %></span>
+          <%= habit_log.habit.name %>
         </h3>
+
+        <span class="badge badge-primary badge-outline text-xs px-2 py-1">
+          習慣実行画面
+        </span>
       </div>
 
-      <!-- アクション -->
-      <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+      <!-- フォーム -->
+      <%= form_with model: habit_log,
+                    url: habit_logs_path,
+                    method: :post,
+                    data: { turbo_frame: "_top" } do |f| %>
 
-        <div class="flex gap-2">
+        <!-- 必須 hidden -->
+        <%= f.hidden_field :habit_id, value: habit_log.habit.id %>
+        <%= f.hidden_field :goal_id,  value: habit_log.goal.id %>
 
-          <!-- 編集 -->
-          <%= link_to "保存",
-                      "#create_habit_log_path(@habit_log)",
-                      data: { turbo: false },
-                      class: "btn btn-outline btn-primary btn-sm" %>
+        <!-- 時刻入力 -->
+        <div class="form-control">
+          <%= f.label :started_at, "開始時刻", class: "label-text font-semibold text-base-content/80" %>
 
-          <!-- 削除 -->
-          <%= link_to "削除",
-                      "#habit_log_path(@habit, from: params[:from])",
-                      data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-                      class: "btn btn-outline btn-error btn-sm" %>
+          <%= f.datetime_local_field :started_at,
+                class: "input input-bordered w-full",
+                value: habit_log.started_at&.strftime("%Y-%m-%dT%H:%M") %>
         </div>
 
+        <p class="text-xs text-base-content/60">
+          ※ 実際に始めた時間に調整できます
+        </p>
+
+        <!-- 保存ボタン -->
+        <div class="pt-4 border-t border-base-300 flex justify-end">
+          <%= f.submit "記録して気分入力へ", class: "btn btn-primary btn-sm px-4" %>
+        </div>
+
+      <% end %>
+
+      <!-- 閉じる -->
+      <div class="modal-action border-t border-base-300">
         <button type="button"
                 data-action="click->modal#close"
-                class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+                class="btn btn-sm btn-outline">
           閉じる
         </button>
       </div>
 
-      </div>
     </div>
   </div>
 </dialog>

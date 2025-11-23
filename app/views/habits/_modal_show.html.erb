@@ -11,8 +11,8 @@
 
         <!-- 実行 -->
         <%= link_to "実行",
-                    "#habit_logs_path(habit_id: @habit.id)",
-                    data: { turbo_method: :post },
+                    new_habit_log_path(habit_id: @habit.id),
+                    data: { turbo_frame: "modal" },
                     class: "btn btn-primary btn-sm" %>
       </div>
 

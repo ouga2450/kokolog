@@ -1,8 +1,12 @@
 class HabitLogsController < ApplicationController
 
   def new
+    habit = Habit.find(params[:habit_id])
+
     @habit_log = HabitLog.new(
-      habit_id: params[:habit_id],
+      user: current_user,
+      habit: habit,
+      goal: habit.goal,
       started_at: Time.current
     )
 
