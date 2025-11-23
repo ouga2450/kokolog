@@ -3,11 +3,15 @@ class HabitsController < ApplicationController
 
   def index
     # 習慣取得
-    habits = current_user.habits.includes(:category, :goal).order(:id)
-    @habits = habits.limit(10)
-    @habits_today = habits.for_today
-    @habits_this_week = habits.for_this_week
-    @habits_this_month = habits.for_this_month
+    @habits = current_user.habits.includes(:goal, :category)
+
+    @draft_habits    = @habits.draft
+    @active_habits   = @habits.active
+    @achieved_habits = @habits.achieved
+
+    @daily_habits   = @active_habits.daily
+    @weekly_habits  = @active_habits.weekly
+    @monthly_habits = @active_habits.monthly
   end
 
   def show
@@ -57,6 +61,12 @@ class HabitsController < ApplicationController
     if @habit.destroy
       respond_to do |format|
         format.turbo_stream do
+          case params[:from]
+          when "home"
+            @habit_home_card = @habit
+          when "index"
+            @habit_index_card = @habit
+          end
           flash.now[:notice] = "習慣を削除しました。"
         end
 
@@ -95,11 +105,12 @@ class HabitsController < ApplicationController
       :name,
       :description,
       :category_id,
-      :goal_type,
-      :target_type,
-      :target_value,
+      :goal_unit,
+      :frequency,
+      :amount,
       :start_date,
-      :end_date
+      :end_date,
+      :status
     )
   end
 end

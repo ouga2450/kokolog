@@ -4,49 +4,39 @@ class Goal < ApplicationRecord
   belongs_to :habit
 
   # --- enum ---
-  enum goal_type: { daily: 0, weekly: 1, monthly: 2 }
-  enum status: { draft: 0, active: 1, achieved: 2 }
-  enum target_type: { check_based: 0, count_based: 1, time_based: 2 }
+  enum goal_unit: { check_based: 0, count_based: 1, time_based: 2 }  # 目標の種類
+  enum frequency: { daily: 0, weekly: 1, monthly: 2 }  # 達成頻度
+  enum status: { draft: 0, active: 1, achieved: 2 }  # 目標セット
 
   # --- バリデーション ---
-  validates :goal_type, presence: true
+  validates :goal_unit, presence: true
+  validates :frequency, presence: true
   validates :status, presence: true
-  validates :target_type, presence: true
+
+  # count / time の場合だけ amount が必要
+  validates :amount,
+    numericality: { greater_than: 0 },
+    if: -> { goal_unit.in?(%w[count_based time_based]) }
+
   validate :start_date_must_be_before_end_date
 
-  # --- 回数、時間目標の時のみ target_valueを必須にする ---
-  validates :target_value,
-    numericality: { greater_than: 0 },
-    if: -> { target_type.in?([ "count_based", "time_based" ]) }
-
   # --- scope ---
-  # activeかつdateが範囲内
   scope :effective_on, ->(date) {
     active
       .where("start_date IS NULL OR start_date <= ?", date)
       .where("end_date IS NULL OR end_date >= ?", date)
   }
 
-  # 現在有効な目標
   scope :effective_today, -> {
     effective_on(Date.current)
   }
 
-  # 今日・今週・今月の目標取得用スコープ
-  scope :for_today, -> {
-    daily.effective_today
-  }
-
-  scope :for_this_week, -> {
-    weekly.effective_today
-  }
-
-  scope :for_this_month, -> {
-    monthly.effective_today
-  }
+  # frequencyベースの目標取得
+  scope :for_today,      -> { daily.effective_today }
+  scope :for_this_week,  -> { weekly.effective_today }
+  scope :for_this_month, -> { monthly.effective_today }
 
   # --- インスタンスメソッド ---
-  # validate :start_dateがend_dateより前であること
   def start_date_must_be_before_end_date
     return if start_date.blank? || end_date.blank?
 
@@ -55,9 +45,47 @@ class Goal < ApplicationRecord
     end
   end
 
-  # 目標が特定の日に達成されているか？
+  # 目標の達成判定
   def achieved_on?(date)
-    logs = habit_logs.where(started_at: date.all_day)
-    logs.sum { |log| log.value_for_goal } >= target_value
+    logs = habit.habit_logs.where(started_at: date.all_day)
+
+    case goal_unit
+    when "check_based"
+      logs.exists?
+    when "count_based"
+      logs.count >= amount
+    when "time_based"
+      logs.sum(&:duration) >= amount.minutes
+    end
+  end
+
+  # 表示用
+  def display_goal
+    freq = case frequency
+    when "daily"   then "毎日"
+    when "weekly"  then "毎週"
+    when "monthly" then "毎月"
+    end
+
+    case goal_unit
+    when "check_based"
+      "#{freq}実行"
+    when "count_based"
+      "#{freq}#{amount}回"
+    when "time_based"
+      "#{freq}#{amount}分"
+    end
+  end
+
+  def display_period
+    if start_date.present? && end_date.present?
+      "#{start_date} 〜 #{end_date}"
+    elsif start_date.present?
+      "#{start_date} 〜（期限なし）"
+    elsif end_date.present?
+      "（開始日なし）〜 #{end_date}"
+    else
+      "期間なし"
+    end
   end
 end

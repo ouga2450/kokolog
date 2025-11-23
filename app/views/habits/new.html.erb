@@ -4,15 +4,16 @@
 
       <!-- タイトル＆戻るボタン -->
       <div class="flex items-center justify-between mb-4">
-        <h2 class="text-lg font-semibold">習慣編集</h2>
+        <h2 class="text-lg font-semibold">習慣登録</h2>
 
         <% back = request.referer %>
         <% back = nil if back == request.url %>
 
         <button
           type="button"
-          class="btn btn-outline btn-sm"
+          class="btn btn-outline btn-xs flex items-center gap-1"
           onclick="window.location = '<%= back || habits_path %>'">
+          <%= heroicon "arrow-uturn-left", variant: :outline, options: { class: "w-4 h-4" } %>
           戻る
         </button>
       </div>
@@ -28,12 +29,27 @@
             <p class="text-base font-semibold">必須項目</p>
           </div>
 
-        <!-- 必須フォーム -->
+          <!-- 状態管理 -->
           <div class="form-control">
-            <%= f.label :name, "習慣名", class: "label-text text-sm font-semibold" %>
-            <%= f.text_field :name, class: "input input-bordered w-full" %>
+            <%= f.label :status, "状態管理", class: "label-text text-sm font-semibold" %>
+            <%= f.select :status,
+                  Goal.statuses.keys.map { |k| [k.humanize, k] },
+                  { prompt: "選択してください" },
+                  class: "select select-bordered w-full" %>
+            <p class="text-xs text-base-content/60 mt-1">
+                この習慣の状態管理です。
+            </p>
           </div>
 
+          <!-- 名前 -->
+          <div class="form-control">
+            <%= f.label :name, "習慣名", class: "label-text text-sm font-semibold" %>
+            <%= f.text_field :name,
+              class: "input input-bordered w-full",
+              placeholder: "例：日記、スクワット30回、読書10分" %>
+          </div>
+
+          <!-- カテゴリ -->
           <div class="form-control">
             <%= f.label :category_id, "カテゴリ", class: "label-text text-sm font-semibold" %>
             <%= f.select :category_id,
@@ -45,36 +61,45 @@
                   ),
                   { prompt: "選択してください" },
                   class: "select select-bordered w-full" %>
+            <p class="text-xs text-base-content/60 mt-2">
+              カテゴリは行動の種類です（例：運動、睡眠、食事、暮らし）
+            </p>
           </div>
 
+          <!-- ▼ 達成頻度（frequency） -->
           <div class="form-control">
-            <%= f.label :goal_type, "目標タイプ", class: "label-text text-sm font-semibold" %>
-            <%= f.select :goal_type,
-                  Goal.goal_types.keys.map { |k| [k.humanize, k] },
-                  { prompt: "選択してください" },
+            <%= f.label :frequency, "達成頻度", class: "label-text text-sm font-semibold" %>
+            <%= f.select :frequency,
+                  Goal.frequencies.keys.map { |k| [k.humanize, k] },
+                  { prompt: "例：毎日 or 週3 or 月1など" },
                   class: "select select-bordered w-full" %>
           </div>
 
-          <div class="form-control" data-controller="target-value">
-            <%= f.label :goal_type, "目標設定", class: "label-text text-sm font-semibold" %>
-            <%= f.select :target_type,
-                  Goal.target_types.keys.map { |k| [k.humanize, k] },
-                  { prompt: "選択してください" },
+          <!-- ▼ 目標タイプ（goal_unit） + セット数（amount） -->
+          <div class="form-control" data-controller="amount">
+            <%= f.label :goal_unit, "目標タイプ", class: "label-text text-sm font-semibold" %>
+            <%= f.select :goal_unit,
+                  Goal.goal_units.keys.map { |k| [k.humanize, k] },
+                  { prompt: "例：チェック / 回数で管理 / 時間で管理" },
                   class: "select select-bordered w-full",
-                  data: {
-                    action: "change->target-value#toggle",
-                    target_value_target: "typeSelect"
-                  } %>
+                  data: {action: "change->amount#toggle"},
+                  "data-amount-target": "typeSelect" %>
 
-            <div data-target-value-target="targetField" class="hidden mt-3">
-              <%= f.label :target_value, "目標値（半角数字）", class: "label-text text-sm font-semibold" %>
-              <%= f.number_field :target_value, min: 1,
-                    class: "input input-bordered w-full" %>
+            <div data-amount-target="amountField"
+                class="<%= @habit_form.goal_unit.in?(%w[count_based time_based]) ? '' : 'hidden' %> mt-3">
+              <%= f.label :amount, "セット数", class: "label-text text-sm font-semibold" %>
+              <%= f.number_field :amount, min: 1,
+                    class: "input input-bordered w-full",
+                    placeholder: "例：3（＝週3セット実施）" %>
+
+              <p class="text-xs text-base-content/60 mt-1">
+                1セット＝その習慣を1回行うこと（例：スクワット30回＝1セット）
+              </p>
             </div>
           </div>
-        </div> <!-- 必須項目ここまで -->
+        </div>
 
-        <!-- ▼ 任意項目（フォーム直下） -->
+        <!-- ▼ 任意項目 -->
         <div data-toggle-form-target="details"
              class="hidden space-y-4">
 
@@ -84,6 +109,7 @@
             <p class="text-base font-semibold">任意項目</p>
           </div>
 
+          <!-- 期間設定 -->
           <div>
             <p class="text-sm font-semibold mb-1">期間設定</p>
             <div class="grid grid-cols-2 gap-4">
@@ -96,15 +122,16 @@
             </div>
           </div>
 
+          <!-- 説明欄 -->
           <div class="form-control">
-            <%= f.label :description, "説明", class: "label-text text-sm font-semibold" %>
+            <%= f.label :description, "説明欄", class: "label-text text-sm font-semibold" %>
             <%= f.text_area :description, rows: 3,
-                  class: "textarea textarea-bordered w-full" %>
+                  class: "textarea textarea-bordered w-full",
+                  placeholder: "例：朝に腹筋30回をして身体を整える習慣です" %>
           </div>
-
         </div>
 
-        <!-- ▼ 一番下：登録ボタン & 任意項目トグル -->
+        <!-- ▼ ボタン -->
         <div class="w-[90%] mx-auto flex gap-4 mt-6">
 
           <button type="submit"
@@ -118,8 +145,8 @@
                   data-action="toggle-form#toggle">
             <span data-toggle-form-target="icon">+</span>
             <span data-toggle-form-target="label">任意項目</span>
-
           </button>
+
         </div>
 
       <% end %>

@@ -46,17 +46,30 @@
         />
       </div>
 
+      <!-- 詳細記録フォーム -->
       <div class="mt-4 space-y-3 hidden" data-toggle-form-target="details">
-        <div class="form-control">
-          <label class="label-text text-sm font-medium">メモ</label>
-          <%= f.text_area :note, rows: 3, class: "textarea textarea-bordered" %>
+
+        <!-- メモ欄 -->
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text text-sm font-medium">メモ</span>
+          </label>
+          <%= f.text_area :note,
+              rows: 3,
+              class: "textarea textarea-bordered w-full" %>
         </div>
 
-        <div class="form-control">
-          <label class="label-text text-sm font-medium">感情タグ</label>
-          <%= f.select :feeling_id, Feeling.pluck(:name, :id), { include_blank: "選択してください" },
-                      class: "select select-bordered select-sm" %>
+        <!-- 感情タグ -->
+        <div class="form-control w-full">
+          <label class="label">
+            <span class="label-text text-sm font-medium">感情タグ</span>
+          </label>
+          <%= f.select :feeling_id,
+              Feeling.pluck(:name, :id),
+              { include_blank: "選択してください" },
+              class: "select select-bordered select-sm w-full" %>
         </div>
+
       </div>
 
       <!-- 保存・詳細記録ボタン -->

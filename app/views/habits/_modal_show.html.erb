@@ -1,75 +1,103 @@
 <dialog open class="modal modal-open" data-controller="modal">
-  <div class="modal-box bg-base-100">
+  <div class="modal-box bg-base-100 max-w-md">
     <div class="space-y-6">
 
       <!-- タイトル -->
       <div class="flex items-center justify-between border-b border-base-300 pb-2">
-        <h3 class="font-bold text-lg text-base-content">
-          📘 習慣の詳細
+        <h3 class="font-bold text-lg text-base-content flex items-center gap-2">
+          <span class="text-2xl"><%= @habit.category.icon %></span>
+          <%= @habit.name %>
         </h3>
 
-        <% if @habit.category.present? %>
-          <span class="badge badge-outline text-xs">
-            <%= @habit.category.icon %> <%= @habit.category.name %>
-          </span>
-        <% end %>
+        <!-- 実行 -->
+        <%= link_to "実行",
+                    "#habit_logs_path(habit_id: @habit.id)",
+                    data: { turbo_method: :post },
+                    class: "btn btn-primary btn-sm" %>
       </div>
 
       <!-- 基本情報 -->
-      <div class="space-y-3 text-sm">
-        <!-- 習慣名 -->
-        <p>
-          <span class="font-semibold text-base-content/80">習慣名：</span>
-          <%= @habit.name %>
-        </p>
+      <div class="space-y-4 text-sm">
 
-        <!-- 説明（任意） -->
+        <!-- 説明 -->
         <% if @habit.description.present? %>
-          <div class="bg-base-200/60 rounded-lg p-3">
-            <div class="font-semibold text-base-content/80 mb-1">説明</div>
-            <div class="whitespace-pre-wrap break-words text-base-content/70"
-              ><%= @habit.description %></div>
+          <div>
+            <div class="font-semibold text-base-content/80">説明</div>
+            <div class="bg-base-200/60 rounded-lg p-3 whitespace-pre-wrap text-base-content/70">
+              <%= @habit.description %>
+            </div>
           </div>
         <% end %>
 
-        <!-- 目標（任意） -->
+        <!-- カテゴリ情報 -->
+        <div class="bg-base-200/60 rounded-lg p-3 space-y-1">
+          <div class="flex">
+            <span class="w-20 font-semibold text-base-content">カテゴリ</span>
+            <span class="text-base-content/70"><%= @habit.category.icon %></span>
+            <span class="text-base-content/70"><%= @habit.category.name %></span>
+          </div>
+        </div>
+
+        <!-- 目標（Goal カラムのすべて） -->
         <% if @habit.goal.present? %>
           <div class="bg-base-200/60 rounded-lg p-3 space-y-1">
-            <div class="font-semibold text-base-content/80 mb-1">目標</div>
 
-            <% if @habit.goal.goal_type.present? %>
-              <p>種類：<%= @habit.goal.goal_type %></p>
-            <% end %>
+            <div class="flex">
+              <span class="w-20 font-semibold text-base-content">目標</span>
+              <span class="text-base-content/70"><%= @habit.goal.display_goal %></span>
+            </div>
 
-            <% if @habit.goal.target_value.present? %>
-              <p>目標値：<%= @habit.goal.target_value %></p>
-            <% end %>
+            <div class="flex">
+              <span class="w-20 font-semibold text-base-content">頻度</span>
+              <span class="text-base-content/70"><%= @habit.goal.frequency %></span>
+            </div>
 
-            <% if @habit.goal.start_date.present? && @habit.goal.end_date.present? %>
-              <p>期間：<%= @habit.goal.start_date %> 〜 <%= @habit.goal.end_date %></p>
-            <% end %>
+            <div class="flex">
+              <span class="w-20 font-semibold text-base-content">期間</span>
+              <span class="text-base-content/70"><%= @habit.goal.display_period %></span>
+            </div>
+
+            <div class="flex">
+              <span class="w-20 font-semibold text-base-content">状態</span>
+              <span class="text-base-content/70"><%= @habit.goal.status %></span>
+            </div>
           </div>
         <% end %>
+
+        <!-- 実行データ -->
+        <div class="bg-base-200/60 rounded-lg p-3 space-y-1">
+          <div class="flex">
+            <span class="w-24 font-semibold text-base-content">今日の実行</span>
+            <span class="text-base-content/70"><%#= @habit.logs_today_count %> 回</span>
+          </div>
+
+          <div class="flex">
+            <span class="w-24 font-semibold text-base-content">今週</span>
+            <span class="text-base-content/70"><%#= @habit.logs_this_week_count %> 回</span>
+          </div>
+
+          <div class="flex">
+            <span class="w-24 font-semibold text-base-content">累計</span>
+            <span class="text-base-content/70"><%#= @habit.habit_logs.count %> 回</span>
+          </div>
+        </div>
+
       </div>
 
       <!-- アクション -->
       <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+
         <div class="flex gap-2">
-          <!-- 実行 -->
-          <%= link_to "実行",
-                      "#habit_logs_path(habit_id: @habit.id)",
-                      data: { turbo_method: :post },
-                      class: "btn btn-primary btn-sm" %>
 
           <!-- 編集 -->
           <%= link_to "編集",
-                      edit_habit_path(@habit),
+                      edit_habit_path(@habit, from: params[:from]),
                       data: { turbo: false },
                       class: "btn btn-outline btn-primary btn-sm" %>
 
           <!-- 削除 -->
           <%= link_to "削除",
-                      habit_path(@habit),
+                      habit_path(@habit, from: params[:from]),
                       data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
                       class: "btn btn-outline btn-error btn-sm" %>
         </div>
@@ -84,4 +112,3 @@
     </div>
   </div>
 </dialog>
-

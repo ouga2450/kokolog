@@ -1,0 +1,64 @@
+<div  id="<%= dom_id(habit, :index) %>"
+      class="w-[95%] mx-auto card bg-base-200 shadow-sm border border-base-200 rounded-xl p-4">
+
+  <!-- タイトル行 -->
+  <div class="flex gap-2 items-center mb-2">
+    <div class="text-2xl">
+      <%= habit.category.icon %>
+    </div>
+    <h3 class="text-base font-semibold text-base-content">
+      <%= habit.name %>
+    </h3>
+  </div>
+
+  <!-- 左右レイアウト -->
+  <div class="flex justify-between items-start">
+
+    <!-- 左側 -->
+    <div class="basis-2/3 space-y-1">
+
+      <p class="text-sm text-base-content/70">
+        <span class="font-semibold text-base-content">カテゴリ：</span>
+        <%= habit.category.name %>
+      </p>
+
+      <p class="text-sm text-base-content/70">
+        <span class="font-semibold text-base-content">目標：</span>
+        <%= habit.goal.display_goal %>
+      </p>
+
+      <p class="text-sm text-base-content/70 flex items-center">
+        <span class="font-semibold text-base-content">期間：</span>
+        <span class="text-xs"><%= habit.goal.display_period %></span>
+      </p>
+    </div>
+
+    <!-- 右側：操作 -->
+    <div class="basis-1/3 flex flex-col items-end space-y-1">
+
+    <!-- 詳細 -->
+    <%= link_to habit_path(habit, from: "index"),
+        data: { turbo_frame: "modal" },
+        class: "flex items-center gap-1 text-sm text-base-content/70 hover:text-primary duration-150" do %>
+      <%= heroicon "eye", options: { class: "w-4 h-4" } %>
+      <span>詳細</span>
+    <% end %>
+
+    <!-- 編集 -->
+    <%= link_to edit_habit_path(habit),
+        class: "flex items-center gap-1 text-sm text-base-content/70 hover:text-primary duration-150" do %>
+      <%= heroicon "pencil", options: { class: "w-4 h-4" } %>
+      <span>編集</span>
+    <% end %>
+
+    <!-- 削除 -->
+    <%= link_to habit_path(habit, from: "index"),
+        data: { turbo_method: :delete, turbo_confirm: "削除しますか？" },
+        class: "flex items-center gap-1 text-sm text-error hover:text-error-focus duration-150" do %>
+      <%= heroicon "trash", options: { class: "w-4 h-4" } %>
+      <span>削除</span>
+    <% end %>
+
+    </div>
+  </div>
+</div>

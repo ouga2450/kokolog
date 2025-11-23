@@ -1,5 +1,5 @@
-<div id="<%= dom_id(habit) %>"
-     class="w-[90%] mx-auto flex items-center justify-between rounded-xl bg-base-200 p-3 shadow-sm">
+<div id="<%= dom_id(habit, :home) %>"
+     class="w-[95%] mx-auto flex items-center justify-between rounded-xl bg-base-200 p-3 shadow-sm">
 
   <!-- 左側（カテゴリアイコン＋習慣名など） -->
   <div class="flex items-center gap-3">
@@ -20,7 +20,7 @@
 
     <!-- 詳細モーダル -->
     <%= link_to "詳細",
-          habit_path(habit),
+          habit_path(habit, from: "home"),
           class: "btn btn-outline btn-xs",
           data: { turbo_frame: "modal" } %>
 

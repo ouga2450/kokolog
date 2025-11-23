@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["typeSelect", "targetField"]
+  static targets = ["typeSelect", "amountField"]
 
   connect() {
     this.toggle()
@@ -11,7 +11,7 @@ export default class extends Controller {
     const type = this.typeSelectTarget.value
     const hide = type === "check_based" || type === ""
 
-    this.targetFieldTarget.classList.toggle("hidden", hide)
+    this.amountFieldTarget.classList.toggle("hidden", hide)
 
     this.updateSwiperHeight()
   }
