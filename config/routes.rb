@@ -22,7 +22,7 @@ Rails.application.routes.draw do
   resources :mood_logs, only: [ :create, :show, :edit, :update, :destroy ]
 
   # habitsリソースのルーティング設定
-  resources :habits, only: [ :new, :create, :show, :edit, :update, :destroy ]
+  resources :habits
 
   resources :habit_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 end

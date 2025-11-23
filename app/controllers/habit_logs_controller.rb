@@ -29,6 +29,6 @@ class HabitLogsController < ApplicationController
   private
 
   def habit_log_params
-    params.require(:habit_log).permit(:habit_id, :started_at, :ended_at, :memo)
+    params.require(:habit_log).permit(:habit_id, :goal_id, :performed_value, :started_at, :ended_at)
   end
 end

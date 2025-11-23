@@ -1,0 +1,33 @@
+<% habit = habit_log.habit %>
+<!-- dom_idの一致する要素がTurboフレームで更新される -->
+<div id="<%= dom_id(habit_log) %>"
+      class="flex items-center justify-start gap-2 w-full">
+
+  <!-- 左：時刻 -->
+  <p class="text-xs text-base-content/70 w-10 text-center">
+    <%= habit_log.started_at.strftime("%H:%M") %>
+  </p>
+
+  <!-- 中央：習慣カード -->
+  <div class="w-[95%] flex items-center justify-between rounded-xl bg-base-200 p-3 shadow-sm">
+    <div class="flex items-center gap-3">
+      <% if (icon = habit_log.habit.category.icon).present? %>
+        <span class="text-xl"><%= icon %></span>
+      <% end %>
+      <div>
+        <p class="text-sm font-medium leading-none">
+          <%= habit_log.habit.name %>
+        </p>
+        <p class="text-xs text-base-content/60 mt-1">
+          <%= "カテゴリ：#{habit_log.habit.category.name}" %>
+        </p>
+      </div>
+    </div>
+
+    <%= link_to "詳細",
+                "#habit_log_path(habit_log)",
+                class: "btn btn-outline btn-xs",
+                data: { turbo_frame: "modal" } %>
+  </div>
+
+</div>
