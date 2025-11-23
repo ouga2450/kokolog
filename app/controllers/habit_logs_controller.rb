@@ -1,5 +1,4 @@
 class HabitLogsController < ApplicationController
-
   def new
     habit = Habit.find(params[:habit_id])
 
