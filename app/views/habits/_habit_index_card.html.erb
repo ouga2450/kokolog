@@ -39,6 +39,7 @@
     <!-- 詳細 -->
     <%= link_to habit_path(habit, from: "index"),
         data: { turbo_frame: "modal" },
+        params: { dom_from: "index" },
         class: "flex items-center gap-1 text-sm text-base-content/70 hover:text-primary duration-150" do %>
       <%= heroicon "eye", options: { class: "w-4 h-4" } %>
       <span>詳細</span>

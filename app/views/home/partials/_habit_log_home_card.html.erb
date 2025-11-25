@@ -1,6 +1,6 @@
 <% habit = habit_log.habit %>
 <!-- dom_idの一致する要素がTurboフレームで更新される -->
-<div id="<%= dom_id(habit_log) %>"
+<div id="<%= dom_id(habit_log, :home) %>"
       class="flex items-center justify-start gap-2 w-full">
 
   <!-- 左：時刻 -->
@@ -25,7 +25,7 @@
     </div>
 
     <%= link_to "詳細",
-                "#habit_log_path(habit_log)",
+                habit_log_path(habit_log, dom_from: "home"),
                 class: "btn btn-outline btn-xs",
                 data: { turbo_frame: "modal" } %>
   </div>

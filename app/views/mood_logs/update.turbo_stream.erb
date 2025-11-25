@@ -1,5 +1,5 @@
 <%= turbo_stream.replace dom_id(@mood_log), 
-                         partial: "mood_logs/mood_log",
+                         partial: "home/partials/mood_log_home_card",
                          locals: { mood_log: @mood_log } %>
 
 <%#= turbo_stream.replace "flash", partial: "shared/flash" %>

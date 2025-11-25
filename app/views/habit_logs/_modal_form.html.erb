@@ -22,13 +22,13 @@
 
       <!-- フォーム -->
       <%= form_with model: habit_log,
-                    url: habit_logs_path,
-                    method: :post,
-                    data: { turbo_frame: "_top" } do |f| %>
+                    data: { turbo_frame: "modal" } do |f| %>
 
         <!-- hidden -->
         <%= f.hidden_field :habit_id, value: habit_log.habit.id %>
         <%= f.hidden_field :goal_id,  value: habit_log.goal.id %>
+        <%= hidden_field_tag :dom_from, params[:dom_from] %>
+        <%= hidden_field_tag :from, params[:from] %>
 
         <!-- ▼ 今日の実行量 -->
         <% if habit_log.goal.goal_unit != "check_based" %>
