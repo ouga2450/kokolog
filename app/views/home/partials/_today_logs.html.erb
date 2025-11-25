@@ -48,7 +48,7 @@
                 <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
                             flex items-center justify-center text-center">
                   <p class="text-sm text-base-content/60">
-                    今日の気分ログはまだありません。
+                    今日の習慣ログはまだありません。
                   </p>
                 </div>
               </div>
@@ -59,24 +59,23 @@
         <!-- 習慣ログ -->
         <div class="swiper-slide">
           <div class="h-64 overflow-y-auto pr-1">
-            <% if @habit_logs_today.present? %>
-              <div class="space-y-2">
+            <div id="habit_logs_home" class="space-y-2">
+              <% if @habit_logs_today.present? %>
               <!-- ログカード一覧 -->
                 <% @habit_logs_today.each do |habit_log| %>
                   <%= render "home/partials/habit_log_home_card", habit_log: habit_log %>
                 <% end %>
-              </div>
-            <% else %>
-              <div class="flex items-center justify-center w-full">
-                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                            flex items-center justify-center text-center">
-                  <p class="text-sm text-base-content/60">
-                    今日の気分ログはまだありません。
-                  </p>
+              <% else %>
+                <div class="flex items-center justify-center w-full">
+                  <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                              flex items-center justify-center text-center">
+                    <p class="text-sm text-base-content/60">
+                      今日の気分ログはまだありません。
+                    </p>
+                  </div>
                 </div>
-              </div>
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
         </div>
         <!-- ページネーション -->

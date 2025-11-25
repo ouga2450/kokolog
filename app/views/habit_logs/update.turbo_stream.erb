@@ -1,0 +1,12 @@
+<% if @habit_log_home_card %>
+  <%= turbo_stream.update dom_id(@habit_log_home_card, :home) %>
+<% end %>
+
+<% if @habit_log_index_card %>
+  <%= turbo_stream.update dom_id(@habit_log_index_card, :index) %>
+<% end %>
+
+<%#= turbo_stream.replace "flash", partial: "shared/flash" %>
+
+<!-- replaceを使うとタグごと消えてモーダルが開けなくなるためupdateを使用 -->
+<%= turbo_stream.update "modal", "" %> <!-- モーダルの中身を空にする -->

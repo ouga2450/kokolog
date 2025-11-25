@@ -1,9 +1,13 @@
 <% if @habit_log_home_card %>
-  <%= turbo_stream.remove dom_id(@habit_log_home_card, :home) %>
+  <%= turbo_stream.prepend "habit_logs_home",
+        partial: "home/partials/habit_log_home_card",
+        locals: { habit_log: @habit_log_home_card } %>
 <% end %>
 
 <% if @habit_log_index_card %>
-  <%= turbo_stream.remove dom_id(@habit_log_index_card, :index) %>
+  <%= turbo_stream.prepend "habit_logs_index",
+        partial: "habit_logs/habit_log_index_card",
+        locals: { habit_log: @habit_log_index_card } %>
 <% end %>
 
 <%#= turbo_stream.replace "flash", partial: "shared/flash" %>

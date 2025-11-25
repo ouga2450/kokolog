@@ -28,18 +28,24 @@ class MoodLogsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @mood_log.update(mood_log_params)
-        flash.now[:notice] = "気分記録を更新しました。"
-        format.turbo_stream
-        format.html { redirect_back fallback_location: home_path, notice: "気分記録を更新しました。" }
-      else
-        flash.now[:alert] = "更新に失敗しました。"
+    if @mood_log.update(mood_log_params)
+      flash.now[:notice] = "気分記録を更新しました。"
 
+      respond_to do |format|
+        format.turbo_stream do
+          render "mood_logs/update"  # update.turbo_stream.erb を明示しても OK
+        end
+
+        format.html { redirect_back fallback_location: home_path, notice: "気分記録を更新しました。" }
+      end
+    else
+      flash.now[:alert] = "更新に失敗しました。"
+
+      respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
             "modal",
-            partial: "mood_logs/form",
+            partial: "mood_logs/modal_edit",
             locals: { mood_log: @mood_log }
           )
         end
@@ -59,11 +65,26 @@ class MoodLogsController < ApplicationController
         flash.now[:alert] = "削除に失敗しました。"
 
         format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "modal",
-            partial: "mood_logs/form",
-            locals: { mood_log: @mood_log }
-          )
+          case params[:from]
+          when "edit"
+            render turbo_stream: turbo_stream.replace(
+              "modal",
+              partial: "mood_logs/modal_edit",
+              locals: { mood_log: @mood_log }
+            )
+          when "show"
+            render turbo_stream: turbo_stream.replace(
+              "modal",
+              partial: "mood_logs/modal_show",
+              locals: { mood_log: @mood_log }
+            )
+          else
+            render turbo_stream: turbo_stream.replace(
+              "modal",
+              partial: "mood_logs/modal_show",
+              locals: { mood_log: @mood_log }
+            )
+          end
         end
         format.html { redirect_back fallback_location: home_path, alert: "削除に失敗しました。" }
       end

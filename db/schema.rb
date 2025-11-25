@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2025_11_19_092443) do
+ActiveRecord::Schema[7.2].define(version: 2025_11_25_080650) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -84,7 +84,9 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_19_092443) do
     t.text "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "habit_log_id"
     t.index ["feeling_id"], name: "index_mood_logs_on_feeling_id"
+    t.index ["habit_log_id"], name: "index_mood_logs_on_habit_log_id"
     t.index ["mood_id"], name: "index_mood_logs_on_mood_id"
     t.index ["user_id"], name: "index_mood_logs_on_user_id"
   end
@@ -120,6 +122,7 @@ ActiveRecord::Schema[7.2].define(version: 2025_11_19_092443) do
   add_foreign_key "habits", "categories"
   add_foreign_key "habits", "users"
   add_foreign_key "mood_logs", "feelings"
+  add_foreign_key "mood_logs", "habit_logs"
   add_foreign_key "mood_logs", "moods"
   add_foreign_key "mood_logs", "users"
 end
