@@ -18,7 +18,6 @@ class HabitLogsController < ApplicationController
 
   def create
     @habit_log = current_user.habit_logs.build(habit_log_params)
-    Rails.logger.info "🔥 DEBUG destroy params = #{params.to_unsafe_h}"
 
     if @habit_log.save
       flash.now[:notice] = "習慣記録を登録しました。"
@@ -48,7 +47,7 @@ class HabitLogsController < ApplicationController
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
             "modal",
-            partial: "habit_logs/modal_edit",
+            partial: "habit_logs/modal_form",
             locals: { habit_log: @habit_log }
           )
         end
@@ -100,7 +99,7 @@ class HabitLogsController < ApplicationController
           when "edit"
             render turbo_stream: turbo_stream.replace(
               "modal",
-              partial: "habit_logs/modal_edit",
+              partial: "habit_logs/modal_form",
               locals: { habit_log: @habit_log }
             )
           else
@@ -147,7 +146,7 @@ class HabitLogsController < ApplicationController
           when "edit"
             render turbo_stream: turbo_stream.replace(
               "modal",
-              partial: "habit_logs/modal_edit",
+              partial: "habit_logs/modal_form",
               locals: { habit_log: @habit_log }
             )
           else
