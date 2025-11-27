@@ -1,0 +1,27 @@
+<%# Flash 用パーシャル %>
+
+<% if flash.any? %>
+  <div id="flash-message" class="w-full">
+
+    <% flash.each do |type, message| %>
+      <%# DaisyUI 用のクラス変換 %>
+      <% alert_class =
+          case type.to_sym
+          when :notice then "alert-success"
+          when :alert  then "alert-error"
+          else "alert-info"
+          end
+      %>
+
+      <div
+        data-controller="flash"
+        data-flash-timeout-value="3000"
+        class="alert <%= alert_class %> shadow-sm mb-4 transition-opacity duration-500"
+        data-flash-target="container"
+        >
+        <span><%= message %></span>
+      </div>
+    <% end %>
+
+  </div>
+<% end %>

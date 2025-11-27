@@ -1,4 +1,8 @@
 <%= turbo_frame_tag 'modal' do %>
-  <%= render "mood_logs/modal_show", mood_log: @mood_log %>
+  <dialog open class="modal modal-open" data-controller="modal">
+    <div class="modal-box bg-base-100 max-w-md">
+      <%= render "mood_logs/modal_show", mood_log: @mood_log %>
+    </div>
+  </dialog>
 <% end %>
 

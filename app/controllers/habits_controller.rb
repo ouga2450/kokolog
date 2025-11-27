@@ -78,10 +78,9 @@ class HabitsController < ApplicationController
     else
       respond_to do |format|
         format.turbo_stream do
-          flash.now[:alert] = "削除に失敗しました。"
           render turbo_stream: turbo_stream.replace(
-            dom_id(@habit),
-            partial: "habits/error_message",
+            "modal-content",
+            partial: "habits/modal_show",
             locals: { habit: @habit }
           )
         end

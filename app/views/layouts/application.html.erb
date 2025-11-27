@@ -18,11 +18,12 @@
   </head>
 
   <body class="bg-base-200 min-h-screen flex flex-col">
-    <!-- 簡易フラッシュメッセージ -->
-    <p class="text-green-600 text-center"><%= notice %></p>
-    <p class="text-red-600 text-center"><%= alert %></p>
 
     <%= render 'shared/header' %>
+
+    <% turbo_frame_tag 'flash_area' do %>
+      <%= render 'shared/flash' %>
+    <% end %>
 
     <main class="flex-grow flex justify-center">
       <div class="w-full max-w-md px-4 py-6">
@@ -36,6 +37,6 @@
 
     <%= render "shared/footer_copyright" %>
     <!-- 共通Turboフレーム -->
-    <%= turbo_frame_tag 'modal' %> <%# モーダル表示用 %>
+    <%= turbo_frame_tag 'modal' %>
   </body>
 </html>

@@ -44,8 +44,8 @@ class MoodLogsController < ApplicationController
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
-            "modal",
-            partial: "mood_logs/modal_edit",
+            "modal-content",
+            partial: "mood_logs/modal_form",
             locals: { mood_log: @mood_log }
           )
         end
@@ -68,19 +68,19 @@ class MoodLogsController < ApplicationController
           case params[:from]
           when "edit"
             render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "mood_logs/modal_edit",
+              "modal-content",
+              partial: "mood_logs/modal_form",
               locals: { mood_log: @mood_log }
             )
           when "show"
             render turbo_stream: turbo_stream.replace(
-              "modal",
+              "modal-content",
               partial: "mood_logs/modal_show",
               locals: { mood_log: @mood_log }
             )
           else
             render turbo_stream: turbo_stream.replace(
-              "modal",
+              "modal-content",
               partial: "mood_logs/modal_show",
               locals: { mood_log: @mood_log }
             )

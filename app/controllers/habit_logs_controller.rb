@@ -50,6 +50,11 @@ class HabitLogsController < ApplicationController
             partial: "habit_logs/modal_form",
             locals: { habit_log: @habit_log }
           )
+          render turbo_stream: turbo_stream.replace(
+            "flash",
+            partial: "shared/flash"
+          )
+
         end
         format.html { redirect_back fallback_location: home_path, alert: "習慣記録に失敗しました。" }
       end
@@ -136,13 +141,13 @@ class HabitLogsController < ApplicationController
           case params[:from]
           when "edit"
             render turbo_stream: turbo_stream.replace(
-              "modal",
+              "modal-content",
               partial: "habit_logs/modal_form",
               locals: { habit_log: @habit_log }
             )
           else
             render turbo_stream: turbo_stream.replace(
-              "modal",
+              "modal-content",
               partial: "habit_logs/modal_show",
               locals: { habit_log: @habit_log }
             )

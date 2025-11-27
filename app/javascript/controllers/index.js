@@ -21,3 +21,6 @@ application.register("amount", AmountController)
 
 import TabsController from "./tabs_controller"
 application.register("tabs", TabsController)
+
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)

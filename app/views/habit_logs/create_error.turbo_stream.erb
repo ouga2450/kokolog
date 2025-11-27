@@ -1,0 +1,7 @@
+<%= turbo_stream.replace "modal_content" do %>
+  <%= render "habit_logs/modal_form", habit_log: @habit_log %>
+<% end %>
+
+<%= turbo_stream.replace "flash_area" do %>
+  <%= render "shared/flash" %>
+<% end %>

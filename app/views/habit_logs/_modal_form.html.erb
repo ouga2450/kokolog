@@ -1,87 +1,89 @@
-<div id="modal_content" class="space-y-6">
+<%= turbo_frame_tag "modal-content" do %>
+  <div class="space-y-6">
 
-  <!-- タイトル -->
-  <div class="flex items-center justify-between border-b border-base-300 pb-2">
-    <h3 class="font-bold text-lg text-base-content flex items-center gap-2">
-      <span class="text-2xl"><%= habit_log.habit.category.icon %></span>
-      <%= habit_log.habit.name %>
-    </h3>
+    <!-- タイトル -->
+    <div class="flex items-center justify-between border-b border-base-300 pb-2">
+      <h3 class="font-bold text-lg text-base-content flex items-center gap-2">
+        <span class="text-2xl"><%= habit_log.habit.category.icon %></span>
+        <%= habit_log.habit.name %>
+      </h3>
 
-    <span class="badge badge-primary badge-outline text-xs px-2 py-1">
-      習慣実行
-    </span>
-  </div>
+      <span class="badge badge-primary badge-outline text-xs px-2 py-1">
+        <%= action_name == "new" ? "習慣実行" : "習慣編集" %>
+      </span>
+    </div>
 
-  <!-- 目標値 (新規追加) -->
-  <div class="bg-base-200/60 p-3 rounded-lg text-sm">
-    <span class="font-semibold text-base-content/80">目標：</span>
-    <%= habit_log.habit.goal.display_goal %>
-  </div>
+    <!-- 目標値 (新規追加) -->
+    <div class="bg-base-200/60 p-3 rounded-lg text-sm">
+      <span class="font-semibold text-base-content/80">目標：</span>
+      <%= habit_log.habit.goal.display_goal %>
+    </div>
 
-  <!-- フォーム -->
-  <%= form_with model: habit_log,
-                data: { turbo_frame: "modal" } do |f| %>
+    <!-- フォーム -->
+    <%= form_with model: habit_log,
+                  data: { turbo_frame: "modal" } do |f| %>
 
-    <!-- hidden -->
-    <%= f.hidden_field :habit_id, value: habit_log.habit.id %>
-    <%= f.hidden_field :goal_id,  value: habit_log.goal.id %>
-    <%= hidden_field_tag :dom_from, params[:dom_from] %>
-    <%= hidden_field_tag :from, params[:from] %>
+      <!-- hidden -->
+      <%= f.hidden_field :habit_id, value: habit_log.habit.id %>
+      <%= f.hidden_field :goal_id,  value: habit_log.goal.id %>
+      <%= hidden_field_tag :dom_from, params[:dom_from] %>
+      <%= hidden_field_tag :from, params[:from] %>
 
-    <!-- ▼ 今日の実行量 -->
-    <% if habit_log.goal.goal_unit != "check_based" %>
+      <!-- ▼ 今日の実行量 -->
+      <% if habit_log.goal.goal_unit != "check_based" %>
+        <div class="form-control mt-4">
+          <%= f.label :performed_value, "今日の実行量", class: "label-text text-sm font-semibold" %>
+
+          <% if habit_log.goal.goal_unit == "count_based" %>
+            <%= f.number_field :performed_value,
+                  min: 0,
+                  class: "input input-bordered w-full",
+                  placeholder: "例：30（回）" %>
+
+          <% elsif habit_log.goal.goal_unit == "time_based" %>
+            <%= f.number_field :performed_value,
+                  min: 0,
+                  class: "input input-bordered w-full",
+                  placeholder: "例：15（分）" %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <!-- 開始時刻 -->
       <div class="form-control mt-4">
-        <%= f.label :performed_value, "今日の実行量", class: "label-text text-sm font-semibold" %>
-
-        <% if habit_log.goal.goal_unit == "count_based" %>
-          <%= f.number_field :performed_value,
-                min: 0,
-                class: "input input-bordered w-full",
-                placeholder: "例：30（回）" %>
-
-        <% elsif habit_log.goal.goal_unit == "time_based" %>
-          <%= f.number_field :performed_value,
-                min: 0,
-                class: "input input-bordered w-full",
-                placeholder: "例：15（分）" %>
-        <% end %>
+        <%= f.label :started_at, "開始時刻", class: "label-text font-semibold text-base-content/80" %>
+        <%= f.datetime_local_field :started_at,
+              class: "input input-bordered w-full",
+              value: habit_log.started_at&.strftime("%Y-%m-%dT%H:%M") %>
       </div>
+
+      <p class="text-xs text-base-content/60">
+        ※ 実際に始めた時間に調整できます
+      </p>
+
+      <!-- ▼ 気分入力するかどうか -->
+      <div class="form-control mt-4">
+        <label class="label cursor-pointer flex justify-start gap-2">
+          <%= f.check_box :input_mood_after, { class: "checkbox checkbox-sm" }, true, false %>
+          <span class="label-text text-sm">この後、気分を入力する</span>
+        </label>
+      </div>
+
+      <!-- 保存 -->
+      <div class="pt-4 border-t border-base-300 flex justify-end">
+        <%= f.submit "記録する", class: "btn btn-primary btn-sm px-4" %>
+      </div>
+
     <% end %>
 
-    <!-- 開始時刻 -->
-    <div class="form-control mt-4">
-      <%= f.label :started_at, "開始時刻", class: "label-text font-semibold text-base-content/80" %>
-      <%= f.datetime_local_field :started_at,
-            class: "input input-bordered w-full",
-            value: habit_log.started_at&.strftime("%Y-%m-%dT%H:%M") %>
+    <!-- 閉じる -->
+    <div class="modal-action border-t border-base-300">
+      <button type="button"
+              data-action="click->modal#close"
+              class="btn btn-sm btn-outline">
+        閉じる
+      </button>
     </div>
 
-    <p class="text-xs text-base-content/60">
-      ※ 実際に始めた時間に調整できます
-    </p>
-
-    <!-- ▼ 気分入力するかどうか -->
-    <div class="form-control mt-4">
-      <label class="label cursor-pointer flex justify-start gap-2">
-        <%= f.check_box :input_mood_after, { class: "checkbox checkbox-sm" }, true, false %>
-        <span class="label-text text-sm">この後、気分を入力する</span>
-      </label>
-    </div>
-
-    <!-- 保存 -->
-    <div class="pt-4 border-t border-base-300 flex justify-end">
-      <%= f.submit "記録する", class: "btn btn-primary btn-sm px-4" %>
-    </div>
-
-  <% end %>
-
-  <!-- 閉じる -->
-  <div class="modal-action border-t border-base-300">
-    <button type="button"
-            data-action="click->modal#close"
-            class="btn btn-sm btn-outline">
-      閉じる
-    </button>
   </div>
-
-</div>
+<% end %>
