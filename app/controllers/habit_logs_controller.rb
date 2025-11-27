@@ -46,7 +46,7 @@ class HabitLogsController < ApplicationController
       respond_to do |format|
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
-            "modal",
+            "modal_content",
             partial: "habit_logs/modal_form",
             locals: { habit_log: @habit_log }
           )
@@ -95,20 +95,11 @@ class HabitLogsController < ApplicationController
         flash.now[:alert] = "更新に失敗しました。"
 
         format.turbo_stream do
-          case params[:from]
-          when "edit"
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "habit_logs/modal_form",
-              locals: { habit_log: @habit_log }
-            )
-          else
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "habit_logs/modal_show",
-              locals: { habit_log: @habit_log }
-            )
-          end
+          render turbo_stream: turbo_stream.replace(
+            "modal-content",
+            partial: "habit_logs/modal_form",
+            locals: { habit_log: @habit_log }
+          )
         end
 
         format.html do
