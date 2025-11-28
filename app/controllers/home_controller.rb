@@ -5,6 +5,7 @@ class HomeController < ApplicationController
     # 今日のユーザーの気分登録を新しい順に取得
     @mood_logs_today = current_user.mood_logs.includes(:mood, :feeling).today.recent
     @habit_logs_today = current_user.habit_logs.includes(:habit, :goal).for_today.recent
+    @habit_logs_count = @habit_logs_today.count
     # 習慣取得
     habits = current_user.habits.includes(:category, :goal).order(:id)
     @habits = habits.limit(10)

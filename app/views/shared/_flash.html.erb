@@ -12,15 +12,17 @@
     end
   %>
 
-  <div
-    data-controller="flash"
-    data-flash-timeout-value="3000"
-    data-flash-target="container"
-    class="alert <%= css_class %> max-sm:alert-vertical text-xs font-bold transition-opacity duration-500"
-  >
-    <div class="flex items-center gap-2">
-      <%= heroicon icon_name, variant: :outline, options: { class: "w-5 h-5" } %>
-      <span><%= message %></span>
+  <div class="w-full max-w-md mx-auto sticky top-[64px] z-40 bg-base-200/90 backdrop-blur-sm shadow-md rounded-b-lg">
+    <div
+      data-controller="flash"
+      data-flash-timeout-value="3000"
+      data-flash-target="container"
+      class="alert <%= css_class %> max-sm:alert-vertical text-xs font-bold transition-opacity duration-500"
+    >
+      <div class="flex items-center gap-2">
+        <%= heroicon icon_name, variant: :outline, options: { class: "w-5 h-5" } %>
+        <span><%= message %></span>
+      </div>
     </div>
   </div>
 <% end %>

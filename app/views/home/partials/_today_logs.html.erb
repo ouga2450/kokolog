@@ -37,22 +37,20 @@
         <div class="swiper-slide">
           <div class="h-64 overflow-y-auto pr-1">
             <!-- ログカード一覧 -->
-            <% if @mood_logs_today.present? %>
-              <div id="mood_logs_home" class="space-y-2">
+            <!-- ログがない場合の表示 -->
+            <div id="mood_logs_home_empty" class="space-y-2">
+              <%# if @mood_logs_count == 0 %>
+                <%= render "home/partials/empty_home_card", msg: "気分ログ" %>
+              <%# end %>
+            </div>
+            <!-- ログカード -->
+            <div id="mood_logs_home" class="space-y-2">
+              <% if @mood_logs_today.present? %>
                 <% @mood_logs_today.each do |mood_log| %>
                   <%= render "home/partials/mood_log_home_card", mood_log: mood_log %>
                 <% end %>
-              </div>
-            <% else %>
-              <div class="flex items-center justify-center w-full">
-                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                            flex items-center justify-center text-center">
-                  <p class="text-sm text-base-content/60">
-                    今日の習慣ログはまだありません。
-                  </p>
-                </div>
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
         </div>
 
@@ -60,28 +58,20 @@
         <div class="swiper-slide">
           <div class="h-64 overflow-y-auto pr-1">
             <!-- ログカード一覧 -->
-            <div class="space-y-2">
-              <!-- ログがない場合の表示 -->
-              <div id="habit_logs_home_empty">
-                <% if @habit_logs_today.empty? %>
-                  <div class="flex items-center justify-center w-full">
-                    <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                                flex items-center justify-center text-center">
-                      <p class="text-sm text-base-content/60">
-                        今日の気分ログはまだありません。
-                      </p>
-                    </div>
-                  </div>
+            <!-- ログがない場合の表示 -->
+            <div id="habit_logs_home_empty" class="space-y-2">
+              <% if @habit_logs_count == 0 %>
+                <%= render "home/partials/empty_home_card", msg: "習慣ログ" %>
+              <% end %>
+            </div>
+
+            <!-- ログカード -->
+            <div id="habit_logs_home" class="space-y-2">
+              <% if @habit_logs_today.present? %>
+                <% @habit_logs_today.each do |habit_log| %>
+                  <%= render "home/partials/habit_log_home_card", habit_log: habit_log %>
                 <% end %>
-              </div>
-              <!-- ログカード -->
-              <div id="habit_logs_home">
-                <% if @habit_logs_today.present? %>
-                  <% @habit_logs_today.each do |habit_log| %>
-                    <%= render "home/partials/habit_log_home_card", habit_log: habit_log %>
-                  <% end %>
-                <% end %>
-              </div>
+              <% end %>
             </div>
           </div>
         </div>

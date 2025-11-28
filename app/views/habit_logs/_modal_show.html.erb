@@ -13,6 +13,16 @@
       </span>
     </div>
 
+    <!-- destroy_failure での固定メッセージ -->
+    <% if local_assigns[:errors] %>
+      <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold mb-4">
+        <div class="flex items-start gap-2">
+          <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5 flex-shrink-0" } %>
+          <span>削除に失敗しました。もう一度お試しください。</span>
+        </div>
+      </div>
+    <% end %>
+
     <!-- 目標情報 -->
     <div class="bg-base-200/60 p-3 rounded-lg text-sm">
       <p>

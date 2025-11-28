@@ -13,6 +13,20 @@
       <% end %>
     </div>
 
+    <!-- エラーメッセージ -->
+    <% if mood_log.errors.any? %>
+      <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold">
+        <div class="flex items-center gap-2">
+          <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5" } %>
+          <ul class="list-disc list-none pl-4">
+            <% mood_log.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
     <!-- フォーム -->
     <%= form_with model: mood_log,
                   data: { turbo_frame: "modal" } do |f| %>
