@@ -23,17 +23,7 @@ class HabitLogsController < ApplicationController
       flash.now[:notice] = "習慣記録を登録しました。"
 
       respond_to do |format|
-        format.turbo_stream do
-          case params[:dom_from]
-          when "home"
-            @habit_log_home_card = @habit_log
-          when "index"
-            @habit_log_index_card = @habit_log
-          end
-
-          render "habit_logs/create"  # ← destroy に合わせる
-        end
-
+        format.turbo_stream
         format.html do
           redirect_back fallback_location: home_path,
                         notice: "習慣記録を登録しました。"
@@ -44,19 +34,11 @@ class HabitLogsController < ApplicationController
       flash.now[:alert] = "習慣記録に失敗しました。"
 
       respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "modal_content",
-            partial: "habit_logs/modal_form",
-            locals: { habit_log: @habit_log }
-          )
-          render turbo_stream: turbo_stream.replace(
-            "flash",
-            partial: "shared/flash"
-          )
-
+        format.turbo_stream { render :create_failure }
+        format.html do
+          redirect_back fallback_location: home_path,
+                          alert: "習慣記録に失敗しました。"
         end
-        format.html { redirect_back fallback_location: home_path, alert: "習慣記録に失敗しました。" }
       end
     end
   end
