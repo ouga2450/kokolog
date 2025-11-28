@@ -1,4 +1,4 @@
-<%= turbo_frame_tag "modal-content" do %>
+<%= turbo_frame_tag "modal_content" do %>
   <div class="space-y-6">
 
     <!-- タイトル -->
@@ -12,6 +12,20 @@
         <%= action_name == "new" ? "習慣実行" : "習慣編集" %>
       </span>
     </div>
+
+    <!-- エラーメッセージ -->
+    <% if habit_log.errors.any? %>
+      <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold">
+        <div class="flex items-center gap-2">
+          <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5" } %>
+          <ul class="list-disc list-none pl-4">
+            <% habit_log.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
 
     <!-- 目標値 (新規追加) -->
     <div class="bg-base-200/60 p-3 rounded-lg text-sm">

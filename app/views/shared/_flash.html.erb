@@ -1,27 +1,26 @@
-<%# Flash 用パーシャル %>
+<% flash.each do |type, message| %>
+  <% css_class, icon_name =
+    case type.to_sym
+    when :notice
+      ["alert-outline alert-success", "check-circle"]
+    when :alert
+      ["alert-soft alert-error", "x-circle"]
+    when :warning
+      ["alert-dash alert-warning", "exclamation-triangle"]
+    else
+      ["alert-info", "information-circle"]
+    end
+  %>
 
-<% if flash.any? %>
-  <div id="flash-message" class="w-full">
-
-    <% flash.each do |type, message| %>
-      <%# DaisyUI 用のクラス変換 %>
-      <% alert_class =
-          case type.to_sym
-          when :notice then "alert-success"
-          when :alert  then "alert-error"
-          else "alert-info"
-          end
-      %>
-
-      <div
-        data-controller="flash"
-        data-flash-timeout-value="3000"
-        class="alert <%= alert_class %> shadow-sm mb-4 transition-opacity duration-500"
-        data-flash-target="container"
-        >
-        <span><%= message %></span>
-      </div>
-    <% end %>
-
+  <div
+    data-controller="flash"
+    data-flash-timeout-value="3000"
+    data-flash-target="container"
+    class="alert <%= css_class %> max-sm:alert-vertical text-xs font-bold transition-opacity duration-500"
+  >
+    <div class="flex items-center gap-2">
+      <%= heroicon icon_name, variant: :outline, options: { class: "w-5 h-5" } %>
+      <span><%= message %></span>
+    </div>
   </div>
 <% end %>

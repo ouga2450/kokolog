@@ -1,10 +1,11 @@
 <% if params[:dom_from] == "home" %>
 
   <%= turbo_stream.replace "habit_logs_home_empty" do %>
-    <%= render "home/partials/today_logs", habit_log: @habit_log %>
+    ""
   <% end %>
+
   <%= turbo_stream.append "habit_logs_home" do %>
-    <%= render "home/partials/today_logs", habit_log: @habit_log %>
+    <%= render "home/partials/habit_log_home_card", habit_log: @habit_log %>
   <% end %>
 
 <% elsif params[:dom_from] == "index" %>
@@ -13,7 +14,7 @@
   <% end %>
 <% end %>
 
-<% turbo_stream.replace "flash_area" do %>
+<%= turbo_stream.replace "flash_area" do %>
   <%= render "shared/flash" %>
 <% end %>
 

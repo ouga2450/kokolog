@@ -1,4 +1,4 @@
-<html data-theme="cupcake">
+<html data-theme="light">
   <head>
     <title><%= content_for(:title) || "kokolog" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -21,7 +21,7 @@
 
     <%= render 'shared/header' %>
 
-    <% turbo_frame_tag 'flash_area' do %>
+    <%= turbo_frame_tag 'flash_area' do %>
       <%= render 'shared/flash' %>
     <% end %>
 
