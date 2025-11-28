@@ -40,14 +40,14 @@
             <!-- ログがない場合の表示 -->
             <div id="mood_logs_home_empty" class="space-y-2">
               <%# if @mood_logs_count == 0 %>
-                <%= render "home/partials/empty_home_card", msg: "気分ログ" %>
+                <%= render "home/partials/empty_card_home", msg: "気分ログ" %>
               <%# end %>
             </div>
             <!-- ログカード -->
             <div id="mood_logs_home" class="space-y-2">
               <% if @mood_logs_today.present? %>
                 <% @mood_logs_today.each do |mood_log| %>
-                  <%= render "home/partials/mood_log_home_card", mood_log: mood_log %>
+                  <%= render "home/partials/card_mood_log_home", mood_log: mood_log %>
                 <% end %>
               <% end %>
             </div>
@@ -61,7 +61,7 @@
             <!-- ログがない場合の表示 -->
             <div id="habit_logs_home_empty" class="space-y-2">
               <% if @habit_logs_count == 0 %>
-                <%= render "home/partials/empty_home_card", msg: "習慣ログ" %>
+                <%= render "home/partials/empty_card_home", msg: "習慣ログ" %>
               <% end %>
             </div>
 
@@ -69,7 +69,7 @@
             <div id="habit_logs_home" class="space-y-2">
               <% if @habit_logs_today.present? %>
                 <% @habit_logs_today.each do |habit_log| %>
-                  <%= render "home/partials/habit_log_home_card", habit_log: habit_log %>
+                  <%= render "home/partials/card_habit_log_home", habit_log: habit_log %>
                 <% end %>
               <% end %>
             </div>

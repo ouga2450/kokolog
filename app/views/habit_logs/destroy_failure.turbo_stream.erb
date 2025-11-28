@@ -1,10 +1,10 @@
 <% if params[:from] == "edit" %>
   <%= turbo_stream.update "modal-content" do %>
-    <%= render "habit_logs/modal_form", habit_log: @habit_log, errors: true  %>
+    <%= render "habit_logs/partials/modal_form", habit_log: @habit_log, errors: true  %>
   <% end %>
 
 <% elsif params[:from] == "show" %>
   <%= turbo_stream.update "modal-content" do %>
-    <%= render "habit_logs/modal_show", habit_log: @habit_log, errors: true  %>
+    <%= render "habit_logs/partials/modal_show", habit_log: @habit_log, errors: true  %>
   <% end %>
 <% end %>

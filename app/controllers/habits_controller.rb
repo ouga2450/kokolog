@@ -80,7 +80,7 @@ class HabitsController < ApplicationController
         format.turbo_stream do
           render turbo_stream: turbo_stream.replace(
             "modal-content",
-            partial: "habits/modal_show",
+            partial: "habits/partials/modal_show",
             locals: { habit: @habit }
           )
         end

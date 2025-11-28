@@ -4,7 +4,7 @@
 
   <% if @habit_logs_count.to_i == 0 %>
     <%= turbo_stream.replace "habit_logs_home_empty" do %>
-      <%= render "home/partials/empty_home_card", msg: "習慣ログ" %>
+      <%= render "home/partials/empty_card_home", msg: "習慣ログ" %>
     <% end %>
   <% end %>
 

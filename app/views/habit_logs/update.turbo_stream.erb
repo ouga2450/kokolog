@@ -2,7 +2,7 @@
 <% when "home" %>
 
   <%= turbo_stream.replace dom_id(@habit_log, :home) do %>
-    <%= render "home/partials/habit_log_home_card", habit_log: @habit_log %>
+    <%= render "home/partials/card_habit_log_home", habit_log: @habit_log %>
   <% end %>
 
 <% when "index" %>
