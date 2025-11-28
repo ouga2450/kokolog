@@ -9,7 +9,7 @@
       </h3>
 
       <span class="badge badge-primary badge-outline text-xs px-2 py-1">
-        <%= action_name == "new" ? "習慣実行" : "習慣編集" %>
+        <%= habit_log.persisted? ? "習慣編集" : "習慣実行" %>
       </span>
     </div>
 

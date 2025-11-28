@@ -12,12 +12,15 @@
     end
   %>
 
-  <div class="w-full max-w-md mx-auto sticky top-[64px] z-40 bg-base-200/90 backdrop-blur-sm shadow-md rounded-b-lg">
+  <!-- 画面に固定するラッパー -->
+  <div class="fixed inset-x-0 top-[64px] z-40 flex justify-center">
+    <!-- 実際のフラッシュカード -->
     <div
       data-controller="flash"
       data-flash-timeout-value="3000"
       data-flash-target="container"
-      class="alert <%= css_class %> max-sm:alert-vertical text-xs font-bold transition-opacity duration-500"
+      class="alert <%= css_class %> max-sm:alert-vertical text-xs font-bold transition-opacity duration-500
+             w-full max-w-md bg-base-200/90 backdrop-blur-sm shadow-md rounded-b-lg"
     >
       <div class="flex items-center gap-2">
         <%= heroicon icon_name, variant: :outline, options: { class: "w-5 h-5" } %>
