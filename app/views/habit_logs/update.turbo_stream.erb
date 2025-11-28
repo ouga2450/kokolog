@@ -1,19 +1,19 @@
-<% if params[:dom_from] == "home" %>
-  <%= turbo_stream.append "habit_logs_home" do %>
-    <%= render "habit_logs/habit_log_home_card", habit_log: @habit_log %>
+<% case params[:dom_from] %>
+<% when "home" %>
+
+  <%= turbo_stream.replace dom_id(@habit_log, :home) do %>
+    <%= render "home/partials/habit_log_home_card", habit_log: @habit_log %>
   <% end %>
 
-<% elsif params[:dom_from] == "index" %>
-  <%= turbo_stream.append "habit_logs_index" do %>
-    <%= render "habit_logs/habit_log_home_card", habit_log: @habit_log %>
+<% when "index" %>
+  <%= turbo_stream.update "habit_logs_index" do %>
+    <%= render "logs/partials/habit_log_index_card", habit_log: @habit_log %>
   <% end %>
 <% end %>
 
-<% turbo_stream.replace "flash_area" do %>
+<%= turbo_stream.update "flash_area" do %>
   <%= render "shared/flash" %>
 <% end %>
 
 <!-- モーダルを閉じる -->
-<%= turbo_stream.replace "modal" do %>
-  ""
-<% end %>
+<%= turbo_stream.update "modal", "" %>

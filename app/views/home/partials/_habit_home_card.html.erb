@@ -36,10 +36,10 @@
 
       <!-- 未実行：実行ボタン（アイコンなし） -->
       <%= link_to "実行",
-            new_habit_log_path(habit_id: habit.id, dom_from: "home",from: "new"),
+            new_habit_log_path(habit_id: habit.id, dom_from: "home", from: "new"),
             data: { turbo_frame: "modal" },
             class: "btn btn-primary btn-xs" %>
- 
+
     <% end %>
 
   </div>

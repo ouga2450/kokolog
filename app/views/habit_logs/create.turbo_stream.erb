@@ -10,12 +10,12 @@
   <% end %>
 
 <% when "index" %>
-  <%= turbo_stream.update "habit_logs_index" do %>
+  <%= turbo_stream.prepend "habit_logs_index" do %>
     <%= render "logs/partials/habit_log_index_card", habit_log: @habit_log %>
   <% end %>
 <% end %>
 
-<%= turbo_stream.update "flash_area" do %>
+<%= turbo_stream.replace "flash_area" do %>
   <%= render "shared/flash" %>
 <% end %>
 

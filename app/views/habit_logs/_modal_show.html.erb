@@ -80,12 +80,10 @@
     <div class="flex justify-between pt-4 border-t border-base-300">
 
       <!-- 編集ボタン (Turbo Frame) -->
-      <%= link_to edit_habit_log_path(@habit_log),
-                  data: { turbo_frame: "modal" },
-                  params: { dom_from: params[:dom_from], from: "show" },
-                  class: "btn btn-sm btn-outline" do %>
-        編集
-      <% end %>
+      <%= link_to "編集",
+                  edit_habit_log_path(@habit_log, dom_from: params[:dom_from], from: "show"),
+                  class: "btn btn-sm btn-outline",
+                  data: { turbo_frame: "modal" } %>
 
       <!-- 削除ボタン -->
       <%= button_to habit_log_path(@habit_log),
