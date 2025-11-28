@@ -43,6 +43,11 @@ class HabitLog < ApplicationRecord
     end
   end
 
+  # 残りの目標値を計算するメソッド
+  def remaining_value
+    goal.target_value - value_for_goal
+  end
+
   # 今日の目標に対応する HabitLog か？
   # Home画面で「今日の実績」を色付けする時に便利
   def for_today_goal?

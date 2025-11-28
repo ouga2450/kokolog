@@ -3,6 +3,8 @@ class Goal < ApplicationRecord
   belongs_to :user
   belongs_to :habit
 
+  has_many :habit_logs, dependent: :destroy
+
   # --- enum ---
   enum goal_unit: { check_based: 0, count_based: 1, time_based: 2 }  # 目標の種類
   enum frequency: { daily: 0, weekly: 1, monthly: 2 }  # 達成頻度
