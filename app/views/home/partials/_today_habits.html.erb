@@ -46,70 +46,24 @@
       <div class="swiper-wrapper">
 
         <!-- 今日 -->
-        <div class="swiper-slide">
-          <div class="h-64 overflow-y-auto pr-1">
-            <% if @habits_today.present? %>
-              <div class="space-y-2">
-                <% @habits_today.each do |habit| %>
-                  <%= render "home/partials/card_habit_home", habit: habit %>
-                <% end %>
-              </div>
-            <% else %>
-              <div class="flex items-center justify-center w-full">
-                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                            flex items-center justify-center text-center">
-                  <p class="text-sm text-base-content/60">
-                    今日の習慣はまだありません。
-                  </p>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
+        <%= render "home/partials/habit_slide",
+                    dom_id_prefix: "habits_home_today",
+                    msg: "今日の習慣",
+                    habits: @habits_today %>
 
         <!-- 今週 -->
-        <div class="swiper-slide">
-          <div class="h-64 overflow-y-auto pr-1">
-            <% if @habits_this_week.present? %>
-              <div class="space-y-2">
-                <% @habits_this_week.each do |habit| %>
-                  <%= render "home/partials/card_habit_home", habit: habit %>
-                <% end %>
-              </div>
-            <% else %>
-              <div class="flex items-center justify-center w-full">
-                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                            flex items-center justify-center text-center">
-                  <p class="text-sm text-base-content/60">
-                    今週の習慣はまだありません。
-                  </p>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
+        <%= render "home/partials/habit_slide",
+                    dom_id_prefix: "habits_home_this_week",
+                    msg: "今週の習慣",
+                    habits: @habits_this_week %>
+
 
         <!-- 今月 -->
-        <div class="swiper-slide">
-          <div class="h-64 overflow-y-auto pr-1">
-            <% if @habits_this_month.present? %>
-              <div class="space-y-2">
-                <% @habits_this_month.each do |habit| %>
-                  <%= render "home/partials/card_habit_home", habit: habit %>
-                <% end %>
-              </div>
-            <% else %>
-              <div class="flex items-center justify-center w-full">
-                <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                            flex items-center justify-center text-center">
-                  <p class="text-sm text-base-content/60">
-                    今月の習慣はまだありません。
-                  </p>
-                </div>
-              </div>
-            <% end %>
-          </div>
-        </div>
+        <%= render "home/partials/habit_slide",
+                    dom_id_prefix: "habits_home_this_month",
+                    msg: "今月の習慣",
+                    habits: @habits_this_month %>
+
       </div>
       <!-- ページネーション -->
       <div class="swiper-pagination"></div>
