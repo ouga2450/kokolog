@@ -1,13 +1,42 @@
 class MoodLogsController < ApplicationController
   before_action :set_mood_log, only: [ :show, :edit, :update, :destroy ]
 
+  def new
+    @mood_log = MoodLog.new(
+      user: current_user,
+      mood_id: params[:mood_id],
+      feeling_id: params[:feeling_id],
+      recorded_at: Time.current
+    )
+
+    render :new, layout: false if turbo_frame_request?
+  end
+
   def create
     @mood_log = current_user.mood_logs.build(mood_log_params)
 
     if @mood_log.save
-      redirect_back fallback_location: home_path, notice: "気分を記録しました。"
+      query = MoodLogQuery.new(user: current_user)
+      @mood_logs_exists_today = query.exists_today?
+      flash.now[:notice] = "気分を記録しました。"
+
+      respond_to do |format|
+        format.turbo_stream
+        format.html do
+          redirect_back fallback_location: home_path,
+                        notice: "気分を記録しました。"
+        end
+      end
     else
-      redirect_back fallback_location: home_path, notice: "気分記録に失敗しました。"
+      flash.now[:alert] = "気分記録に失敗しました。"
+
+      respond_to do |format|
+        format.turbo_stream { render :create_failure }
+        format.html do
+          redirect_back fallback_location: home_path,
+                        alert: "気分記録に失敗しました。"
+        end
+      end
     end
   end
 
@@ -32,61 +61,48 @@ class MoodLogsController < ApplicationController
       flash.now[:notice] = "気分記録を更新しました。"
 
       respond_to do |format|
-        format.turbo_stream do
-          render "mood_logs/update"  # update.turbo_stream.erb を明示しても OK
+        format.turbo_stream
+        format.html do
+          redirect_back fallback_location: home_path,
+                        notice: "気分記録を更新しました。"
         end
-
-        format.html { redirect_back fallback_location: home_path, notice: "気分記録を更新しました。" }
       end
     else
       flash.now[:alert] = "更新に失敗しました。"
 
       respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "modal",
-            partial: "mood_logs/modal_edit",
-            locals: { mood_log: @mood_log }
-          )
+        format.turbo_stream { render :update_failure }
+        format.html do
+          redirect_back fallback_location: home_path,
+                        alert: "更新に失敗しました。"
         end
-        format.html { redirect_back fallback_location: home_path, alert: "更新に失敗しました。" }
       end
     end
   end
 
   def destroy
-    respond_to do |format|
-      if @mood_log.destroy
-        flash.now[:notice] = "気分記録を削除しました。"
+    if @mood_log.destroy
+      query = MoodLogQuery.new(user: current_user)
+      @mood_logs_none_today = query.none_today?
 
+      flash.now[:notice] = "気分記録を削除しました。"
+
+      respond_to do |format|
         format.turbo_stream
-        format.html { redirect_back fallback_location: home_path, notice: "気分記録を削除しました。" }
-      else
-        flash.now[:alert] = "削除に失敗しました。"
-
-        format.turbo_stream do
-          case params[:from]
-          when "edit"
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "mood_logs/modal_edit",
-              locals: { mood_log: @mood_log }
-            )
-          when "show"
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "mood_logs/modal_show",
-              locals: { mood_log: @mood_log }
-            )
-          else
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "mood_logs/modal_show",
-              locals: { mood_log: @mood_log }
-            )
-          end
+        format.html do
+          redirect_back fallback_location: home_path,
+                        notice: "気分記録を削除しました。"
         end
-        format.html { redirect_back fallback_location: home_path, alert: "削除に失敗しました。" }
+      end
+    else
+      flash.now[:alert] = "削除に失敗しました。"
+
+      respond_to do |format|
+        format.turbo_stream { render :destroy_failure }
+        format.html do
+          redirect_back fallback_location: home_path,
+                        alert: "削除に失敗しました。"
+        end
       end
     end
   end

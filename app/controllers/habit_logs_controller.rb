@@ -18,23 +18,13 @@ class HabitLogsController < ApplicationController
 
   def create
     @habit_log = current_user.habit_logs.build(habit_log_params)
-    Rails.logger.info "🔥 DEBUG destroy params = #{params.to_unsafe_h}"
 
     if @habit_log.save
+      @habit_logs_exists_today = HabitLogQuery.new(user: current_user).exists_today?
       flash.now[:notice] = "習慣記録を登録しました。"
 
       respond_to do |format|
-        format.turbo_stream do
-          case params[:dom_from]
-          when "home"
-            @habit_log_home_card = @habit_log
-          when "index"
-            @habit_log_index_card = @habit_log
-          end
-
-          render "habit_logs/create"  # ← destroy に合わせる
-        end
-
+        format.turbo_stream
         format.html do
           redirect_back fallback_location: home_path,
                         notice: "習慣記録を登録しました。"
@@ -45,14 +35,11 @@ class HabitLogsController < ApplicationController
       flash.now[:alert] = "習慣記録に失敗しました。"
 
       respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "modal",
-            partial: "habit_logs/modal_edit",
-            locals: { habit_log: @habit_log }
-          )
+        format.turbo_stream { render :create_failure }
+        format.html do
+          redirect_back fallback_location: home_path,
+                          alert: "習慣記録に失敗しました。"
         end
-        format.html { redirect_back fallback_location: home_path, alert: "習慣記録に失敗しました。" }
       end
     end
   end
@@ -74,44 +61,22 @@ class HabitLogsController < ApplicationController
   end
 
   def update
-    respond_to do |format|
-      if @habit_log.update(habit_log_params)
-        flash.now[:notice] = "習慣記録を更新しました。"
+    if @habit_log.update(habit_log_params)
+      flash.now[:notice] = "習慣記録を更新しました。"
 
-        format.turbo_stream do
-          case params[:dom_from]
-          when "home"
-            @habit_log_home_card = @habit_log
-          when "index"
-            @habit_log_index_card = @habit_log
-          end
-        end
-
+      respond_to do |format|
+        format.turbo_stream
         format.html do
           redirect_back fallback_location: home_path,
                         notice: "習慣記録を更新しました。"
         end
+      end
 
-      else
-        flash.now[:alert] = "更新に失敗しました。"
+    else
+      flash.now[:alert] = "更新に失敗しました。"
 
-        format.turbo_stream do
-          case params[:from]
-          when "edit"
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "habit_logs/modal_edit",
-              locals: { habit_log: @habit_log }
-            )
-          else
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "habit_logs/modal_show",
-              locals: { habit_log: @habit_log }
-            )
-          end
-        end
-
+      respond_to do |format|
+        format.turbo_stream { render :update_failure }
         format.html do
           redirect_back fallback_location: home_path,
                         alert: "更新に失敗しました。"
@@ -121,44 +86,24 @@ class HabitLogsController < ApplicationController
   end
 
   def destroy
-    respond_to do |format|
-      if @habit_log.destroy
-        flash.now[:notice] = "習慣記録を削除しました。"
+    if @habit_log.destroy
+      query = HabitLogQuery.new(user: current_user)
+      @habit_logs_none_today = query.none_today?
+      flash.now[:notice] = "習慣記録を削除しました。"
 
-        format.turbo_stream do
-          case params[:dom_from]
-          when "home"
-            @habit_log_home_card = @habit_log
-          when "index"
-            @habit_log_index_card = @habit_log
-          end
-        end
-
+      respond_to do |format|
+        format.turbo_stream
         format.html do
           redirect_back fallback_location: home_path,
                         notice: "習慣記録を削除しました。"
         end
+      end
 
-      else
-        flash.now[:alert] = "削除に失敗しました。"
+    else
+      flash.now[:alert] = "削除に失敗しました。"
 
-        format.turbo_stream do
-          case params[:from]
-          when "edit"
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "habit_logs/modal_edit",
-              locals: { habit_log: @habit_log }
-            )
-          else
-            render turbo_stream: turbo_stream.replace(
-              "modal",
-              partial: "habit_logs/modal_show",
-              locals: { habit_log: @habit_log }
-            )
-          end
-        end
-
+      respond_to do |format|
+        format.turbo_stream { render :destroy_failure }
         format.html do
           redirect_back fallback_location: home_path,
                         alert: "削除に失敗しました。"

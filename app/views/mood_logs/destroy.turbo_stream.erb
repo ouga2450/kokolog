@@ -1,6 +1,21 @@
-<%= turbo_stream.remove dom_id(@mood_log) %>
+<% case params[:dom_from] %>
+<% when "home" %>
+  <%= turbo_stream.remove dom_id(@mood_log, :home) %>
 
-<%#= turbo_stream.replace "flash", partial: "shared/flash" %>
+  <% if @mood_logs_none_today %>
+    <%= turbo_stream.update "mood_logs_home_empty" do %>
+      <%= render "home/partials/empty_card_home", msg: "気分ログ" %>
+    <% end %>
+  <% end %>
 
+<% when "index" %>
+  <%= turbo_stream.remove dom_id(@mood_log, :index) %>
+<% end %>
+
+<%= turbo_stream.update "flash_area" do %>
+  <%= render "shared/flash" %>
+<% end %>
+
+<!-- モーダルを閉じる -->
 <!-- replaceを使うとタグごと消えてモーダルが開けなくなるためupdateを使用 -->
-<%= turbo_stream.update "modal", "" %> <!-- モーダルの中身を空にする -->
+<%= turbo_stream.update "modal", "" %>

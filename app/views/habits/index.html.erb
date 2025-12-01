@@ -21,7 +21,7 @@
         <% if @daily_habits.present? %>
           <div class="space-y-2">
             <% @daily_habits.each do |habit| %>
-              <%= render "habits/habit_index_card", habit: habit %>
+              <%= render "habits/partials/card_habit_index", habit: habit %>
             <% end %>
           </div>
         <% else %>
@@ -40,7 +40,7 @@
         <% if @weekly_habits.present? %>
           <div class="space-y-2">
             <% @weekly_habits.each do |habit| %>
-              <%= render "habits/habit_index_card", habit: habit %>
+              <%= render "habits/partials/card_habit_index", habit: habit %>
             <% end %>
           </div>
         <% else %>
@@ -59,7 +59,7 @@
         <% if @monthly_habits.present? %>
           <div class="space-y-2">
             <% @monthly_habits.each do |habit| %>
-              <%= render "habits/habit_index_card", habit: habit %>
+              <%= render "habits/partials/card_habit_index", habit: habit %>
             <% end %>
           </div>
         <% else %>
@@ -82,7 +82,7 @@
         <% if @draft_habits.present? %>
           <div class="space-y-2">
             <% @draft_habits.each do |habit| %>
-              <%= render "habits/habit_index_card", habit: habit %>
+              <%= render "habits/partials/card_habit_index", habit: habit %>
             <% end %>
           </div>
         <% else %>
@@ -105,7 +105,7 @@
         <% if @achieved_habits.present? %>
           <div class="space-y-2">
             <% @achieved_habits.each do |habit| %>
-              <%= render "habits/habit_index_card", habit: habit %>
+              <%= render "habits/partials/card_habit_index", habit: habit %>
             <% end %>
           </div>
         <% else %>

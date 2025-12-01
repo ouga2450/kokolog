@@ -1,0 +1,96 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <div class="space-y-6">
+
+    <!-- タイトル & 記録時間 -->
+    <div class="flex items-center justify-between border-b border-base-300 pb-2">
+      <h3 class="font-bold text-lg text-base-content">
+        <%= action_name == "new" ? "✏️ 気分記録" : "📝 気分編集" %>
+      </h3>
+      <% if mood_log.recorded_at.present? %>
+        <span class="badge badge-outline text-xs">
+          <%= mood_log.recorded_at.strftime("%Y-%m-%d %H:%M") %>
+        </span>
+      <% end %>
+    </div>
+
+    <!-- エラーメッセージ -->
+    <% if mood_log.errors.any? %>
+      <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold">
+        <div class="flex items-center gap-2">
+          <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5" } %>
+          <ul class="list-disc list-none pl-4">
+            <% mood_log.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    <% end %>
+
+    <!-- フォーム -->
+    <%= form_with model: mood_log,
+                  data: { turbo_frame: "modal" } do |f| %>
+      <!-- hidden -->
+      <%= hidden_field_tag :dom_from, params[:dom_from] || "home" %>
+      <%= hidden_field_tag :from, params[:from] || "edit" %>
+      <div class="space-y-4 text-sm">
+        <!-- 気分 -->
+        <div class="form-control">
+          <%= f.label :mood_id, "気分", class: "label-text font-semibold text-base-content/80" %>
+          <%= f.collection_select :mood_id,
+                                  Mood.all,
+                                  :id,
+                                  ->(mood) { jp_label_for_mood(mood) },  # ← procでラベル指定
+                                  { include_blank: false },
+                                  class: "select select-bordered w-full" %>
+        </div>
+
+        <!-- 感情 -->
+        <div class="form-control">
+          <%= f.label :feeling_id, "感情", class: "label-text font-semibold text-base-content/80" %>
+          <%= f.collection_select :feeling_id,
+                                  Feeling.all,
+                                  :id,
+                                  :name,
+                                  { include_blank: "選択なし" },
+                                  class: "select select-bordered w-full" %>
+        </div>
+
+        <!-- メモ -->
+        <div class="form-control">
+          <%= f.label :note, "メモ", class: "label-text font-semibold text-base-content/80" %>
+          <%= f.text_area :note,
+                          rows: 3,
+                          class: "textarea textarea-bordered w-full text-sm",
+                          placeholder: "メモを入力（任意）" %>
+        </div>
+
+        <!-- 記録日時 -->
+        <div class="form-control">
+          <%= f.label :recorded_at, "記録日時", class: "label-text font-semibold text-base-content/80" %>
+          <%= f.datetime_local_field :recorded_at,
+              value: (mood_log.recorded_at&.strftime("%Y-%m-%dT%H:%M") || Time.current.strftime("%Y-%m-%dT%H:%M")),
+              step: 60,
+              class: "input input-bordered w-full text-sm" %>
+        </div>
+      </div>
+
+      <!-- アクションボタン -->
+      <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+        <div class="flex gap-2">
+          <%= f.submit "更新", class: "btn btn-sm btn-primary h-9 min-h-9 px-4" %>
+          <%= link_to "削除",
+                      mood_log_path(mood_log, dom_from: params[:dom_from], from: params[:from]),
+                      data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                      class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
+        </div>
+
+        <button type="button"
+                data-action="click->modal#close"
+                class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+          閉じる
+        </button>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -1,15 +1,22 @@
 class HomeController < ApplicationController
   def index
-    # 全ての気分をスコア順に取得
+    habit_query = HabitQuery.new(user: current_user)
+    habit_log_query = HabitLogQuery.new(user: current_user)
+    mood_log_query = MoodLogQuery.new(user: current_user)
+
+    # 気分（候補一覧）
     @moods = Mood.order(:score)
-    # 今日のユーザーの気分登録を新しい順に取得
-    @mood_logs_today = current_user.mood_logs.includes(:mood, :feeling).today.recent
-    @habit_logs_today = current_user.habit_logs.includes(:habit, :goal).for_today.recent
-    # 習慣取得
-    habits = current_user.habits.includes(:category, :goal).order(:id)
-    @habits = habits.limit(10)
-    @habits_today = habits.for_today
-    @habits_this_week = habits.for_this_week
-    @habits_this_month = habits.for_this_month
+
+    # 習慣（Goal種別で分類）
+    @habits = habit_query.active_base
+    @habits_today = habit_query.habits_for("today")
+    @habits_this_week = habit_query.habits_for("this_week")
+    @habits_this_month = habit_query.habits_for("this_month")
+
+    # 今日の気分ログ
+    @mood_logs_today = mood_log_query.today_logs
+
+    # 今日の習慣ログ
+    @habit_logs_today = habit_log_query.today_logs
   end
 end

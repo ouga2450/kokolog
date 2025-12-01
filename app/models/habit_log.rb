@@ -11,7 +11,7 @@ class HabitLog < ApplicationRecord
   validates :started_at, presence: true
   validates :performed_value,
             numericality: { greater_than_or_equal_to: 0 },
-            allow_nil: true
+            if: -> { goal&.goal_unit.in?(%w[count_based time_based]) }
 
   # --- スコープ ---
   scope :for_today, -> { where(started_at: Time.zone.today.all_day) }
@@ -41,6 +41,11 @@ class HabitLog < ApplicationRecord
     else
       performed_value || 0
     end
+  end
+
+  # 残りの目標値を計算するメソッド
+  def remaining_value
+    goal.target_value - value_for_goal
   end
 
   # 今日の目標に対応する HabitLog か？

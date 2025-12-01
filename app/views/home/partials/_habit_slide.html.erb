@@ -1,0 +1,23 @@
+  <div class="text-xs text-red-500">
+    <%= params[:tab] %>
+  </div>
+<div class="swiper-slide">
+  <div class="h-64 overflow-y-auto pr-1">
+    <!-- ログカード一覧 -->
+    <!-- ログがない場合の表示 -->
+    <div id="habits_home_<%= tab %>_empty" class="space-y-2">
+      <% if habits.empty? %>
+        <%= render "home/partials/empty_card_home", msg: "習慣" %>
+      <% end %>
+    </div>
+
+    <!-- ログカード -->
+    <div id="habits_home_<%= tab %>" class="space-y-2">
+      <% if habits.present? %>
+        <% habits.each do |habit| %>
+          <%= render "home/partials/card_habit_home", habit: habit, tab: tab %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</div>

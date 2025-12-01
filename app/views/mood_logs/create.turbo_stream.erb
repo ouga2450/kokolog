@@ -1,17 +1,20 @@
 <% case params[:dom_from] %>
 <% when "home" %>
 
-  <%= turbo_stream.replace dom_id(@mood_log, :home) do %>
+  <% if @mood_logs_exists_today %>
+    <%= turbo_stream.update "mood_logs_home_empty","" %>
+  <% end %>
+
+  <%= turbo_stream.prepend "mood_logs_home" do %>
     <%= render "home/partials/card_mood_log_home", mood_log: @mood_log %>
   <% end %>
 
 <% when "index" %>
-  <%= turbo_stream.update "mood_logs_index" do %>
+  <%= turbo_stream.prepend "mood_logs_index" do %>
     <%= render "logs/partials/mood_log_index_card", mood_log: @mood_log %>
   <% end %>
-<% end %>
 
-<%= turbo_stream.update "flash_area" do %>
+<%= turbo_stream.replace "flash_area" do %>
   <%= render "shared/flash" %>
 <% end %>
 
