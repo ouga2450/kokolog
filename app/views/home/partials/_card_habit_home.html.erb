@@ -1,3 +1,6 @@
+  <div class="text-xs text-red-500">
+    <%= params[:tab] %>
+  </div>
 <div id="<%= dom_id(habit, :home) %>"
      class="w-[95%] mx-auto flex items-center justify-between rounded-xl bg-base-200 p-3 shadow-sm">
 
@@ -20,7 +23,7 @@
 
     <!-- 詳細モーダル -->
     <%= link_to "詳細",
-          habit_path(habit, from: "home", dom_from: "home"),
+          habit_path(habit, from: "home", dom_from: "home", tab: tab),
           data: { turbo_frame: "modal" },
           class: "btn btn-outline btn-xs" %>
 

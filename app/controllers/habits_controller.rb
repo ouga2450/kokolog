@@ -58,33 +58,27 @@ class HabitsController < ApplicationController
   end
 
   def destroy
-    if @habit.destroy
-      respond_to do |format|
-        format.turbo_stream do
-          case params[:from]
-          when "home"
-            @habit_home_card = @habit
-          when "index"
-            @habit_index_card = @habit
-          end
-          flash.now[:notice] = "習慣を削除しました。"
-        end
 
+    if @habit.destroy
+      query = HabitQuery.new(user: current_user)
+
+      @none_flag = query.none_for(params[:tab])
+
+      flash.now[:notice] = "習慣を削除しました。"
+
+      respond_to do |format|
+        format.turbo_stream
         format.html do
           redirect_to (request.referer.presence || habits_path),
                       notice: "習慣を削除しました。"
         end
       end
-    else
-      respond_to do |format|
-        format.turbo_stream do
-          render turbo_stream: turbo_stream.replace(
-            "modal-content",
-            partial: "habits/partials/modal_show",
-            locals: { habit: @habit }
-          )
-        end
 
+    else
+      flash.now[:alert] = "削除に失敗しました。"
+
+      respond_to do |format|
+        format.turbo_stream { render :destroy_failure }
         format.html do
           redirect_to (request.referer.presence || habits_path),
                       alert: "削除に失敗しました。"

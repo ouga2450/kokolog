@@ -23,17 +23,18 @@ class Goal < ApplicationRecord
   validate :start_date_must_be_before_end_date
 
   # --- scope ---
+  # 有効な目標取得
   scope :effective_on, ->(date) {
     active
       .where("start_date IS NULL OR start_date <= ?", date)
       .where("end_date IS NULL OR end_date >= ?", date)
   }
-
+  # 今日有効な目標取得
   scope :effective_today, -> {
     effective_on(Date.current)
   }
 
-  # frequencyベースの目標取得
+  # 今日有効な目標を頻度別取得
   scope :for_today,      -> { daily.effective_today }
   scope :for_this_week,  -> { weekly.effective_today }
   scope :for_this_month, -> { monthly.effective_today }

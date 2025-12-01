@@ -39,9 +39,9 @@
             <!-- ログカード一覧 -->
             <!-- ログがない場合の表示 -->
             <div id="mood_logs_home_empty" class="space-y-2">
-              <%# if @mood_logs_count == 0 %>
+              <% if @mood_logs_today.empty? %>
                 <%= render "home/partials/empty_card_home", msg: "気分ログ" %>
-              <%# end %>
+              <% end %>
             </div>
             <!-- ログカード -->
             <div id="mood_logs_home" class="space-y-2">
@@ -60,7 +60,7 @@
             <!-- ログカード一覧 -->
             <!-- ログがない場合の表示 -->
             <div id="habit_logs_home_empty" class="space-y-2">
-              <% if @habit_logs_count == 0 %>
+              <% if @habit_logs_today.empty? %>
                 <%= render "home/partials/empty_card_home", msg: "習慣ログ" %>
               <% end %>
             </div>
@@ -75,9 +75,9 @@
             </div>
           </div>
         </div>
-        <!-- ページネーション -->
-        <div class="swiper-pagination"></div>
       </div>
+      <!-- ページネーション -->
+      <div class="swiper-pagination"></div>
       <!-- リンク -->
       <div class="w-[90%] mx-auto flex gap-4 mt-2 justify-center">
 

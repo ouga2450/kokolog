@@ -89,7 +89,8 @@ class HabitLogsController < ApplicationController
   def destroy
 
     if @habit_log.destroy
-      @habit_logs_count = HabitLogQuery.new(user: current_user).count_for_today
+      query = HabitLogQuery.new(user: current_user)
+      @habit_logs_none_today = query.none_today?
       flash.now[:notice] = "習慣記録を削除しました。"
 
       respond_to do |format|

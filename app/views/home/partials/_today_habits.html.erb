@@ -47,21 +47,18 @@
 
         <!-- 今日 -->
         <%= render "home/partials/habit_slide",
-                    dom_id_prefix: "habits_home_today",
-                    msg: "今日の習慣",
+                    tab: "today",
                     habits: @habits_today %>
 
         <!-- 今週 -->
         <%= render "home/partials/habit_slide",
-                    dom_id_prefix: "habits_home_this_week",
-                    msg: "今週の習慣",
+                    tab: "this_week",
                     habits: @habits_this_week %>
 
 
         <!-- 今月 -->
         <%= render "home/partials/habit_slide",
-                    dom_id_prefix: "habits_home_this_month",
-                    msg: "今月の習慣",
+                    tab: "this_month",
                     habits: @habits_this_month %>
 
       </div>

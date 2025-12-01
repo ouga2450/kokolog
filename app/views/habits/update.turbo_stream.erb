@@ -1,8 +1,0 @@
-<%= turbo_stream.replace dom_id(@habit),
-                         partial: "home/partials/card_habit_home",
-                         locals: { habit: @habit } %>
-
-<%#= turbo_stream.replace "flash", partial: "shared/flash" %>
-
-<!-- replaceを使うとタグごと消えてモーダルが開けなくなるためupdateを使用 -->
-<%= turbo_stream.update "modal", "" %> <!-- モーダルの中身を空にする -->

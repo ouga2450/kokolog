@@ -1,12 +1,21 @@
-<% if @habit_log_home_card %>
-  <%= turbo_stream.remove dom_id(@habit_log_home_card, :home) %>
+<% case params[:from] %>
+<% when "home" %>
+  <%= turbo_stream.remove dom_id(@habit, :home) %>
+
+  <% if @none_flag %>
+    <%= turbo_stream.replace "habits_home_#{params[:tab]}_empty" do %>
+      <%= render "home/partials/empty_card_home", msg: "習慣" %>
+    <% end %>
+  <% end %>
+
+<% when "index" %>
+  <%= turbo_stream.remove dom_id(@habit, :index) %>
 <% end %>
 
-<% if @habit_log_index_card %>
-  <%= turbo_stream.remove dom_id(@habit_log_index_card, :index) %>
+<%= turbo_stream.update "flash_area" do %>
+  <%= render "shared/flash" %>
 <% end %>
 
-<%#= turbo_stream.replace "flash", partial: "shared/flash" %>
-
+<!-- モーダルを閉じる -->
 <!-- replaceを使うとタグごと消えてモーダルが開けなくなるためupdateを使用 -->
-<%= turbo_stream.update "modal", "" %> <!-- モーダルの中身を空にする -->
+<%= turbo_stream.update "modal", "" %>

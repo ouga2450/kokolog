@@ -10,7 +10,9 @@
 
       <!-- 実行 -->
       <%= link_to "実行",
-                  new_habit_log_path(habit_id: @habit.id, dom_from: params[:dom_from], from: "show" ),
+                  new_habit_log_path(habit_id: @habit.id,
+                                     dom_from: params[:dom_from],
+                                     from: "show"),
                   data: { turbo_frame: "modal" },
                   class: "btn btn-primary btn-sm" %>
     </div>
@@ -96,7 +98,7 @@
 
         <!-- 削除 -->
         <%= link_to "削除",
-                    habit_path(@habit, from: params[:from]),
+                    habit_path(@habit, from: params[:from], tab: params[:tab]),
                     data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
                     class: "btn btn-outline btn-error btn-sm" %>
       </div>
