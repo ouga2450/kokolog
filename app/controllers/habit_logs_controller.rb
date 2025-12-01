@@ -61,7 +61,6 @@ class HabitLogsController < ApplicationController
   end
 
   def update
-
     if @habit_log.update(habit_log_params)
       flash.now[:notice] = "習慣記録を更新しました。"
 
@@ -87,7 +86,6 @@ class HabitLogsController < ApplicationController
   end
 
   def destroy
-
     if @habit_log.destroy
       query = HabitLogQuery.new(user: current_user)
       @habit_logs_none_today = query.none_today?

@@ -58,7 +58,6 @@ class HabitsController < ApplicationController
   end
 
   def destroy
-
     if @habit.destroy
       query = HabitQuery.new(user: current_user)
 

@@ -1,5 +1,5 @@
 class MoodLogsController < ApplicationController
-  before_action :set_mood_log, only: [:show, :edit, :update, :destroy]
+  before_action :set_mood_log, only: [ :show, :edit, :update, :destroy ]
 
   def new
     @mood_log = MoodLog.new(
