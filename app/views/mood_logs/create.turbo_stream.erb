@@ -13,6 +13,7 @@
   <%= turbo_stream.prepend "mood_logs_index" do %>
     <%= render "logs/partials/mood_log_index_card", mood_log: @mood_log %>
   <% end %>
+<% end %>
 
 <%= turbo_stream.replace "flash_area" do %>
   <%= render "shared/flash" %>
