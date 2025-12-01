@@ -20,7 +20,7 @@ class HabitLogsController < ApplicationController
     @habit_log = current_user.habit_logs.build(habit_log_params)
 
     if @habit_log.save
-      @habit_logs_count = HabitLogQuery.new(user: current_user).count_for_today
+      @habit_logs_exists_today = HabitLogQuery.new(user: current_user).exists_today?
       flash.now[:notice] = "習慣記録を登録しました。"
 
       respond_to do |format|

@@ -15,6 +15,10 @@ class HabitLogQuery
     today_logs.count
   end
 
+  def exists_today?
+    count_for_today.positive?
+  end
+
   def none_today?
     count_for_today.zero?
   end

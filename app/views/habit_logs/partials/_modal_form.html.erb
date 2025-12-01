@@ -50,8 +50,8 @@
       <!-- hidden -->
       <%= f.hidden_field :habit_id, value: habit_log.habit.id %>
       <%= f.hidden_field :goal_id,  value: habit_log.goal.id %>
-      <%= hidden_field_tag :dom_from, params[:dom_from] %>
-      <%= hidden_field_tag :from, params[:from] %>
+      <%= hidden_field_tag :dom_from, params[:dom_from] || "home" %>
+      <%= hidden_field_tag :from, params[:from] || "edit" %>
 
       <!-- ▼ 今日の実行量 -->
       <% if habit_log.goal.goal_unit != "check_based" %>
@@ -93,21 +93,22 @@
         </label>
       </div>
 
-      <!-- 保存 -->
-      <div class="pt-4 border-t border-base-300 flex justify-end">
-        <%= f.submit "記録する", class: "btn btn-primary btn-sm px-4" %>
+      <!-- アクションボタン -->
+      <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+        <div class="flex gap-2">
+          <%= f.submit "更新", class: "btn btn-sm btn-primary h-9 min-h-9 px-4" %>
+          <%= link_to "削除",
+                      habit_log_path(habit_log, dom_from: params[:dom_from], from: params[:from]),
+                      data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                      class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
+        </div>
+
+        <button type="button"
+                data-action="click->modal#close"
+                class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+          閉じる
+        </button>
       </div>
-
     <% end %>
-
-    <!-- 閉じる -->
-    <div class="modal-action border-t border-base-300">
-      <button type="button"
-              data-action="click->modal#close"
-              class="btn btn-sm btn-outline">
-        閉じる
-      </button>
-    </div>
-
   </div>
 <% end %>

@@ -2,8 +2,8 @@
 <% when "home" %>
   <%= turbo_stream.remove dom_id(@habit_log, :home) %>
 
-  <% if @habit_logs_count.to_i == 0 %>
-    <%= turbo_stream.replace "habit_logs_home_empty" do %>
+  <% if @habit_logs_none_today %>
+    <%= turbo_stream.update "habit_logs_home_empty" do %>
       <%= render "home/partials/empty_card_home", msg: "習慣ログ" %>
     <% end %>
   <% end %>

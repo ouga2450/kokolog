@@ -76,33 +76,26 @@
       </div>
     <% end %>
 
-    <!-- アクションボタン -->
-    <div class="flex justify-between pt-4 border-t border-base-300">
+        <!-- アクションボタン -->
+    <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
+      <div class="flex gap-2">
+        <%= link_to "編集",
+                    edit_habit_log_path(@habit_log, dom_from: params[:dom_from], from: "edit"),
+                    class: "btn btn-sm btn-outline btn-primary h-9 min-h-9 px-4",
+                    data: { turbo_frame: "modal", turbo_prefetch: "false" } %>
 
-      <!-- 編集ボタン (Turbo Frame) -->
-      <%= link_to "編集",
-                  edit_habit_log_path(@habit_log, dom_from: params[:dom_from], from: "show"),
-                  class: "btn btn-sm btn-outline",
-                  data: { turbo_frame: "modal" } %>
+        <%= link_to "削除",
+                        habit_log_path(@habit_log,dom_from: params[:dom_from], from: "show"),
+                        data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+                        class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
+      </div>
 
-      <!-- 削除ボタン -->
-      <%= button_to habit_log_path(@habit_log),
-                    method: :delete,
-                    data: { turbo_stream: true, turbo_confirm: "本当に削除しますか？"  },
-                    params: { dom_from: params[:dom_from], from: "show" },
-                    class: "btn btn-sm btn-error btn-outline" do %>
-        削除
-      <% end %>
-
-    </div>
-
-    <!-- 閉じる -->
-    <div class="modal-action border-t border-base-300 mt-3">
       <button type="button"
               data-action="click->modal#close"
-              class="btn btn-sm btn-outline">
+              class="btn btn-sm btn-outline h-9 min-h-9 px-4">
         閉じる
       </button>
+    </div>
     </div>
 
   </div>

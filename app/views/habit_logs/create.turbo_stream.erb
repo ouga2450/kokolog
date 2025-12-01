@@ -1,8 +1,8 @@
 <% case params[:dom_from] %>
 <% when "home" %>
 
-  <% if @habit_logs_count.to_i > 0 %>
-    <%= turbo_stream.remove "habit_logs_home_empty" %>
+  <% if @habit_logs_exists_today %>
+    <%= turbo_stream.update "habit_logs_home_empty","" %>
   <% end %>
 
   <%= turbo_stream.prepend "habit_logs_home" do %>

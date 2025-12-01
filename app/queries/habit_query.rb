@@ -31,9 +31,13 @@ class HabitQuery
     habits_for(tab).count
   end
 
+  def exists_for?(tab)
+    count_for(tab).positive?
+  end
+
   # 0 件判定（UI に最も便利）
 
-  def none_for(tab)
+  def none_for?(tab)
     count_for(tab).zero?
   end
 end

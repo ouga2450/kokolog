@@ -30,7 +30,9 @@
     <!-- フォーム -->
     <%= form_with model: mood_log,
                   data: { turbo_frame: "modal" } do |f| %>
-
+      <!-- hidden -->
+      <%= hidden_field_tag :dom_from, params[:dom_from] || "home" %>
+      <%= hidden_field_tag :from, params[:from] || "edit" %>
       <div class="space-y-4 text-sm">
         <!-- 気分 -->
         <div class="form-control">
@@ -78,7 +80,7 @@
         <div class="flex gap-2">
           <%= f.submit "更新", class: "btn btn-sm btn-primary h-9 min-h-9 px-4" %>
           <%= link_to "削除",
-                      mood_log_path(mood_log),
+                      mood_log_path(mood_log, dom_from: params[:dom_from], from: params[:from]),
                       data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
                       class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
         </div>

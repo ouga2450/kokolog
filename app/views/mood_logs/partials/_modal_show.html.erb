@@ -10,6 +10,16 @@
       </span>
     </div>
 
+    <!-- destroy_failure での固定メッセージ -->
+    <% if local_assigns[:errors] %>
+      <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold mb-4">
+        <div class="flex items-start gap-2">
+          <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5 flex-shrink-0" } %>
+          <span>削除に失敗しました。もう一度お試しください。</span>
+        </div>
+      </div>
+    <% end %>
+
     <!-- 内容 -->
     <div class="space-y-3 text-sm">
       <p>
@@ -33,12 +43,12 @@
     <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
       <div class="flex gap-2">
         <%= link_to "編集",
-                    edit_mood_log_path(mood_log),
+                    edit_mood_log_path(mood_log, dom_from: params[:dom_from], from: "edit"),
                     class: "btn btn-sm btn-outline btn-primary h-9 min-h-9 px-4",
                     data: { turbo_frame: "modal", turbo_prefetch: "false" } %>
 
         <%= link_to "削除",
-                        mood_log_path(@mood_log),
+                        mood_log_path(mood_log,dom_from: params[:dom_from], from: "show"),
                         data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
                         class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
       </div>

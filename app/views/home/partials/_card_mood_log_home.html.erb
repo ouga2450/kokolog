@@ -1,6 +1,6 @@
 <% mood = mood_log.mood %>
 <!-- dom_idの一致する要素がTurboフレームで更新される -->
-<div id="<%= dom_id(mood_log) %>"
+<div id="<%= dom_id(mood_log, :home) %>"
       class="flex items-center justify-start gap-2 w-full space-y-2">
 
   <!-- 左：時刻 -->
@@ -25,7 +25,7 @@
     </div>
 
     <%= link_to "詳細",
-                mood_log_path(mood_log),
+                mood_log_path(mood_log, dom_from: "home"),
                 class: "btn btn-outline btn-xs",
                 data: { turbo_frame: "modal" } %>
   </div>
