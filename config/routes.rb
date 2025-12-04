@@ -19,7 +19,7 @@ Rails.application.routes.draw do
 
   # mood_logsリソースのルーティング設定
   # indexは別途logsコントローラーで定義予定
-  resources :mood_logs, only: [ :create, :show, :edit, :update, :destroy ]
+  resources :mood_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 
   # habitsリソースのルーティング設定
   resources :habits

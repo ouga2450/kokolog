@@ -6,6 +6,8 @@ class MoodLogsController < ApplicationController
       user: current_user,
       mood_id: params[:mood_id],
       feeling_id: params[:feeling_id],
+      habit_log_id: params[:habit_log_id],
+      timing: params[:timing],
       recorded_at: Time.current
     )
 
@@ -16,8 +18,7 @@ class MoodLogsController < ApplicationController
     @mood_log = current_user.mood_logs.build(mood_log_params)
 
     if @mood_log.save
-      query = MoodLogQuery.new(user: current_user)
-      @mood_logs_exists_today = query.exists_today?
+      @mood_logs_exists_today = current_user.mood_logs.for_today.exists?
       flash.now[:notice] = "気分を記録しました。"
 
       respond_to do |format|
@@ -82,8 +83,7 @@ class MoodLogsController < ApplicationController
 
   def destroy
     if @mood_log.destroy
-      query = MoodLogQuery.new(user: current_user)
-      @mood_logs_none_today = query.none_today?
+      @mood_logs_none_today = !current_user.mood_logs.for_today.exists?
 
       flash.now[:notice] = "気分記録を削除しました。"
 

@@ -65,13 +65,27 @@
       </div>
     <% end %>
 
+    <!-- 気分ログ --->
+    <% before = @habit_log.mood_logs.before.first %>
+    <% after = @habit_log.mood_logs.after.first %>
+    <!-- 気分ログ（before） -->
+    <% if before.present? %>
+      <div class="bg-base-200/40 p-3 rounded-lg text-sm space-y-1">
+        <p class="font-semibold text-base-content/80">実行前の気分</p>
+        <p class="text-base-content">
+          <%= before.mood.label %>
+          （<%= before.feeling&.name %>）
+        </p>
+      </div>
+    <% end %>
+
     <!-- 気分ログ（after） -->
-    <% if @habit_log.mood_logs.present? %>
+    <% if after.present? %>
       <div class="bg-base-200/40 p-3 rounded-lg text-sm space-y-1">
         <p class="font-semibold text-base-content/80">実行後の気分</p>
         <p class="text-base-content">
-          <%= @habit_log.mood_logs.mood.label %>
-          （<%= @habit_log.mood_logs.feeling&.name %>）
+          <%= after.mood.label %>
+          （<%= after.feeling&.name %>）
         </p>
       </div>
     <% end %>

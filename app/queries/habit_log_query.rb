@@ -1,4 +1,6 @@
-class HabitLogQuery
+# 拡張用 現在未使用
+
+class _HabitLogQuery
   def initialize(user:)
     @user = user
   end
