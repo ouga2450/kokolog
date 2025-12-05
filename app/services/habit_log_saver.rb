@@ -13,17 +13,27 @@ class HabitLogSaver
   def save
     return false unless @form.valid?
 
-    ActiveRecord::Base.transaction do
-      save_habit_log
+    success = ActiveRecord::Base.transaction do
+      # HabitLog 保存
+      unless save_habit_log
+        # habit_log のエラーを form へすべて移植
+        @habit_log.errors.each do |error|
+          @form.errors.add(error.attribute, error.message)
+        end
+        raise ActiveRecord::Rollback
+      end
+
+      # MoodLog 保存
       @diffs = {
         before: save_mood(:before),
         after:  save_mood(:after)
       }
+
+      # mood のエラーがあれば false を返して Rollback
+      @form.errors.none?
     end
 
-    true
-  rescue ActiveRecord::RecordInvalid
-    false
+    success
   end
 
   # MoodLogDiffからの返り値
@@ -36,6 +46,7 @@ class HabitLogSaver
 
   def save_habit_log
     @habit_log ||= @user.habit_logs.build
+
     @habit_log.assign_attributes(
       habit_id: @form.habit_id,
       goal_id: @form.goal_id,
@@ -43,7 +54,8 @@ class HabitLogSaver
       started_at: @form.started_at,
       ended_at: @form.ended_at
     )
-    @habit_log.save!
+
+    @habit_log.valid? && @habit_log.save
   end
 
   # before/after 気分保存処理
@@ -53,17 +65,31 @@ class HabitLogSaver
     old = @habit_log.mood_logs.public_send(timing).first
     attrs = mood_params(timing)
 
-    # 未入力なら早期リターン
-    unless filled?(attrs)
+    has_any_input = attrs.values.any?(&:present?)
+    has_mood      = attrs[:mood_id].present?
+
+    # 空欄 → 既存削除
+    unless has_any_input
       old&.destroy
       return MoodLogDiff.diff(old, nil)
     end
 
+    unless has_mood
+      @form.errors.add("#{timing}_mood_id", "気分を入力してください")
+      raise ActiveRecord::Rollback
+    end
+
     mood = old || @habit_log.mood_logs.build(timing: timing, user: @user)
+
     mood.assign_attributes(attrs.merge(timing: timing, recorded_at: recorded_time(timing)))
 
+    # mood 保存エラー
     unless mood.save
-      Rails.logger.error "MOOD_SAVE_ERROR #{timing}: #{mood.errors.full_messages}"
+      mood.errors.each do |error|
+        @form.errors.add("#{timing}_#{error.attribute}", error.message)
+      end
+
+      raise ActiveRecord::Rollback
     end
 
     MoodLogDiff.diff(old, mood)
@@ -76,11 +102,6 @@ class HabitLogSaver
       feeling_id: @form.public_send("#{timing}_feeling_id"),
       note: @form.public_send("#{timing}_note")
     }
-  end
-
-  # 未入力チェック
-  def filled?(attrs)
-    attrs.values.any?(&:present?)
   end
 
   # 気分の記録時間を習慣の開始/終了時刻に合わせる
