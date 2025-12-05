@@ -1,10 +1,11 @@
 class HabitLogsController < ApplicationController
+  helper LogStreams
   before_action :set_habit_log, only: [ :show, :edit, :update, :destroy ]
 
   def new
-    habit = Habit.find(params[:habit_id])
+    habit = current_user.habits.find(params[:habit_id])
 
-    @habit_log_form = HabitLogForm.new(
+    @form = HabitLogForm.new(
       user: current_user,
       habit: habit
     )
@@ -13,17 +14,20 @@ class HabitLogsController < ApplicationController
   end
 
   def create
-    habit = Habit.find(habit_log_params[:habit_id])
+    habit = current_user.habits.find(habit_log_params[:habit_id])
 
-    @habit_log_form = HabitLogForm.new(
+    @form = HabitLogForm.new(
       user: current_user,
       habit: habit,
       attributes: habit_log_params
     )
 
-    if @habit_log_form.save
-      @habit_log = @habit_log_form.habit_log
-      @mood_logs = @habit_log_form.habit_log.mood_logs
+    saver = HabitLogSaver.new(@form)
+
+    if saver.save
+      @habit_log = saver.habit_log
+      @diffs = saver.diffs
+
       @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
       @mood_logs_exists_today = current_user.mood_logs.for_today.exists?
       flash.now[:notice] = "習慣記録を登録しました。"
@@ -52,10 +56,9 @@ class HabitLogsController < ApplicationController
   end
 
   def edit
-    @habit_log_form = HabitLogForm.new(
+    @form = HabitLogForm.new(
       user: current_user,
       habit_log: @habit_log,
-      
     )
 
     @mood_logs = @habit_log.mood_logs
@@ -64,16 +67,21 @@ class HabitLogsController < ApplicationController
   end
 
   def update
-    @habit_log_form = HabitLogForm.new(
+    @form = HabitLogForm.new(
       user: current_user,
       habit_log: @habit_log,
       attributes: habit_log_params
     )
 
-    @mood_logs = @habit_log.mood_logs
+    saver = HabitLogSaver.new(@form)
 
-    if @habit_log_form.save
-      @habit_log = @habit_log_form.habit_log
+    if saver.save
+      @habit_log =saver.habit_log
+      @diffs = saver.diffs
+
+      @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
+      @mood_logs_exists_today = current_user.mood_logs.for_today.exists?
+
       flash.now[:notice] = "習慣記録を更新しました。"
 
       respond_to do |format|
@@ -93,7 +101,7 @@ class HabitLogsController < ApplicationController
 
   def destroy
     if @habit_log.destroy
-      @habit_logs_none_today = !current_user.habit_logs.for_today.exists?
+      @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
       flash.now[:notice] = "習慣記録を削除しました。"
 
       respond_to do |format|

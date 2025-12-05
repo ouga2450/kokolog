@@ -6,7 +6,7 @@
   <% end %>
 
 <% when "index" %>
-  <%= turbo_stream.update "mood_logs_index" do %>
+  <%= turbo_stream.replace dom_id(@mood_log, :index) do %>
     <%= render "logs/partials/mood_log_index_card", mood_log: @mood_log %>
   <% end %>
 <% end %>
