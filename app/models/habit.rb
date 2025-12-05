@@ -11,6 +11,7 @@ class Habit < ApplicationRecord
   # --- スコープ ---
   # 有効な習慣を取得
   scope :active, -> { where(archived: false) }
+  scope :recent, -> { order(recorded_at: :desc) }
 
   # 今日・今週・今月の目標取得
   scope :for_today, -> {

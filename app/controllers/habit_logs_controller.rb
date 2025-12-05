@@ -1,34 +1,40 @@
 class HabitLogsController < ApplicationController
+  helper LogStreams
   before_action :set_habit_log, only: [ :show, :edit, :update, :destroy ]
 
   def new
-    habit = Habit.find(params[:habit_id])
+    habit = current_user.habits.find(params[:habit_id])
 
-    @habit_log = HabitLog.new(
+    @form = HabitLogForm.new(
       user: current_user,
-      habit: habit,
-      goal: habit.goal,
-      started_at: Time.current
+      habit: habit
     )
 
-    if turbo_frame_request?
-      render :new, layout: false
-    end
+    render :new, layout: false if turbo_frame_request?
   end
 
   def create
-    @habit_log = current_user.habit_logs.build(habit_log_params)
+    habit = current_user.habits.find(habit_log_params[:habit_id])
 
-    if @habit_log.save
-      @habit_logs_exists_today = HabitLogQuery.new(user: current_user).exists_today?
+    @form = HabitLogForm.new(
+      user: current_user,
+      habit: habit,
+      attributes: habit_log_params
+    )
+
+    saver = HabitLogSaver.new(@form)
+
+    if saver.save
+      @habit_log = saver.habit_log
+      @diffs = saver.diffs
+
+      @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
+      @mood_logs_exists_today = current_user.mood_logs.for_today.exists?
       flash.now[:notice] = "習慣記録を登録しました。"
 
       respond_to do |format|
         format.turbo_stream
-        format.html do
-          redirect_back fallback_location: home_path,
-                        notice: "習慣記録を登録しました。"
-        end
+        format.html { redirect_back fallback_location: home_path, notice: "習慣記録を登録しました。" }
       end
 
     else
@@ -36,10 +42,7 @@ class HabitLogsController < ApplicationController
 
       respond_to do |format|
         format.turbo_stream { render :create_failure }
-        format.html do
-          redirect_back fallback_location: home_path,
-                          alert: "習慣記録に失敗しました。"
-        end
+        format.html { redirect_back fallback_location: home_path, alert: "習慣記録に失敗しました。" }
       end
     end
   end
@@ -53,23 +56,37 @@ class HabitLogsController < ApplicationController
   end
 
   def edit
-    if turbo_frame_request?
-      render :edit, layout: false
-    else
-      redirect_to home_path
-    end
+    @form = HabitLogForm.new(
+      user: current_user,
+      habit_log: @habit_log,
+    )
+
+    @mood_logs = @habit_log.mood_logs
+
+    render :edit, layout: false if turbo_frame_request?
   end
 
   def update
-    if @habit_log.update(habit_log_params)
+    @form = HabitLogForm.new(
+      user: current_user,
+      habit_log: @habit_log,
+      attributes: habit_log_params
+    )
+
+    saver = HabitLogSaver.new(@form)
+
+    if saver.save
+      @habit_log =saver.habit_log
+      @diffs = saver.diffs
+
+      @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
+      @mood_logs_exists_today = current_user.mood_logs.for_today.exists?
+
       flash.now[:notice] = "習慣記録を更新しました。"
 
       respond_to do |format|
         format.turbo_stream
-        format.html do
-          redirect_back fallback_location: home_path,
-                        notice: "習慣記録を更新しました。"
-        end
+        format.html { redirect_back fallback_location: home_path, notice: "習慣記録を更新しました。" }
       end
 
     else
@@ -77,26 +94,19 @@ class HabitLogsController < ApplicationController
 
       respond_to do |format|
         format.turbo_stream { render :update_failure }
-        format.html do
-          redirect_back fallback_location: home_path,
-                        alert: "更新に失敗しました。"
-        end
+        format.html { redirect_back fallback_location: home_path, alert: "更新に失敗しました。" }
       end
     end
   end
 
   def destroy
     if @habit_log.destroy
-      query = HabitLogQuery.new(user: current_user)
-      @habit_logs_none_today = query.none_today?
+      @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
       flash.now[:notice] = "習慣記録を削除しました。"
 
       respond_to do |format|
         format.turbo_stream
-        format.html do
-          redirect_back fallback_location: home_path,
-                        notice: "習慣記録を削除しました。"
-        end
+        format.html { redirect_back fallback_location: home_path, notice: "習慣記録を削除しました。" }
       end
 
     else
@@ -104,10 +114,7 @@ class HabitLogsController < ApplicationController
 
       respond_to do |format|
         format.turbo_stream { render :destroy_failure }
-        format.html do
-          redirect_back fallback_location: home_path,
-                        alert: "削除に失敗しました。"
-        end
+        format.html { redirect_back fallback_location: home_path, alert: "削除に失敗しました。" }
       end
     end
   end
@@ -119,6 +126,23 @@ class HabitLogsController < ApplicationController
   end
 
   def habit_log_params
-    params.require(:habit_log).permit(:habit_id, :goal_id, :performed_value, :started_at, :ended_at)
+    params.require(:habit_log).permit(
+      :id,
+      :habit_id,
+      :goal_id,
+      :performed_value,
+      :started_at,
+      :ended_at,
+      # before
+      :before_mood_id,
+      :before_feeling_id,
+      :before_note,
+      :before_recorded_at,
+      # after
+      :after_mood_id,
+      :after_feeling_id,
+      :after_note,
+      :after_recorded_at
+    )
   end
 end

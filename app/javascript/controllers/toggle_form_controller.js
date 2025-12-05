@@ -2,10 +2,17 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = ["details", "icon", "label"]
+  static values = { default: String }
 
   connect() {
-    this.expanded = false
-    this.hide()
+    // default-value="open" で展開
+    if (this.defaultValue === "open") {
+      this.expanded = true
+      this.show()
+    } else {
+      this.expanded = false
+      this.hide()
+    }
   }
 
   toggle() {
@@ -15,14 +22,14 @@ export default class extends Controller {
   show() {
     this.detailsTarget.classList.remove("hidden")
 
-    // アイコン
     if (this.hasIconTarget) {
-      this.iconTarget.textContent = this.data.get("iconClose") || "−"
+      this.iconTarget.textContent =
+        this.data.get("iconClose") || "−"
     }
 
-    // ラベル
     if (this.hasLabelTarget) {
-      this.labelTarget.textContent = this.data.get("labelClose") || "閉じる"
+      this.labelTarget.textContent =
+        this.data.get("labelClose") || "閉じる"
     }
 
     this.expanded = true
@@ -31,14 +38,14 @@ export default class extends Controller {
   hide() {
     this.detailsTarget.classList.add("hidden")
 
-    // アイコン
     if (this.hasIconTarget) {
-      this.iconTarget.textContent = this.data.get("iconOpen") || "+"
+      this.iconTarget.textContent =
+        this.data.get("iconOpen") || "+"
     }
 
-    // ラベル
     if (this.hasLabelTarget) {
-      this.labelTarget.textContent = this.data.get("labelOpen") || "詳細記録"
+      this.labelTarget.textContent =
+        this.data.get("labelOpen") || "詳細記録"
     }
 
     this.expanded = false

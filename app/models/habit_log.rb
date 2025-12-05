@@ -9,6 +9,7 @@ class HabitLog < ApplicationRecord
 
   # --- バリデーション ---
   validates :started_at, presence: true
+  validate  :ended_at_after_started_at
   validates :performed_value,
             numericality: { greater_than_or_equal_to: 0 },
             if: -> { goal&.goal_unit.in?(%w[count_based time_based]) }
@@ -52,5 +53,15 @@ class HabitLog < ApplicationRecord
   # Home画面で「今日の実績」を色付けする時に便利
   def for_today_goal?
     goal.effective_today?
+  end
+
+  private
+
+  def ended_at_after_started_at
+    return if started_at.blank? || ended_at.blank?
+
+    if ended_at < started_at
+      errors.add(:ended_at, "は開始時間より後に設定してください")
+    end
   end
 end

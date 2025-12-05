@@ -1,14 +1,19 @@
 <% case params[:dom_from] %>
 <% when "home" %>
-
   <%= turbo_stream.replace dom_id(@habit_log, :home) do %>
     <%= render "home/partials/card_habit_log_home", habit_log: @habit_log %>
   <% end %>
+
+  <!-- 気分記録の差し替えメソッド -->
+  <%= render_streams(@diffs, "home", log_exists: @mood_logs_exists_today) %>
 
 <% when "index" %>
   <%= turbo_stream.update "habit_logs_index" do %>
     <%= render "logs/partials/habit_log_index_card", habit_log: @habit_log %>
   <% end %>
+
+  <!-- 気分記録の差し替えメソッド -->
+  <%= render_streams(@diffs, "index", log_exists: @mood_logs_exists_today) %>
 <% end %>
 
 <%= turbo_stream.update "flash_area" do %>

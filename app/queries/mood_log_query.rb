@@ -1,3 +1,5 @@
+# 拡張用 現在未使用
+
 class MoodLogQuery
   def initialize(user:)
     @user = user
@@ -8,7 +10,7 @@ class MoodLogQuery
   end
 
   def today_logs
-    base.includes(:mood, :feeling).today.recent
+    base.includes(:mood, :feeling).today
   end
 
   def count_for_today
