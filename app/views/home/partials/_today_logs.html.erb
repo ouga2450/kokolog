@@ -81,13 +81,13 @@
       <!-- リンク -->
       <div class="w-[90%] mx-auto flex gap-4 mt-2 justify-center">
 
-        <%= link_to "#review_path",
+        <%= link_to log_path(Date.current),
             class: "btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
           <%= heroicon "pencil-square", variant: :outline, options: { class: "h-4 w-4" } %>
           振り返り
         <% end %>
 
-        <%= link_to "#logs_path",
+        <%= link_to logs_path,
             class: "btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
           <%= heroicon "calendar-days", variant: :outline, options: { class: "h-4 w-4" } %>
           ログ一覧

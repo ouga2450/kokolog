@@ -2,7 +2,7 @@
 
   <div class="flex justify-between items-end mb-4">
     <h2 class="text-xl font-bold">
-      <%= l(@date, format: :long) %> の記録
+      <%= l(@date, format: :long) %>（<%= %w(日 月 火 水 木 金 土)[@date.wday] %>） の振り返り
     </h2>
   </div>
 
