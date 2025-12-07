@@ -13,27 +13,19 @@ class HabitLogSaver
   def save
     return false unless @form.valid?
 
-    success = ActiveRecord::Base.transaction do
-      # HabitLog 保存
-      unless save_habit_log
-        # habit_log のエラーを form へすべて移植
-        @habit_log.errors.each do |error|
-          @form.errors.add(error.attribute, error.message)
-        end
-        raise ActiveRecord::Rollback
-      end
+    ActiveRecord::Base.transaction do
+      habit_valid = save_habit_log
 
-      # MoodLog 保存
       @diffs = {
         before: save_mood(:before),
         after:  save_mood(:after)
       }
 
-      # mood のエラーがあれば false を返して Rollback
-      @form.errors.none?
+      # どこかにエラーが付いていたらまとめてロールバック
+      raise ActiveRecord::Rollback if @form.errors.any? || !habit_valid
     end
 
-    success
+    @form.errors.none?
   end
 
   # MoodLogDiffからの返り値
@@ -55,7 +47,10 @@ class HabitLogSaver
       ended_at: @form.ended_at
     )
 
-    @habit_log.valid? && @habit_log.save
+    return true if @habit_log.save
+
+    @habit_log.errors.each { |e| @form.errors.add(e.attribute, e.message) }
+    false
   end
 
   # before/after 気分保存処理
@@ -75,24 +70,21 @@ class HabitLogSaver
     end
 
     unless has_mood
-      @form.errors.add("#{timing}_mood_id", "気分を入力してください")
-      raise ActiveRecord::Rollback
+      @form.errors.add("#{timing}_mood_id", :blank)
+      return MoodLogDiff.diff(old, nil)
     end
 
     mood = old || @habit_log.mood_logs.build(timing: timing, user: @user)
 
     mood.assign_attributes(attrs.merge(timing: timing, recorded_at: recorded_time(timing)))
 
-    # mood 保存エラー
-    unless mood.save
-      mood.errors.each do |error|
-        @form.errors.add("#{timing}_#{error.attribute}", error.message)
-      end
-
-      raise ActiveRecord::Rollback
+    # mood 保存エラーなら、@formにエラーを蓄積
+    if mood.save
+      MoodLogDiff.diff(old, mood)
+    else
+      mood.errors.each { |e| @form.errors.add("#{timing}_#{e.attribute}", e.message) }
+      nil
     end
-
-    MoodLogDiff.diff(old, mood)
   end
 
   # before/after の気分params
