@@ -50,7 +50,7 @@
 
           <div class="flex">
             <span class="w-20 font-semibold text-base-content">頻度</span>
-            <span class="text-base-content/70"><%= @habit.goal.frequency %></span>
+            <span class="text-base-content/70"><%= I18n.t("enums.goal.frequency.#{@habit.goal.frequency}") %></span>
           </div>
 
           <div class="flex">
@@ -60,7 +60,7 @@
 
           <div class="flex">
             <span class="w-20 font-semibold text-base-content">状態</span>
-            <span class="text-base-content/70"><%= @habit.goal.status %></span>
+            <span class="text-base-content/70"><%= I18n.t("enums.goal.status.#{@habit.goal.status}") %></span>
           </div>
         </div>
       <% end %>
