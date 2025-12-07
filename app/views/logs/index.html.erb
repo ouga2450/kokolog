@@ -1,0 +1,12 @@
+<h2 class="text-xl font-bold mb-4">記録一覧</h2>
+
+<div class="space-y-3">
+  <% @dates.each do |date| %>
+    <%= link_to log_path(date), class: "block p-4 rounded-xl bg-base-100 shadow" do %>
+      <div class="text-lg font-semibold"><%= l(date, format: :long) %></div>
+      <div class="text-sm text-base-content/60">
+        <%= %w(日 月 火 水 木 金 土)[date.wday] %>曜日
+      </div>
+    <% end %>
+  <% end %>
+</div>

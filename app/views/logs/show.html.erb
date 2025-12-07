@@ -1,0 +1,28 @@
+<h2 class="text-xl font-bold mb-4">
+  <%= l(@date, format: :long) %> の記録
+</h2>
+
+<h3 class="text-lg font-semibold mt-6 mb-2">習慣ログ</h3>
+
+<% if @habit_logs.any? %>
+  <div class="space-y-3">
+    <% @habit_logs.each do |log| %>
+      <%= render "logs/partials/card_habit_log_logs", habit_log: log %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-base-content/60">この日の習慣ログはありません</p>
+<% end %>
+
+
+<h3 class="text-lg font-semibold mt-6 mb-2">気分ログ</h3>
+
+<% if @mood_logs.any? %>
+  <div class="space-y-3">
+    <% @mood_logs.each do |log| %>
+      <%= render "logs/partials/card_mood_log_logs", mood_log: log %>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-base-content/60">この日の気分ログはありません</p>
+<% end %>
