@@ -1,0 +1,41 @@
+<div class="w-full max-w-md mx-auto">
+
+  <div class="flex justify-between items-end mb-4">
+    <h2 class="text-xl font-bold">
+      <%= l(@date, format: :long) %> の記録
+    </h2>
+  </div>
+
+  <div class="space-y-6">
+    <section class="card bg-base-100 shadow-sm">
+      <div class="card-body">
+        <div class="space-y-3">
+          <h3 class="text-lg font-semibold mb-2">習慣ログ</h3>
+
+          <% if @habit_logs.any? %>
+            <div class="space-y-3">
+              <% @habit_logs.each do |log| %>
+                <%= render "logs/partials/card_habit_log_logs", habit_log: log %>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-base-content/60">この日の習慣ログはありません</p>
+          <% end %>
+
+
+          <h3 class="text-lg font-semibold mt-6 mb-2">気分ログ</h3>
+
+          <% if @mood_logs.any? %>
+            <div class="space-y-3">
+              <% @mood_logs.each do |log| %>
+                <%= render "logs/partials/card_mood_log_logs", mood_log: log %>
+              <% end %>
+            </div>
+          <% else %>
+            <p class="text-base-content/60">この日の気分ログはありません</p>
+          <% end %>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
