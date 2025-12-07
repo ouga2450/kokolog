@@ -35,6 +35,11 @@
 
   <%= form_with model: form, data: { turbo_frame: "modal" } do |f| %>
 
+    <%= f.hidden_field :habit_id, value: form.habit_id %>
+    <%= f.hidden_field :goal_id, value: form.goal_id %>
+    <%= hidden_field_tag :dom_from, params[:dom_from] || "home" %>
+    <%= hidden_field_tag :from, params[:from] || action_name %>
+
     <!-- ▼ 実行量 -->
     <% if form.habit&.goal&.goal_unit != "check_based" %>
       <div class="form-control">
