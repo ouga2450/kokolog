@@ -1,0 +1,19 @@
+ja:
+  enums:
+    goal:
+      goal_unit:
+        check_based: "チェックのみ"
+        count_based: "回数ベース"
+        time_based: "時間ベース"
+      frequency:
+        daily: "毎日"
+        weekly: "毎週"
+        monthly: "毎月"
+      status:
+        draft: "下書き"
+        active: "進行中"
+        achieved: "達成"
+    mood_log:
+      timing:
+        before: "実行前"
+        after: "実行後"

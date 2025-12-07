@@ -33,7 +33,7 @@
           <div class="form-control">
             <%= f.label :status, "状態管理", class: "label-text text-sm font-semibold" %>
             <%= f.select :status,
-                  Goal.statuses.keys.map { |k| [k.humanize, k] },
+                  Goal.statuses.keys.map { |k| [I18n.t("enums.goal.status.#{k}"), k] },
                   { prompt: "選択してください" },
                   class: "select select-bordered w-full" %>
             <p class="text-xs text-base-content/60 mt-1">
@@ -70,7 +70,7 @@
           <div class="form-control">
             <%= f.label :frequency, "達成頻度", class: "label-text text-sm font-semibold" %>
             <%= f.select :frequency,
-                  Goal.frequencies.keys.map { |k| [k.humanize, k] },
+                  Goal.frequencies.keys.map { |k| [I18n.t("enums.goal.frequency.#{k}"), k] },
                   { prompt: "選択してください" },
                   class: "select select-bordered w-full" %>
           </div>
@@ -79,7 +79,7 @@
           <div class="form-control" data-controller="amount">
             <%= f.label :goal_unit, "目標タイプ", class: "label-text text-sm font-semibold" %>
             <%= f.select :goal_unit,
-                  Goal.goal_units.keys.map { |k| [k.humanize, k] },
+                  Goal.goal_units.keys.map { |k| [I18n.t("enums.goal.goal_unit.#{k}"), k] },
                   { prompt: "例：チェック / 回数で管理 / 時間で管理" },
                   class: "select select-bordered w-full",
                   data: {action: "change->amount#toggle"},
