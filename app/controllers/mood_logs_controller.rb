@@ -50,6 +50,10 @@ class MoodLogsController < ApplicationController
   end
 
   def edit
+    if @mood_log.habit_log_id.present?
+      return redirect_to edit_habit_log_path(@mood_log.habit_log_id, from: :mood_edit)
+    end
+
     if turbo_frame_request?
       render :edit, layout: false
     else
