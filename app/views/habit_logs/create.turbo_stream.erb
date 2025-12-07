@@ -13,7 +13,7 @@
 
 <% when "index" %>
   <%= turbo_stream.update "habit_logs_index" do %>
-    <%= render "logs/partials/habit_log_index_card", habit_log: @habit_log %>
+    <%= render "logs/partials/card_habit_log_logs", habit_log: @habit_log %>
   <% end %>
 
   <!-- 気分記録の差し替えメソッド -->
