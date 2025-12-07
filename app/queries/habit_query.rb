@@ -15,10 +15,18 @@ class HabitQuery
   # Home のタブ切り替えに使う
 
   def habits_for(tab)
+    scope = active_base
+              .joins(:goal)
+              .merge(Goal.active)
+              .distinct
+
     case tab.to_s
-    when "today"      then active_base.joins(:goal).merge(Goal.daily).distinct
-    when "this_week"  then active_base.joins(:goal).merge(Goal.weekly).distinct
-    when "this_month" then active_base.joins(:goal).merge(Goal.monthly).distinct
+    when "today"
+      scope.merge(Goal.daily)
+    when "this_week"
+      scope.merge(Goal.weekly)
+    when "this_month"
+      scope.merge(Goal.monthly)
     else
       raise ArgumentError, "Unknown tab: #{tab}"
     end
