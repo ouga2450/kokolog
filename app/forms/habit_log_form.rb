@@ -43,7 +43,23 @@ class HabitLogForm
     habit_log&.persisted?
   end
 
+  def started_at=(value)
+    super(convert_to_time_zone(value))
+  end
+
+  def ended_at=(value)
+    super(convert_to_time_zone(value))
+  end
+
   private
+
+  def convert_to_time_zone(value)
+    return value if value.is_a?(ActiveSupport::TimeWithZone)
+    return nil if value.blank?
+
+    # ActiveRecord と同じ Time.zone のパースを実行
+    Time.zone.parse(value.to_s)
+  end
 
   # new/edit attributesセット
   def default_attributes
