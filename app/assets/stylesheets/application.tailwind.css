@@ -1,7 +1,109 @@
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: all;
-  default: "light";
+  default: "kokolog-dark";
+}
+
+@plugin "daisyui/theme" {
+  name: "kokolog";
+  default: false;
+  prefersdark: false;
+  color-scheme: light;
+
+  /* === Base Colors: 柔らかく・清潔感のある kokolog の世界観 === */
+  --color-base-100: #FFFFFF;    /* 全体背景：純白に近い色で最大限に明るく */
+  --color-base-200: #F6F9FA;    /* カード背景：ごくわずかに色味を持たせた淡いグレー系 */
+  --color-base-300: #E0E8E9;    /* 薄い枠線やセクション境界 (線の主張は薄くする) */
+  --color-base-content: #2F3A3C; /* 文字色：読みやすく落ち着いたティール系 */
+
+  /* === Brand Palette: kokolog のブランドカラー === */
+  --color-primary: #52B8AC; /* ティールグリーン：保存ボタンなど主要操作用 */
+  --color-primary-content: #FFFFFF;
+
+  --color-secondary: #F4A895; /* コーラル系：温かみのあるサブカラー */
+  --color-secondary-content: #2F3A3C;
+
+  --color-accent: #91E5B7; /* ミントグリーン：行動を促すアクセント。さらに明るく */
+  --color-accent-content: #2F3A3C;
+
+  --color-neutral: #5A7B81;
+  --color-neutral-content: #FFFFFF; /* base-100と差別化のため白に戻す */
+
+  /* === Semantic Colors: 気分記録で多用される色を調整 === */
+  --color-info: #5A99C9;
+  --color-info-content: #FFFFFF;
+
+  --color-success: #6CB789;
+  --color-success-content: #FFFFFF;
+
+  --color-warning: #F7C565;
+  --color-warning-content: #2F3A3C;
+
+  --color-error: #E66A6A;
+  --color-error-content: #FFFFFF;
+
+  /* === Radius / Shape: kokolog の柔らか UI を再現 === */
+  --radius-selector: 0.75rem;
+  --radius-field: 0.35rem;
+  --radius-box: 1rem;
+
+  /* === Border === */
+  --border: 2px; /* 線の主張を出すため、太さを2pxに */
+
+  /* === Effects: カードが"浮く" kokolog の雰囲気 === */
+  --depth: 2;
+  --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: "kokolog-dark";
+  default: false;
+  prefersdark: true;
+  color-scheme: dark;
+
+  /* === Base Colors: kokolog の癒しを保ちつつ暗めのトーンに === */
+  --color-base-100: #1C2A2C;  /* ほぼ黒ではなく、深いティール系ダーク */
+  --color-base-200: #243738;  /* カード背景：読みやすさと柔らかさ */
+  --color-base-300: #3A4F51;  /* 枠線や区切り：薄い青緑が心地よい */
+  --color-base-content: #EAF2F2; /* 高コントラストの白系、視認性バッチリ */
+
+  /* === Brand Palette: ダーク向けにチューニング === */
+  --color-primary: #5BC5BA;
+  --color-primary-content: #10201E;
+
+  --color-secondary: #F3A290;
+  --color-secondary-content: #1C2A2C;
+
+  --color-accent: #98F1BE; /* ミントグリーンをさらに明るく */
+  --color-accent-content: #152020;
+
+  --color-neutral: #6C8990;
+  --color-neutral-content: #F2F8F8;
+
+  /* === Semantic Colors: 情報色は明るめに強調 === */
+  --color-info: #77B3E6;
+  --color-info-content: #0F1A20;
+
+  --color-success: #74C18F;
+  --color-success-content: #0F1B18;
+
+  --color-warning: #F2C56A;
+  --color-warning-content: #1A1605;
+
+  --color-error: #E57575;
+  --color-error-content: #1E0F0F;
+
+  /* === Radius / Shape: kokolog の柔らかさを維持 === */
+  --radius-selector: 0.75rem;
+  --radius-field: 0.35rem;
+  --radius-box: 1rem;
+
+  /* === Border === */
+  --border: 2px; /* 線の太さを2pxに */
+
+  /* === Effects: ダークでもカードを浮かせる === */
+  --depth: 2;
+  --noise: 0;
 }
 
 @layer components {
