@@ -54,3 +54,13 @@ ja:
         after_mood_id: "終了時の気分"
         after_feeling_id: "終了時の感情"
         after_note: "終了時のメモ"
+
+      habit_form:
+        name: "習慣名"
+        category_id: "カテゴリ"
+        frequency: "達成頻度"
+        goal_unit: "目標タイプ"
+        amount: "目標値"
+        start_date: "開始日"
+        end_date: "終了日"
+        status: "状態"

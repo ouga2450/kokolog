@@ -1,196 +1,180 @@
 <%= turbo_frame_tag "modal_content" do %>
-  <div class="space-y-6">
 
-    <!-- タイトル -->
-    <div class="flex items-center justify-between border-b border-base-300 pb-2">
-      <h3 class="font-bold text-lg text-base-content flex items-center gap-2">
-        <span class="text-2xl"><%= form.habit&.category&.icon %></span>
-        <%= form.habit&.name || "習慣記録" %>
-      </h3>
+  <!-- ▼ タイトル -->
+  <div class="flex items-center justify-between pb-3 border-b border-base-300">
+    <h3 class="text-lg font-bold flex items-center gap-2 text-base-content">
+      <span class="text-2xl"><%= form.habit&.category&.icon %></span>
+      <%= form.habit&.name || "習慣記録" %>
+    </h3>
 
-      <span class="badge badge-primary badge-outline text-xs px-2 py-1">
-        <%= form.persisted? ? "習慣編集" : "習慣実行" %>
-      </span>
+    <span class="badge badge-primary badge-outline text-xs px-3">
+      <%= form.persisted? ? "記録編集" : "新規記録" %>
+    </span>
+  </div>
+
+  <!-- ▼ エラー表示 -->
+  <% if form.errors.any? %>
+    <div class="alert alert-error text-xs shadow-md">
+      <ul class="space-y-1">
+        <% form.errors.full_messages.each do |msg| %>
+          <li class="flex items-center gap-1">
+            <%= heroicon "x-circle", variant: :outline, options: {class: "w-4 h-4"} %>
+            <%= msg %>
+          </li>
+        <% end %>
+      </ul>
     </div>
+  <% end %>
 
-    <!-- エラー表示 -->
-    <% if form.errors.any? %>
-      <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold mb-4">
-        <div class="flex items-start gap-2">
-          <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5 flex-shrink-0" } %>
-          <ul class="list-none space-y-1">
-            <% form.errors.full_messages.each do |message| %>
-              <li><%= message %></li>
-            <% end %>
-          </ul>
-        </div>
+  <!-- ▼ 目標表示（帯デザイン） -->
+  <div class="rounded-lg p-3 bg-primary/10 border-l-4 border-primary text-sm">
+    <span class="font-bold">目標：</span>
+    <%= form.habit&.goal&.display_goal %>
+  </div>
+
+
+  <%= form_with model: form, data: { turbo_frame: "modal" } do |f| %>
+
+    <!-- ▼ 実行量 -->
+    <% if form.habit&.goal&.goal_unit != "check_based" %>
+      <div class="form-control">
+        <%= f.label :performed_value, "今日の実行量", class: "label-text text-sm font-semibold" %>
+        <%= f.number_field :performed_value,
+              min: 0,
+              class: "input input-bordered w-full",
+              placeholder: "例：30（回/分）" %>
       </div>
     <% end %>
 
-    <!-- 削除失敗メッセージ -->
-    <% if local_assigns[:errors] %>
-      <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold mb-4">
-        <div class="flex items-start gap-2">
-          <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5 flex-shrink-0" } %>
-          <span>削除に失敗しました。もう一度お試しください。</span>
+
+    <!-- ▼ BEFORE セクション -->
+    <div class="space-y-4 bg-primary/5 border border-primary/20 rounded-xl p-4 mt-6">
+      <p class="text-sm font-bold text-primary flex items-center gap-2">
+        <span class="w-2 h-2 bg-primary rounded-full"></span>
+        実行前の状態
+      </p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- 時刻 -->
+        <div class="form-control">
+          <%= f.label :started_at, "開始時刻", class: "label-text text-xs font-semibold" %>
+          <%= f.datetime_local_field :started_at,
+                value: form.started_at&.strftime("%Y-%m-%dT%H:%M"),
+                class: "input input-bordered w-full" %>
+        </div>
+
+        <!-- 気分 -->
+        <div class="form-control">
+          <%= f.label :before_mood_id, "気分（前）", class: "label-text text-xs font-semibold" %>
+          <%= f.collection_select :before_mood_id,
+              Mood.all, :id, ->(m){ jp_label_for_mood(m) },
+              { include_blank: "選択してください" },
+              class: "select select-bordered w-full" %>
         </div>
       </div>
-    <% end %>
 
-    <!-- 目標 -->
-    <div class="bg-base-200/60 p-3 rounded-lg text-sm">
-      <span class="font-semibold text-base-content/80">目標：</span>
-      <%= form.habit&.goal&.display_goal %>
-    </div>
+      <!-- ▼ 詳細トグル -->
+      <div data-controller="toggle-form">
 
-    <%= form_with model: form,
-                  data: { turbo_frame: "modal" } do |f| %>
-
-      <%= f.hidden_field :habit_id, value: form.habit_id %>
-      <%= f.hidden_field :goal_id, value: form.goal_id %>
-      <%= hidden_field_tag :dom_from, params[:dom_from] || "home" %>
-      <%= hidden_field_tag :from, params[:from] || action_name %>
-
-      <!-- ▼ 実行量 -->
-      <% if form.habit&.goal&.goal_unit != "check_based" %>
-        <div class="form-control mt-4">
-          <%= f.label :performed_value, "今日の実行量", class: "label-text text-sm font-semibold" %>
-          <%= f.number_field :performed_value,
-                             min: 0,
-                             class: "input input-bordered w-full",
-                             placeholder: "例：30（回/分）" %>
-        </div>
-      <% end %>
-
-      <!-- 開始時刻 -->
-      <div class="form-control mt-4">
-        <%= f.label :started_at, "開始時刻", class: "label-text font-semibold text-base-content/80" %>
-        <%= f.datetime_local_field :started_at,
-              class: "input input-bordered w-full",
-              value: (form.started_at&.strftime("%Y-%m-%dT%H:%M") || Time.current.strftime("%Y-%m-%dT%H:%M")) %>
-      </div>
-      <p class="text-xs text-base-content/60">※ 実際の開始時間に調整できます</p>
-
-      <!-- 終了時刻 -->
-      <div class="form-control mt-4">
-        <%= f.label :ended_at, "終了時刻", class: "label-text font-semibold text-base-content/80" %>
-        <%= f.datetime_local_field :ended_at,
-              class: "input input-bordered w-full",
-              value: (form.ended_at&.strftime("%Y-%m-%dT%H:%M") || Time.current.strftime("%Y-%m-%dT%H:%M")) %>
-      </div>
-      <p class="text-xs text-base-content/60">※ 実際の終了時間に調整できます</p>
-
-
-
-      <!-- ▼ 実行前の気分 -->
-      <div data-controller="toggle-form"
-          data-toggle-form-icon-open="+"
-          data-toggle-form-icon-close="−"
-          data-toggle-form-label-open="実行前気分登録"
-          data-toggle-form-label-close="実行前気分登録を閉じる">
-
-        <label data-action="click->toggle-form#toggle" ...>
-          <span data-toggle-form-target="icon">+</span>
-          <span data-toggle-form-target="label">実行前の気分を記録する</span>
-        </label>
-
-        <!-- 実行前の気分フォーム -->
-        <div data-toggle-form-target="details"
-            class="space-y-4 text-sm">
-
+        <div data-toggle-form-target="details" class="hidden space-y-3 mt-2">
           <div class="form-control">
-            <%= f.label :before_mood_id, "実行前の気分", class: "label-text font-semibold" %>
-            <%= f.collection_select :before_mood_id,
-                                    Mood.all,
-                                    :id,
-                                    ->(m) { jp_label_for_mood(m) },
-                                    { include_blank: "選択してください" },
-                                    class: "select select-bordered w-full" %>
-          </div>
-
-          <div class="form-control">
-            <%= f.label :before_feeling_id, "実行前の感情", class: "label-text font-semibold" %>
+            <%= f.label :before_feeling_id, "感情（前）", class: "label-text text-xs font-semibold" %>
             <%= f.collection_select :before_feeling_id,
-                                    Feeling.all,
-                                    :id,
-                                    :name,
-                                    { include_blank: "選択なし" },
-                                    class: "select select-bordered w-full" %>
+                Feeling.all, :id, :name,
+                { include_blank: "選択なし" },
+                class: "select select-bordered w-full" %>
           </div>
 
           <div class="form-control">
-            <%= f.label :before_note, "メモ（前）", class: "label-text font-semibold" %>
-            <%= f.text_area :before_note, rows: 2, class: "textarea textarea-bordered w-full text-sm" %>
+            <%= f.label :before_note, "メモ（前）", class: "label-text text-xs font-semibold" %>
+            <%= f.text_area :before_note, rows: 2,
+                  class: "textarea textarea-bordered w-full text-xs" %>
           </div>
-        </div>
-      </div>
-
-
-      <!-- ▼ 実行後の気分 -->
-      <div data-controller="toggle-form"
-          data-toggle-form-icon-open="+"
-          data-toggle-form-icon-close="−"
-          data-toggle-form-label-open="実行後気分登録"
-          data-toggle-form-label-close="実行後気分登録を閉じる">
-
-        <label data-action="click->toggle-form#toggle" ...>
-          <span data-toggle-form-target="icon">+</span>
-          <span data-toggle-form-target="label">実行後の気分を記録する</span>
-        </label>
-
-        <!-- 実行後の気分フォーム -->
-        <div data-toggle-form-target="details"
-            class="space-y-4 text-sm">
-
-          <div class="form-control">
-            <%= f.label :after_mood_id, "実行後の気分", class: "label-text font-semibold" %>
-            <%= f.collection_select :after_mood_id,
-                                    Mood.all,
-                                    :id,
-                                    ->(m) { jp_label_for_mood(m) },
-                                    { include_blank: "選択してください" },
-                                    class: "select select-bordered w-full" %>
-          </div>
-
-          <div class="form-control">
-            <%= f.label :after_feeling_id, "実行後の感情", class: "label-text font-semibold" %>
-            <%= f.collection_select :after_feeling_id,
-                                    Feeling.all,
-                                    :id,
-                                    :name,
-                                    { include_blank: "選択なし" },
-                                    class: "select select-bordered w-full" %>
-          </div>
-
-          <div class="form-control">
-            <%= f.label :after_note, "メモ（後）", class: "label-text font-semibold" %>
-            <%= f.text_area :after_note, rows: 2, class: "textarea textarea-bordered w-full text-sm" %>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- ▼ アクションボタン -->
-      <div class="modal-action flex justify-between items-center pt-4 border-t border-base-300">
-        <div class="flex gap-2">
-          <%= f.submit(form.persisted? ? "更新" : "記録",
-                       class: "btn btn-sm btn-primary h-9 min-h-9 px-4") %>
-
-          <% if form.persisted? %>
-            <%= link_to "削除",
-                        habit_log_path(form.id, dom_from: params[:dom_from], from: params[:from]),
-                        data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
-                        class: "btn btn-sm btn-outline btn-error h-9 min-h-9 px-4" %>
-          <% end %>
         </div>
 
         <button type="button"
-                data-action="click->modal#close"
-                class="btn btn-sm btn-outline h-9 min-h-9 px-4">
-          閉じる
+          class="text-xs text-primary font-semibold flex items-center gap-1 hover:underline mt-2"
+          data-action="toggle-form#toggle">
+          <span data-toggle-form-target="icon">＋</span>
+          <span data-toggle-form-target="label">詳細（感情・メモ）</span>
         </button>
       </div>
+    </div>
 
-    <% end %>
-  </div>
+
+    <!-- ▼ AFTER セクション -->
+    <div class="space-y-4 bg-accent/5 border border-accent/20 rounded-xl p-4 mt-6">
+      <p class="text-sm font-bold text-accent flex items-center gap-2">
+        <span class="w-2 h-2 bg-accent rounded-full"></span>
+        実行後の状態
+      </p>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- 時刻 -->
+        <div class="form-control">
+          <%= f.label :ended_at, "終了時刻", class: "label-text text-xs font-semibold" %>
+          <%= f.datetime_local_field :ended_at,
+                value: form.ended_at&.strftime("%Y-%m-%dT%H:%M"),
+                class: "input input-bordered w-full" %>
+        </div>
+
+        <!-- 気分 -->
+        <div class="form-control">
+          <%= f.label :after_mood_id, "気分（後）", class: "label-text text-xs font-semibold" %>
+          <%= f.collection_select :after_mood_id,
+              Mood.all, :id, ->(m){ jp_label_for_mood(m) },
+              { include_blank: "選択してください" },
+              class: "select select-bordered w-full" %>
+        </div>
+      </div>
+
+      <!-- ▼ 詳細トグル -->
+      <div data-controller="toggle-form">
+
+        <div data-toggle-form-target="details" class="hidden space-y-3 mt-2">
+          <div class="form-control">
+            <%= f.label :after_feeling_id, "感情（後）", class: "label-text text-xs font-semibold" %>
+            <%= f.collection_select :after_feeling_id,
+                Feeling.all, :id, :name,
+                { include_blank: "選択なし" },
+                class: "select select-bordered w-full" %>
+          </div>
+
+          <div class="form-control">
+            <%= f.label :after_note, "メモ（後）", class: "label-text text-xs font-semibold" %>
+            <%= f.text_area :after_note, rows: 2,
+                  class: "textarea textarea-bordered w-full text-xs" %>
+          </div>
+        </div>
+
+        <button type="button"
+          class="text-xs text-primary font-semibold flex items-center gap-1 hover:underline mt-2"
+          data-action="toggle-form#toggle">
+          <span data-toggle-form-target="icon">＋</span>
+          <span data-toggle-form-target="label">詳細（感情・メモ）</span>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ▼ アクションボタン -->
+    <div class="modal-action pt-4 border-t border-base-300 flex justify-between items-center">
+      <%= f.submit(form.persisted? ? "更新" : "記録",
+            class: "btn btn-primary btn-sm px-4") %>
+
+      <% if form.persisted? %>
+        <%= link_to "削除",
+            habit_log_path(form.id),
+            data: { turbo_method: :delete, turbo_confirm: "本当に削除しますか？" },
+            class: "btn btn-error btn-sm btn-outline px-4" %>
+      <% end %>
+
+      <button type="button"
+        class="btn btn-outline btn-sm px-4"
+        data-action="click->modal#close">
+        閉じる
+      </button>
+    </div>
+
+  <% end %>
 <% end %>

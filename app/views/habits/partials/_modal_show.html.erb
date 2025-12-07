@@ -69,17 +69,17 @@
       <div class="bg-base-200/60 rounded-lg p-3 space-y-1">
         <div class="flex">
           <span class="w-24 font-semibold text-base-content">今日の実行</span>
-          <span class="text-base-content/70"><%#= @habit.logs_today_count %> 回</span>
+          <span class="text-base-content/70"><%= @habit.logs_today.count %> 回</span>
         </div>
 
         <div class="flex">
           <span class="w-24 font-semibold text-base-content">今週</span>
-          <span class="text-base-content/70"><%#= @habit.logs_this_week_count %> 回</span>
+          <span class="text-base-content/70"><%= @habit.logs_this_week.count %> 回</span>
         </div>
 
         <div class="flex">
           <span class="w-24 font-semibold text-base-content">累計</span>
-          <span class="text-base-content/70"><%#= @habit.habit_logs.count %> 回</span>
+          <span class="text-base-content/70"><%= @habit.habit_logs.count %> 回</span>
         </div>
       </div>
 

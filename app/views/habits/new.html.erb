@@ -18,6 +18,21 @@
         </button>
       </div>
 
+      <% if @habit_form.errors.any? %>
+        <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold mb-4">
+          <div class="flex items-start gap-2">
+            <ul class="list-none space-y-1">
+              <% @habit_form.errors.full_messages.each do |message| %>
+                <li class="flex items-center gap-1">
+                  <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5 flex-shrink-0" } %>
+                  <span><%= message %></span>
+                </li>
+              <% end %>
+            </ul>
+          </div>
+        </div>
+      <% end %>
+
       <%= form_with model: @habit_form,
                     url: habits_path,
                     method: :post,
