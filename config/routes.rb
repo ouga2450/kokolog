@@ -25,4 +25,6 @@ Rails.application.routes.draw do
   resources :habits
 
   resources :habit_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
+
+  resources :logs, only: [ :index, :show], param: :date
 end
