@@ -1,3 +1,8 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap");
+@theme {
+  --font-sans: "Noto Sans JP", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Noto Serif JP", ui-serif, serif;
+}
 @import "tailwindcss";
 @plugin "daisyui" {
   themes: all;
@@ -6,55 +11,53 @@
 
 @plugin "daisyui/theme" {
   name: "kokolog";
-  default: false;
+  default: true;
   prefersdark: false;
   color-scheme: light;
 
-  /* === Base: kokolog の空気感（紙っぽい、やわらかい白） === */
-  --color-base-100: #FAFDFD; /* 一番の土台：ほぼ白。アプリ全体の背景 */
-  --color-base-200: #ECF3F4; /* カードやセクションの背景 */
-  --color-base-300: #D7E4E6; /* 枠線・分割ラインなどのうっすらした色 */
-  --color-base-content: #263538; /* テキスト：黒より少し青緑が入った落ち着いた色 */
+  /* === Base（より明るく柔らかく）=== */
+  --color-base-100: #FDFEFE; /* ほぼ紙のような白：アプリの空気を明るくする */
+  --color-base-200: #F2F7F7; /* 明度の高いミントグレー：軽やか */
+  --color-base-300: #DEEAEA; /* 境界線としては十分薄い */
+  --color-base-content: #233234; /* 黒よりやさしい、青緑寄りグレー */
 
-  /* === Brand: kokolog の主役カラーたち === */
-  --color-primary: #4FAEA4;        /* メインボタン・主要アクション：深呼吸したくなるティール */
+  /* === Brand colors（軽く柔らかく調整）=== */
+  --color-primary: #63C7BA;       /* 明るいティール：前向き、爽快、優しい */
   --color-primary-content: #FFFFFF;
 
-  --color-secondary: #F3A48E;      /* 補助アクション・タグなど：やさしいコーラル */
-  --color-secondary-content: #2A3436;
+  --color-secondary: #F7B6A4;     /* カフェラテのような暖かいコーラル */
+  --color-secondary-content: #2A2F32;
 
-  --color-accent: #7FD7A6;         /* 「やってみよう！」のアクセント：前向きなミント */
+  --color-accent: #94E2B8;        /* ミントを更に明るく。幸福感のある色。 */
   --color-accent-content: #243531;
 
-  --color-neutral: #56747A;        /* ナビ・バッジなどの中立色：青みグレー */
-  --color-neutral-content: #F6FBFB;
+  --color-neutral: #6D8C92;       /* ダークすぎずに存在感のある青緑グレー */
+  --color-neutral-content: #F8FDFD;
 
-  /* === Semantic: 情報・成功・注意・エラー（怒らない色） === */
-  --color-info: #5CAAE4;           /* 穏やかなブルー：通知・補足情報 */
+  /* === Semantic（威圧しない色味へ）=== */
+  --color-info: #7BBDED;          /* 穏やかで明るいブルー */
   --color-info-content: #0F2230;
 
-  --color-success: #67B984;        /* 成功：安心できる青緑寄りグリーン */
+  --color-success: #75C594;       /* 草原のようなポジティブグリーン */
   --color-success-content: #0F2118;
 
-  --color-warning: #F5C56A;        /* 注意：びっくりマークではなく「気をつけてね」くらいの柔らかさ */
-  --color-warning-content: #302411;
+  --color-warning: #F7D487;       /* 柔らかいハニーカラー：怒らない警告 */
+  --color-warning-content: #3A2F15;
 
-  --color-error: #E87777;          /* 失敗・エラー：叱らない赤。少しピンク寄りで柔らかい */
+  --color-error: #EF8C8C;         /* トーンを上げて優しい“やんわりエラー” */
   --color-error-content: #2B1414;
 
-  /* === Shape: kokolog の“丸くてやさしい”印象を支えるパラメータ === */
-  --radius-selector: 0.9rem;  /* ボタン・セレクタの角丸 */
-  --radius-field: 0.4rem;     /* フォーム入力欄 */
-  --radius-box: 1.1rem;       /* カード系コンポーネント */
+  /* === Shape（丸み・柔らかさ）=== */
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1.25rem;
 
-  /* フォームやセレクタのベースサイズ（必要なければ調整/削除可） */
   --size-selector: 0.25rem;
   --size-field: 0.3rem;
 
-  /* ボーダーと立体感 */
   --border: 1px;
-  --depth: 1.5;  /* 影は控えめだけど“ちゃんと浮いて見える”くらい */
-  --noise: 0;    /* ざらつきは入れず、クリーンさ優先 */
+  --depth: 1.2;
+  --noise: 0;
 }
 
 @plugin "daisyui/theme" {
@@ -63,48 +66,49 @@
   prefersdark: true;
   color-scheme: dark;
 
-  /* === Base: kokolog の夜（黒ではなく“静かな青緑”） === */
-  --color-base-100: #132021; /* ほんのり青緑の混じった深い夜色。背景。 */
-  --color-base-200: #1B2C2D; /* カード背景として最適な落ち着いたトーン */
-  --color-base-300: #2C3F40; /* 境界・薄いシャドウに使う微妙な明度 */
+  /* === Base（暗すぎず、青緑の空気を含む闇）=== */
+  --color-base-100: #11191A; /* メイン背景：黒ではなく深い青緑グレー */
+  --color-base-200: #1A2425; /* カード：しっとりマットな質感 */
+  --color-base-300: #253032; /* 枠線：柔らかいコントラスト */
+  --color-base-content: #EAF7F7; /* 真っ白ではなく“月光の白” */
 
-  --color-base-content: #E8F3F3; /* 白より柔らかい明るさ。夜でも眩しくない。 */
+  /* === Brand（昼テーマと親和性のある夜版）=== */
+  --color-primary: #3B8F86;        /* 減彩度ティール：優しい発光 */
+  --color-primary-content: #F3FDFD;
 
-  /* === Brand Colors: 夜でも優しい kokolog カラー === */
-  --color-primary: #5BC5BA;        /* ライトテーマより少し輝きのあるティール */
-  --color-primary-content: #0D1A18;
+  --color-secondary: #D89082;      /* 夜の灯りのようなコーラル */
+  --color-secondary-content: #1D2222;
 
-  --color-secondary: #F3A48E;      /* 夜でも沈まない、暖かいコーラル */
-  --color-secondary-content: #1E2A2B;
+  --color-accent: #68C89C;         /* 深いミント：希望を感じさせる光 */
+  --color-accent-content: #0F1815;
 
-  --color-accent: #8FE0B0;         /* 前向きミントを明るくして夜でも映えるように */
-  --color-accent-content: #11201A;
+  --color-neutral: #ADBFC0;        /* 柔らかい温度のニュートラル */
+  --color-neutral-content: #111919;
 
-  --color-neutral: #6C8A90;        /* 中立色：青緑グレーで夜でも読みやすい */
-  --color-neutral-content: #F3FBFB;
+  /* === Semantic（怒らない/威圧しない 夜色）=== */
+  --color-info: #6BAAD7;           /* 夜空のようなブルー */
+  --color-info-content: #08141F;
 
-  /* === Semantic Colors（怒らない配色は夜も継続） === */
-  --color-info: #7CB8E8;           /* 優しい青。夜の通知でもきつくない */
-  --color-info-content: #0E1E2C;
+  --color-success: #61A97B;        /* 自然な緑、安心感 */
+  --color-success-content: #07150E;
 
-  --color-success: #74C18F;        /* 明るすぎない成功色。目に優しい緑 */
-  --color-success-content: #0F1F15;
+  --color-warning: #EBCB77;        /* 低コントラストの柔らかい黄 */
+  --color-warning-content: #2E2414;
 
-  --color-warning: #F2C56D;        /* 黄の明度を抑え、夜でも柔らかい */
-  --color-warning-content: #2C2310;
+  --color-error: #D97878;          /* ピンク寄りの“怒らない赤” */
+  --color-error-content: #2A1313;
 
-  --color-error: #E57C7C;          /* ピンク寄り赤で圧をなくす */
-  --color-error-content: #2A1414;
+  /* === Shape（ダークテーマは丸い方が優しい）=== */
+  --radius-selector: 1rem;
+  --radius-field: 0.5rem;
+  --radius-box: 1.25rem;
 
-  /* === Shape: ライトと同じ丸みで統一感を維持 === */
-  --radius-selector: 0.9rem;
-  --radius-field: 0.4rem;
-  --radius-box: 1.1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.3rem;
 
-  /* === Border / Effects === */
   --border: 1px;
-  --depth: 2;  /* 夜は少しカードを浮かせた方が見やすい */
-  --noise: 0;
+  --depth: 1.8; /* ダークテーマは影が映える */
+  --noise: 0; 
 }
 
 @layer components {

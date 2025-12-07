@@ -73,8 +73,10 @@
       <div class="bg-base-200/40 p-3 rounded-lg text-sm space-y-1">
         <p class="font-semibold text-base-content/80">実行前の気分</p>
         <p class="text-base-content">
-          <%= before.mood.label %>
-          （<%= before.feeling&.name %>）
+          <%= [emoji_for_mood(before.mood), jp_label_for_mood(before.mood)].compact.join(" ") %>
+          <% if before.feeling.present? %>
+            （<%= before.feeling.name %>）
+          <% end %>
         </p>
       </div>
     <% end %>
@@ -84,8 +86,10 @@
       <div class="bg-base-200/40 p-3 rounded-lg text-sm space-y-1">
         <p class="font-semibold text-base-content/80">実行後の気分</p>
         <p class="text-base-content">
-          <%= after.mood.label %>
-          （<%= after.feeling&.name %>）
+          <%= [emoji_for_mood(after.mood), jp_label_for_mood(after.mood)].compact.join(" ") %>
+          <% if after.feeling.present? %>
+            （<%= after.feeling.name %>）
+          <% end %>
         </p>
       </div>
     <% end %>

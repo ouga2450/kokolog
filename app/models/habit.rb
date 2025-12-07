@@ -13,7 +13,7 @@ class Habit < ApplicationRecord
   scope :active, -> { where(archived: false) }
   scope :recent, -> { order(recorded_at: :desc) }
 
-  # 今日・今週・今月の目標取得
+  # 目標頻度ごとの習慣取得
   scope :for_today, -> {
     joins(:goal)
     .merge(Goal.for_today)
@@ -46,5 +46,18 @@ class Habit < ApplicationRecord
   # 実行済みの習慣か確認
   def executed_today?
   habit_logs.where(started_at: Time.zone.today.all_day).exists?
+  end
+
+  # 習慣ごとの記録を期間別に取得
+  def logs_today
+    habit_logs.where(started_at: Time.zone.today.all_day)
+  end
+
+  def logs_this_week
+    habit_logs.where(started_at: Time.zone.today.all_week)
+  end
+
+  def logs_this_month
+    habit_logs.where(started_at: Time.zone.today.all_month)
   end
 end
