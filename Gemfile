@@ -31,6 +31,8 @@ gem "jbuilder"
 
 # 🔐 Authentication
 gem "devise", "~> 4.9"
+gem "omniauth-google-oauth2"
+gem "omniauth-rails_csrf_protection", "~> 1.0.2"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]
@@ -50,6 +52,9 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  # 環境変数管理
+  gem "dotenv-rails"
 end
 
 group :development do

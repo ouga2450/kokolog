@@ -1,8 +1,18 @@
 Rails.application.routes.draw do
+  # rootの変更
+  authenticated :user do
+    root "home#index", as: :authenticated_root
+  end
+
+  unauthenticated do
+    root "static_pages#top", as: :unauthenticated_root
+  end
+
   # Deviseによるユーザー認証ルートの設定
   devise_for :users, controllers: {
     registrations: "users/registrations",
-    sessions: "users/sessions"
+    sessions: "users/sessions",
+    omniauth_callbacks: "users/omniauth_callbacks"
   }
 
   get "up" => "rails/health#show", as: :rails_health_check
