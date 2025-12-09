@@ -53,10 +53,23 @@
       <% end %>
 
       <!-- Googleログイン（将来用のダミー） -->
-      <button class="btn btn-outline w-full text-sm flex items-center justify-center gap-2">
-        <%= heroicon "globe-alt", options: { class: "w-4 h-4" } %>
-        <span>Googleで続行</span>
-      </button>
+      <%= button_to user_google_oauth2_omniauth_authorize_path,
+            method: :post,
+            data: { turbo: false },
+            class: "group w-full border border-emerald-100 rounded-full py-3 shadow-sm bg-white hover:bg-emerald-50 focus:ring-2 focus:ring-emerald-300 focus:outline-none transition duration-200 cursor-pointer" do %>
+        <div class="flex items-center justify-center gap-3">
+          <span class="flex items-center justify-center w-6 h-6">
+            <svg class="w-5 h-5" viewBox="0 0 48 48" aria-hidden="true">
+              <path fill="#EA4335" d="M24 9.5c3.54 0 6.69 1.22 9.18 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.63 0 6.51 5.38 2.56 13.22l7.98 6.2C12.7 13.25 17.9 9.5 24 9.5z"/>
+              <path fill="#4285F4" d="M46.5 24.5c0-1.54-.14-3.02-.39-4.45H24v8.46h12.7c-.55 2.82-2.23 5.2-4.75 6.81l7.3 5.66C43.93 37.92 46.5 31.83 46.5 24.5z"/>
+              <path fill="#FBBC05" d="M10.54 28.02a14.5 14.5 0 0 1-.76-4.52c0-1.57.28-3.1.76-4.52l-7.98-6.2A23.9 23.9 0 0 0 0 23.5c0 3.8.9 7.4 2.48 10.6l8.06-6.08z"/>
+              <path fill="#34A853" d="M24 47c6.48 0 11.93-2.14 15.9-5.82l-7.3-5.66c-2.03 1.37-4.64 2.17-8.6 2.17-6.1 0-11.3-3.75-13.46-9.02l-8.06 6.08C6.51 42.62 14.63 48 24 48z"/>
+              <path fill="none" d="M0 0h48v48H0z"/>
+            </svg>
+          </span>
+          <span class="text-sm font-semibold text-gray-700">Googleでログイン</span>
+        </div>
+      <% end %>
 
       <!-- 区切り線 -->
       <div class="divider text-sm">または</div>
