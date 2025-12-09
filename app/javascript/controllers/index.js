@@ -27,3 +27,9 @@ application.register("flash", FlashController)
 
 import ThemeToggleController from "./theme_toggle_controller"
 application.register("theme-toggle", ThemeToggleController)
+
+import RevealController from "./reveal_controller"
+application.register("reveal", RevealController)
+
+import ParallaxController from "./parallax_controller"
+application.register("parallax", ParallaxController)

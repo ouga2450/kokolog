@@ -1,0 +1,118 @@
+<div class="min-h-screen bg-base-200 text-base-content">
+
+  <!-- ================= HERO ================= -->
+  <section class="relative overflow-hidden px-6 pt-24 pb-20 text-center">
+    <div data-controller="parallax" class="absolute inset-0 bg-primary/10"></div>
+
+    <div data-controller="reveal" class="relative space-y-8">
+      <div data-reveal-target="item" class="badge badge-primary badge-outline">
+        こころ × 習慣
+      </div>
+
+      <h1 data-reveal-target="item" class="text-4xl font-bold leading-tight">
+        行動の前後で、<br>
+        <span class="text-primary">こころが動く</span>
+      </h1>
+
+      <p data-reveal-target="item" class="text-sm text-base-content/70 leading-relaxed">
+        気分と習慣を、同時に記録。<br>
+        日常の「小さな変化」が積み重なっていく。
+      </p>
+
+      <!-- 修正版ボタン -->
+      <div data-reveal-target="item" class="space-y-3">
+
+        <%= link_to new_user_registration_path,
+          class: "btn btn-primary w-full h-12 rounded-xl
+                  transition-transform duration-200 ease-out
+                  hover:scale-105 active:scale-95" do %>
+          無料ではじめる
+        <% end %>
+
+        <%= link_to new_user_session_path,
+          class: "btn btn-outline w-full h-12 rounded-xl
+                  transition-transform duration-200 ease-out
+                  hover:scale-105 active:scale-95" do %>
+          ログイン
+        <% end %>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= 体験 Swiper ================= -->
+  <section class="bg-base-100 py-20">
+    <div class="px-6 mb-10 text-center" data-controller="reveal">
+      <h2 data-reveal-target="item" class="text-2xl font-bold">kokolog の体験</h2>
+      <p data-reveal-target="item" class="text-xs text-base-content/60 mt-1">
+        記録 → 行動 → 振り返り
+      </p>
+    </div>
+
+    <div class="swiper px-4"
+         data-controller="swiper"
+         data-swiper-target="container">
+      <div class="swiper-wrapper">
+
+        <% slides = [
+          ["今のこころをつける", "top/mood_input.png", "まずは今の気分をひとつ。"],
+          ["今日のやること", "top/today_habit.png", "今日は、これだけ。"],
+          ["こころの履歴", "top/today_mood_logs.png", "感情は、ちゃんと残る。"],
+          ["行動の履歴", "top/today_habit_logs.png", "やった自分は、消えない。"],
+          ["生活の軸になる", "top/habit_list.png", "繰り返したものが並ぶ。"],
+          ["日々が履歴になる", "top/log_list.png", "日常そのものが記録になる。"]
+        ] %>
+
+        <% slides.each do |title, img, text| %>
+          <div class="swiper-slide">
+            <div class="card bg-base-200 p-4 shadow space-y-3">
+              <p class="text-xs text-primary font-bold"><%= title %></p>
+              <%= image_tag img, class: "rounded-xl w-full" %>
+              <p class="text-xs text-base-content/70"><%= text %></p>
+            </div>
+          </div>
+        <% end %>
+
+      </div>
+
+      <div class="swiper-pagination mt-6"></div>
+    </div>
+  </section>
+
+
+  <!-- ================= グラフ枠 ================= -->
+  <section class="py-20 px-6 bg-base-200">
+    <div class="card bg-base-100 shadow p-6 text-center space-y-3" data-controller="reveal">
+      <h3 data-reveal-target="item" class="font-bold text-sm">こころの変化（近日追加）</h3>
+
+      <div data-reveal-target="item"
+           class="w-full h-40 rounded-xl border-2 border-dashed border-base-300
+                  flex items-center justify-center text-xs text-base-content/50">
+        グラフ表示エリア（今後実装）
+      </div>
+
+      <p data-reveal-target="item" class="text-xs text-base-content/60">
+        週間・月間の気分を可視化予定
+      </p>
+    </div>
+  </section>
+
+
+  <!-- ================= CTA ================= -->
+  <section class="bg-primary py-20 text-center text-primary-content">
+    <div data-controller="reveal" class="space-y-6 px-6">
+      <h2 data-reveal-target="item" class="text-2xl font-bold">
+        今日の一歩が、未来をつくる
+      </h2>
+
+      <%= link_to new_user_registration_path,
+            class: "btn btn-secondary w-full h-12 rounded-xl
+                    transition-transform duration-200 ease-out
+                    hover:scale-105 active:scale-95" do %>
+        今すぐ始める
+      <% end %>
+    </div>
+  </section>
+
+</div>
