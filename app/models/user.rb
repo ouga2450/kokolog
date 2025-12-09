@@ -6,7 +6,7 @@ class User < ApplicationRecord
        :recoverable,
        :rememberable,
        :validatable,
-       :omniauthable,omniauth_providers: [:google_oauth2]
+       :omniauthable, omniauth_providers: [ :google_oauth2 ]
 
   # --- 関連 ---
   has_many :mood_logs, dependent: :destroy
