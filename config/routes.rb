@@ -37,4 +37,7 @@ Rails.application.routes.draw do
   resources :habit_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 
   resources :logs, only: [ :index, :show ], param: :date
+
+  # カレンダーページ
+  get "calendar", to: "calendar#index"
 end

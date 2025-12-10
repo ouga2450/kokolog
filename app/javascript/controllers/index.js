@@ -13,6 +13,9 @@ application.register("mood-selector", MoodSelectorController)
 import SwiperController from "./swiper_controller"
 application.register("swiper", SwiperController)
 
+import CalendarSwipeController from "./calendar_swipe_controller"
+application.register("calendar-swipe", CalendarSwipeController)
+
 import ToggleFormController from "./toggle_form_controller"
 application.register("toggle-form", ToggleFormController)
 
