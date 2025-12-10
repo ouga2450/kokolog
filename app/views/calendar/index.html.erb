@@ -1,5 +1,85 @@
-<h1 class="text-xl font-bold mb-4">カレンダー</h1>
+<div
+  class="p-4"
+  data-controller="calendar-swipe"
+  data-calendar-swipe-prev-url-value="<%= calendar_path(date: @date.prev_month) %>"
+  data-calendar-swipe-next-url-value="<%= calendar_path(date: @date.next_month) %>"
+  data-action="touchstart->calendar-swipe#touchstart touchend->calendar-swipe#touchend"
+>
+  <div class="calendar-wrapper">
 
-<div>
-  カレンダーここに入れる
+    <!-- 月移動 -->
+    <div class="flex justify-between items-center mb-4">
+      <%= link_to "←", calendar_path(date: @date.prev_month), class: "bg-base-100/80 btn btn-sm" %>
+
+      <h2 class="text-lg font-bold">
+        <%= @date.strftime("%Y年 %m月") %>
+      </h2>
+
+      <%= link_to "→", calendar_path(date: @date.next_month), class: "bg-base-100/80 btn btn-sm" %>
+    </div>
+
+    <!-- ▼ 曜日ヘッダー -->
+    <div class="grid grid-cols-7 gap-2 text-center text-xs font-bold mb-2 text-base-content">
+      <% %w(月 火 水 木 金 土 日).each_with_index do |wday, i| %>
+        <% color =
+          case i
+          when 5 then "text-blue-500/70"
+          when 6 then "text-red-500/70"
+          else "text-base-content/70"
+          end
+        %>
+        <div class="<%= color %>"><%= wday %></div>
+      <% end %>
+    </div>
+
+    <!-- ▼ カレンダー本体 -->
+    <div class="grid grid-cols-7 gap-2">
+
+      <% (@beginning..@ending).each do |day| %>
+
+        <% mood_logs_for_day  = @mood_logs_by_day[day]  || [] %>
+        <% habit_logs_for_day = @habit_logs_by_day[day] || [] %>
+
+        <% today_class =
+          if day == Date.current
+            "bg-primary/10 border-primary text-primary font-semibold"
+          else
+            ""
+          end
+        %>
+
+        <%= link_to log_path(day.to_s),
+                    data: { turbo_frame: "modal" },
+                    class: [
+                      "bg-base-100/80 rounded-lg border p-2 h-14 block relative transition",
+                      "hover:shadow-md hover:-translate-y-0.5",
+                      today_class,
+                      ("opacity-30" if day.month != @date.month)
+                    ].compact.join(" ") do %>
+
+          <!-- 日付 -->
+          <div class="<%= [
+            'text-xs font-bold mb-1',
+            (day.sunday? ? 'text-red-500' : nil),
+            (day.saturday? ? 'text-blue-500' : nil),
+            (day == Date.current ? 'text-primary font-bold' : nil)
+          ].compact.join(' ') %>">
+            <%= day.day %>
+          </div>
+
+          <!-- 習慣ドット（仮表示） -->
+          <div class="flex flex-wrap gap-1 mt-1">
+            <% habit_logs_for_day.each do |_hl| %>
+              <span class="inline-block w-2 h-2 bg-primary rounded-full"></span>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <!-- ▼ 操作ガイド（控えめに表示） -->
+    <div class="text-xs text-base-content/60 mb-3 text-center">
+      <p>日付をタップすると、その日の記録を開けます。</p>
+      <p>スマホでは左右スワイプで前後の月へ移動できます。</p>
+    </div>
+  </div>
 </div>

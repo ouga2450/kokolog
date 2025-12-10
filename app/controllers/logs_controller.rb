@@ -38,5 +38,10 @@ class LogsController < ApplicationController
     @mood_logs = current_user.mood_logs
       .where(recorded_at: @date.all_day)
       .order(:recorded_at)
+
+    respond_to do |format|
+      format.html  # ← 従来のshowページ
+      format.turbo_stream { render layout: false } # モーダル用
+    end
   end
 end
