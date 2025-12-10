@@ -31,8 +31,11 @@ gem "jbuilder"
 
 # 🔐 Authentication
 gem "devise", "~> 4.9"
+gem "devise-i18n"
 gem "omniauth-google-oauth2"
 gem "omniauth-rails_csrf_protection", "~> 1.0.2"
+
+gem "rails-i18n"
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ windows jruby ]

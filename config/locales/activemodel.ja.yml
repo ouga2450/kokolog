@@ -2,30 +2,8 @@ ja:
   errors:
     format: "%{attribute}%{message}"
 
-    messages:
-      blank: "を入力してください"
-      invalid: "は不正な値です"
-      taken: "はすでに使用されています"
-      too_short: "%{count}文字以上で入力してください"
-      too_long: "%{count}文字以内で入力してください"
-      wrong_length: "%{count}文字で入力してください"
-      not_a_number: "は数値で入力してください"
-      greater_than: "%{count}より大きい値にしてください"
-      greater_than_or_equal_to: "%{count}以上の値にしてください"
-      less_than: "%{count}より小さい値にしてください"
-      less_than_or_equal_to: "%{count}以下の値にしてください"
-      in: "%{count}の範囲内で指定してください"
-      confirmation: "が一致しません"
-      accepted: "を受諾してください"
-      required: "は必須です"
-
   activerecord:
     attributes:
-      user:
-        email: "メールアドレス"
-        password: "パスワード"
-        password_confirmation: "パスワード確認"
-
       habit:
         name: "習慣名"
         description: "説明"
