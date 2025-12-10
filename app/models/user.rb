@@ -33,7 +33,7 @@ class User < ApplicationRecord
     create(
       name: auth.info.name,
       email: auth.info.email,
-      password: Devise.friendly_token[0,20],
+      password: Devise.friendly_token[0, 20],
       provider: auth.provider,
       uid: auth.uid
     )
