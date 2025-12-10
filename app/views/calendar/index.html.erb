@@ -49,32 +49,55 @@
         %>
 
         <%= link_to log_path(day.to_s),
-                    data: { turbo_frame: "modal" },
-                    class: [
-                      "bg-base-100/80 rounded-lg border p-2 h-14 block relative transition",
-                      "hover:shadow-md hover:-translate-y-0.5",
-                      today_class,
-                      ("opacity-30" if day.month != @date.month)
-                    ].compact.join(" ") do %>
+            data: { turbo_frame: "modal" },
+            class: [
+              "bg-base-100/80 rounded-lg border p-2 h-14 block relative transition",
+              "hover:shadow-md hover:-translate-y-0.5",
+              today_class,
+              ("opacity-30" if day.month != @date.month)
+            ].compact.join(" ") do %>
 
           <!-- 日付 -->
-          <div class="<%= [
-            'text-xs font-bold mb-1',
-            (day.sunday? ? 'text-red-500' : nil),
-            (day.saturday? ? 'text-blue-500' : nil),
-            (day == Date.current ? 'text-primary font-bold' : nil)
-          ].compact.join(' ') %>">
+          <div class="text-xs font-bold mb-1 ...">
             <%= day.day %>
           </div>
 
-          <!-- 習慣ドット（仮表示） -->
-          <div class="flex flex-wrap gap-1 mt-1">
-            <% habit_logs_for_day.each do |_hl| %>
-              <span class="inline-block w-2 h-2 bg-primary rounded-full"></span>
+          <!-- ▼ ログ表示（記号 × 個数） -->
+          <div class="mt-1 space-y-0.5 text-[10px] leading-none">
+
+            <% mood_count = mood_logs_for_day.size %>
+            <% habit_count = habit_logs_for_day.size %>
+
+            <!-- 習慣ログ（primary） -->
+            <% if habit_count > 0 %>
+              <div class="flex items-center gap-1 text-primary">
+                <span>●</span>
+                <span><%= habit_count %></span>
+              </div>
+            <% end %>
+
+            <!-- 気分ログ（secondary） -->
+            <% if mood_count > 0 %>
+              <div class="flex items-center gap-1 text-secondary">
+                <span>●</span>
+                <span><%= mood_count %></span>
+              </div>
             <% end %>
           </div>
         <% end %>
       <% end %>
+    </div>
+    <!-- ▼ 凡例 -->
+    <div class="text-xs text-base-content/60 mt-4 flex justify-center gap-4">
+
+      <div class="flex items-center gap-1 text-primary">
+        <span>●</span><span>習慣ログ</span>
+      </div>
+
+      <div class="flex items-center gap-1 text-secondary">
+        <span>●</span><span>気分ログ</span>
+      </div>
+
     </div>
     <!-- ▼ 操作ガイド（控えめに表示） -->
     <div class="text-xs text-base-content/60 mb-3 text-center">
