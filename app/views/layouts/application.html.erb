@@ -29,17 +29,19 @@
     <% end %>
 
     <main class="flex-grow">
-      <% if current_page?(unauthenticated_root_path) %>
-        <!-- LPはフル幅 -->
+
+      <% if controller_name == "static_pages" && action_name == "top" %>
+        <!-- TOPページだけフル幅 -->
         <%= yield %>
       <% else %>
-        <!-- 通常ページは今まで通り -->
+        <!-- その他（ログインページ、home、habitログ、全部） -->
         <div class="flex justify-center">
           <div class="w-full max-w-md px-4 py-6">
             <%= yield %>
           </div>
         </div>
       <% end %>
+
     </main>
 
     <% if user_signed_in? %>
