@@ -1,4 +1,5 @@
 class MoodLog < ApplicationRecord
+  include Hashid::Rails
   # recorded_atのデフォルト値を現在時刻に設定（マイグレーションのdefaultオプションはDB側で設定されるため、validationエラーを防ぐ目的でモデル側でも設定）
   before_validation :set_default_recorded_at, on: :create
   before_validation :truncate_recorded_at_to_minute

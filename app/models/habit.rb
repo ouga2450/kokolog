@@ -1,4 +1,5 @@
 class Habit < ApplicationRecord
+  include Hashid::Rails
   # --- 関連 ---
   belongs_to :user
   belongs_to :category
