@@ -15,6 +15,7 @@ class HabitsController < ApplicationController
   end
 
   def show
+    @progress = HabitProgress.new(habit: @habit)
     if turbo_frame_request?
       render :show, layout: false
     else

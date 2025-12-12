@@ -9,6 +9,9 @@ class HabitQuery
 
   def active_base
     base.where(archived: false)
+        .joins(:goal)
+        .merge(Goal.active)
+        .distinct
   end
 
   # Goal（daily/weekly/monthly）に応じた対象習慣
@@ -16,9 +19,6 @@ class HabitQuery
 
   def habits_for(tab)
     scope = active_base
-              .joins(:goal)
-              .merge(Goal.active)
-              .distinct
 
     case tab.to_s
     when "today"
