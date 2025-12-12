@@ -37,8 +37,7 @@ class HabitLog < ApplicationRecord
   # count  → performed_value（回数）
   # time   → performed_value（分）
   def value_for_goal
-    case goal.target_type
-    when "check"
+    if goal.check_based?
       1
     else
       performed_value || 0

@@ -23,3 +23,11 @@ ja:
       x_minutes:
         one: "1分"
         other: "%{count}分"
+
+  habit:
+    progress_status:
+      achieved: "達成済✅"
+      almost: "もう少し"
+      started: "手をつけた"
+      none: "□未着手"
+      not_applicable: "評価なし"

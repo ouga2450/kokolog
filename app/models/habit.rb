@@ -44,21 +44,22 @@ class Habit < ApplicationRecord
   scope :weekly, -> { joins(:goal).where(goals: { frequency: :weekly }) }
   scope :monthly, -> { joins(:goal).where(goals: { frequency: :monthly }) }
 
+  # 習慣ごとの記録を期間別に取得
+  def logs_for(range:, date: Time.zone.today)
+    case range
+    when :daily
+      habit_logs.where(started_at: date.all_day)
+    when :weekly
+      habit_logs.where(started_at: date.all_week)
+    when :monthly
+    habit_logs.where(started_at: date.all_month)
+    else
+      HabitLog.none
+    end
+  end
+
   # 実行済みの習慣か確認
   def executed_today?
   habit_logs.where(started_at: Time.zone.today.all_day).exists?
-  end
-
-  # 習慣ごとの記録を期間別に取得
-  def logs_today
-    habit_logs.where(started_at: Time.zone.today.all_day)
-  end
-
-  def logs_this_week
-    habit_logs.where(started_at: Time.zone.today.all_week)
-  end
-
-  def logs_this_month
-    habit_logs.where(started_at: Time.zone.today.all_month)
   end
 end
