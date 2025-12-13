@@ -9,7 +9,7 @@ class HabitProgress
   end
 
   def target_value
-    habit.goal.amount || 1
+    habit.goal.amount
   end
 
   def status

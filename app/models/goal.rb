@@ -11,9 +11,11 @@ class Goal < ApplicationRecord
   enum status: { draft: 0, active: 1, achieved: 2 }  # 目標セット
 
   # --- バリデーション ---
+  before_validation :set_amount_for_check_based
   validates :goal_unit, presence: true
   validates :frequency, presence: true
   validates :status, presence: true
+  validates :amount, presence: true
 
   # count / time の場合だけ amount が必要
   validates :amount,
@@ -90,5 +92,13 @@ class Goal < ApplicationRecord
     else
       "期間なし"
     end
+  end
+
+  private
+
+  def set_amount_for_check_based
+    return unless check_based?
+
+    self.amount = 1
   end
 end
