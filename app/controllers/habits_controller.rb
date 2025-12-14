@@ -4,7 +4,7 @@ class HabitsController < ApplicationController
   def index
     base = current_user.habits
                         .includes(:goal, :category)
-    
+
     kept = base.kept
 
     @daily_habits   = kept.with_active_goal.daily

@@ -11,7 +11,7 @@ class Habit < ApplicationRecord
 
   # --- スコープ ---
   # 有効な習慣を取得
-  scope :discarded, -> { where.not(archived_at: nil)}
+  scope :discarded, -> { where.not(archived_at: nil) }
   scope :kept, -> { where(archived_at: nil) }
   scope :recent, -> { order(recorded_at: :desc) }
 
