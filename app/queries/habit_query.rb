@@ -8,7 +8,7 @@ class HabitQuery
   end
 
   def active_base
-    base.where(archived: false)
+    base.where(archived_at: nil)
         .joins(:goal)
         .merge(Goal.active)
         .distinct

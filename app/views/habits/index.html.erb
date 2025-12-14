@@ -121,5 +121,30 @@
       </div>
     </section>
 
+    <!-- アーカイブ -->
+    <section class="card bg-base-100 shadow-sm space-y-2">
+      <div class="card-body">
+        <h3 class="text-lg font-bold mb-2">アーカイブ</h3>
+
+        <% if @discarded_habits.present? %>
+          <div class="space-y-2">
+            <% @discarded_habits.each do |habit| %>
+              <%= render "habits/partials/card_habit_index", habit: habit %>
+            <% end %>
+          </div>
+        <% else %>
+          <div class="flex items-center justify-center w-full">
+            <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                        flex items-center justify-center text-center">
+              <p class="text-sm text-base-content/60">
+                アーカイブされた習慣はありません。
+              </p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+
   </div>
 </div>
