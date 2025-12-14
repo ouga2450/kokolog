@@ -11,7 +11,8 @@ class Habit < ApplicationRecord
 
   # --- スコープ ---
   # 有効な習慣を取得
-  scope :active, -> { where(archived: false) }
+  scope :discarded, -> { where.not(archived_at: nil)}
+  scope :kept, -> { where(archived_at: nil) }
   scope :recent, -> { order(recorded_at: :desc) }
 
   # 目標頻度ごとの習慣取得
@@ -34,12 +35,12 @@ class Habit < ApplicationRecord
   }
 
   # 目標との関連
-  # 目標セット状態ごとの取得
-  scope :draft, -> { joins(:goal).where(goals: { status: :draft }) }
-  scope :active, -> { joins(:goal).where(goals: { status: :active }) }
-  scope :achieved, -> { joins(:goal).where(goals: { status: :achieved }) }
-
   # 達成頻度ごとの取得
+  scope :with_draft_goal,    -> { joins(:goal).merge(Goal.draft) }
+  scope :with_active_goal,   -> { joins(:goal).merge(Goal.active) }
+  scope :with_achieved_goal, -> { joins(:goal).merge(Goal.achieved) }
+
+  # 目標セット状態ごとの取得
   scope :daily, -> { joins(:goal).where(goals: { frequency: :daily }) }
   scope :weekly, -> { joins(:goal).where(goals: { frequency: :weekly }) }
   scope :monthly, -> { joins(:goal).where(goals: { frequency: :monthly }) }
@@ -56,6 +57,14 @@ class Habit < ApplicationRecord
     else
       HabitLog.none
     end
+  end
+
+  def archive!
+    update!(archived_at: Time.current)
+  end
+
+  def archived?
+    archived_at.present?
   end
 
   # 実行済みの習慣か確認

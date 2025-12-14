@@ -2,16 +2,19 @@ class HabitsController < ApplicationController
   before_action :set_habit, only: [ :show, :edit, :update, :destroy ]
 
   def index
-    # 習慣取得
-    @habits = current_user.habits.includes(:goal, :category)
+    base = current_user.habits
+                        .includes(:goal, :category)
+    
+    kept = base.kept
 
-    @draft_habits    = @habits.draft
-    @active_habits   = @habits.active
-    @achieved_habits = @habits.achieved
+    @daily_habits   = kept.with_active_goal.daily
+    @weekly_habits  = kept.with_active_goal.weekly
+    @monthly_habits = kept.with_active_goal.monthly
 
-    @daily_habits   = @active_habits.daily
-    @weekly_habits  = @active_habits.weekly
-    @monthly_habits = @active_habits.monthly
+    @draft_habits    = kept.with_draft_goal
+    @achieved_habits = kept.with_achieved_goal
+
+    @discarded_habits = base.discarded
   end
 
   def show
@@ -59,30 +62,29 @@ class HabitsController < ApplicationController
   end
 
   def destroy
-    if @habit.destroy
-      query = HabitQuery.new(user: current_user)
+    @habit.archive!
 
-      @none_flag = query.none_for(params[:tab])
+    query = HabitQuery.new(user: current_user)
+    @none_flag = query.none_for?(params[:tab])
 
-      flash.now[:notice] = "習慣を削除しました。"
+    flash.now[:notice] = "習慣をアーカイブしました。"
 
-      respond_to do |format|
-        format.turbo_stream
-        format.html do
-          redirect_to (request.referer.presence || habits_path),
-                      notice: "習慣を削除しました。"
-        end
+    respond_to do |format|
+      format.turbo_stream
+      format.html do
+        redirect_to (request.referer.presence || habits_path),
+                    notice: "習慣をアーカイブしました。"
       end
+    end
 
-    else
-      flash.now[:alert] = "削除に失敗しました。"
+  rescue ActiveRecord::RecordInvalid
+    flash.now[:alert] = "アーカイブに失敗しました。"
 
-      respond_to do |format|
-        format.turbo_stream { render :destroy_failure }
-        format.html do
-          redirect_to (request.referer.presence || habits_path),
-                      alert: "削除に失敗しました。"
-        end
+    respond_to do |format|
+      format.turbo_stream { render :destroy_failure }
+      format.html do
+        redirect_to (request.referer.presence || habits_path),
+                    alert: "アーカイブに失敗しました。"
       end
     end
   end
