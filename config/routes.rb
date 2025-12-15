@@ -32,7 +32,13 @@ Rails.application.routes.draw do
   resources :mood_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 
   # habitsリソースのルーティング設定
-  resources :habits
+  resources :habits do
+    member do
+      patch :archive
+      patch :restore
+      delete :purge
+    end
+  end
 
   resources :habit_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 

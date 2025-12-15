@@ -96,7 +96,7 @@
             <%= f.label :goal_unit, "目標タイプ", class: "label-text text-sm font-semibold" %>
             <%= f.select :goal_unit,
                   Goal.goal_units.keys.map { |k| [I18n.t("enums.goal.goal_unit.#{k}"), k] },
-                  { prompt: "例：チェック / 回数で管理 / 時間で管理" },
+                  { prompt: "目標達成までの期間を設定" },
                   class: "select select-bordered w-full",
                   data: {action: "change->amount#toggle"},
                   "data-amount-target": "typeSelect" %>
@@ -106,7 +106,7 @@
               <%= f.label :amount, "目標値", class: "label-text text-sm font-semibold" %>
               <%= f.number_field :amount, min: 1,
                     class: "input input-bordered w-full",
-                    placeholder: "例：3（＝週3回実施）" %>
+                    placeholder: "目標回数/時間（分）を設定（例：3）" %>
             </div>
           </div>
         </div>
