@@ -1,5 +1,5 @@
 class HabitsController < ApplicationController
-  before_action :set_habit, only: [ :show, :edit, :update, :destroy ]
+  before_action :set_habit, only: [ :show, :edit, :update, :archive, :restore, :purge ]
 
   def index
     base = current_user.habits
@@ -61,33 +61,30 @@ class HabitsController < ApplicationController
     end
   end
 
-  def destroy
+  def archive
     @habit.archive!
 
-    query = HabitQuery.new(user: current_user)
-    @none_flag = query.none_for?(params[:tab])
+    if turbo_frame_request?
+      query = HabitQuery.new(user: current_user)
+      @none_flag = query.none_for?(params[:tab])
 
-    flash.now[:notice] = "習慣をアーカイブしました。"
-
-    respond_to do |format|
-      format.turbo_stream
-      format.html do
-        redirect_to (request.referer.presence || habits_path),
-                    notice: "習慣をアーカイブしました。"
-      end
-    end
-
-  rescue ActiveRecord::RecordInvalid
-    flash.now[:alert] = "アーカイブに失敗しました。"
-
-    respond_to do |format|
-      format.turbo_stream { render :destroy_failure }
-      format.html do
-        redirect_to (request.referer.presence || habits_path),
-                    alert: "アーカイブに失敗しました。"
-      end
+      flash.now[:notice] = "習慣を削除しました。"
+    else
+      redirect_to request.referer.presence || habits_path,
+                  notice: "習慣を削除しました。"
     end
   end
+
+  def restore
+    @habit.restore!
+    redirect_to habits_path, notice: "習慣を復元しました"
+  end
+
+  def purge
+    @habit.destroy!
+    redirect_to habits_path, alert: "習慣を完全に削除しました"
+  end
+
 
   private
 

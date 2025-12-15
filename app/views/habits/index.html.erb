@@ -17,134 +17,42 @@
         <h3 class="text-lg font-bold">有効な習慣</h3>
 
         <!-- Daily -->
-        <h4 class="text-base font-semibold">毎日</h4>
-        <% if @daily_habits.present? %>
-          <div class="space-y-2">
-            <% @daily_habits.each do |habit| %>
-              <%= render "habits/partials/card_habit_index", habit: habit %>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center w-full">
-            <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                        flex items-center justify-center text-center">
-              <p class="text-sm text-base-content/60">
-                毎日の習慣はまだありません。
-              </p>
-            </div>
-          </div>
-        <% end %>
+        <%= render "habits/partials/frequency_block",
+                   title: "毎日",
+                   habits: @daily_habits %>
 
         <!-- Weekly -->
-        <h4 class="text-base font-semibold">毎週</h4>
-        <% if @weekly_habits.present? %>
-          <div class="space-y-2">
-            <% @weekly_habits.each do |habit| %>
-              <%= render "habits/partials/card_habit_index", habit: habit %>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center w-full">
-            <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                        flex items-center justify-center text-center">
-              <p class="text-sm text-base-content/60">
-                毎週の習慣はまだありません。
-              </p>
-            </div>
-          </div>
-        <% end %>
+        <%= render "habits/partials/frequency_block",
+                   title: "毎週",
+                   habits: @weekly_habits %>
 
         <!-- Monthly -->
-        <h4 class="text-base font-semibold">毎月</h4>
-        <% if @monthly_habits.present? %>
-          <div class="space-y-2">
-            <% @monthly_habits.each do |habit| %>
-              <%= render "habits/partials/card_habit_index", habit: habit %>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center w-full">
-            <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                        flex items-center justify-center text-center">
-              <p class="text-sm text-base-content/60">
-                毎月の習慣はまだありません。
-              </p>
-            </div>
-          </div>
-        <% end %>
+        <%= render "habits/partials/frequency_block",
+                   title: "毎月",
+                   habits: @monthly_habits %>
       </div>
     </section>
 
     <!-- 下書き -->
-    <section class="card bg-base-100 shadow-sm">
-      <div class="card-body">
-        <h3 class="text-lg font-bold mb-2">下書き</h3>
-        <% if @draft_habits.present? %>
-          <div class="space-y-2">
-            <% @draft_habits.each do |habit| %>
-              <%= render "habits/partials/card_habit_index", habit: habit %>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center w-full">
-            <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                        flex items-center justify-center text-center">
-              <p class="text-sm text-base-content/60">
-                下書きの習慣はありません。
-              </p>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </section>
+    <%= render "habits/partials/section",
+              title: "下書き",
+              habits: @draft_habits,
+              empty_message: "下書きの習慣はありません。",
+              archived: false %>
 
     <!-- 達成済み -->
-    <section class="card bg-base-100 shadow-sm space-y-2">
-      <div class="card-body">
-        <h3 class="text-lg font-bold mb-2">達成済み</h3>
-        <% if @achieved_habits.present? %>
-          <div class="space-y-2">
-            <% @achieved_habits.each do |habit| %>
-              <%= render "habits/partials/card_habit_index", habit: habit %>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center w-full">
-            <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                        flex items-center justify-center text-center">
-              <p class="text-sm text-base-content/60">
-                達成済みの習慣はありません。
-              </p>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </section>
+    <%= render "habits/partials/section",
+              title: "達成済み",
+              habits: @achieved_habits,
+              empty_message: "達成済みの習慣はありません。",
+              archived: false %>
 
-    <!-- アーカイブ -->
-    <section class="card bg-base-100 shadow-sm space-y-2">
-      <div class="card-body">
-        <h3 class="text-lg font-bold mb-2">アーカイブ</h3>
-
-        <% if @discarded_habits.present? %>
-          <div class="space-y-2">
-            <% @discarded_habits.each do |habit| %>
-              <%= render "habits/partials/card_habit_index", habit: habit %>
-            <% end %>
-          </div>
-        <% else %>
-          <div class="flex items-center justify-center w-full">
-            <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
-                        flex items-center justify-center text-center">
-              <p class="text-sm text-base-content/60">
-                アーカイブされた習慣はありません。
-              </p>
-            </div>
-          </div>
-        <% end %>
-      </div>
-    </section>
-
+    <!-- 削除済み -->
+    <%= render "habits/partials/section",
+              title: "削除済み",
+              habits: @discarded_habits,
+              empty_message: "削除された習慣はありません。",
+              archived: true %>
 
   </div>
 </div>

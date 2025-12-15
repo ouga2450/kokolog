@@ -1,0 +1,17 @@
+<section class="card bg-base-100 shadow-sm">
+  <div class="card-body space-y-2">
+    <h3 class="text-lg font-bold mb-2"><%= title %></h3>
+
+    <% if habits.empty? %>
+      <%= render partial: "habits/partials/empty_card_habit_index",
+                 locals: { empty_message: empty_message } %>
+    <% else %>
+      <div class="space-y-2">
+        <% habits.each do |habit| %>
+          <%= render partial: "habits/partials/card_habit_index",
+                     locals: { habit: habit, archived: archived } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</section>

@@ -63,6 +63,10 @@ class Habit < ApplicationRecord
     update!(archived_at: Time.current)
   end
 
+  def restore!
+    update!(archived_at: nil)
+  end
+
   def archived?
     archived_at.present?
   end

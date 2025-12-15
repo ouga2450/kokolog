@@ -1,0 +1,73 @@
+<!-- 詳細 -->
+<%= link_to habit_path(habit, from: "index"),
+            data: { turbo_frame: "modal" },
+            class: "flex items-center gap-1 text-sm
+                    text-base-content/70
+                    hover:text-primary
+                    transition-colors duration-150" do %>
+  <%= heroicon "eye", options: { class: "w-4 h-4" } %>
+  <span>詳細</span>
+<% end %>
+
+<% unless archived %>
+  <!-- 編集 -->
+  <%= link_to edit_habit_path(habit),
+              class: "flex items-center gap-1 text-sm
+                      text-base-content/70
+                      hover:text-primary
+                      transition-colors duration-150" do %>
+    <%= heroicon "pencil", options: { class: "w-4 h-4" } %>
+    <span>編集</span>
+  <% end %>
+
+  <!-- 削除（アーカイブ） -->
+  <%= button_to archive_habit_path(habit),
+                method: :patch,
+                form: {
+                  data: {
+                    turbo_confirm: "この習慣を削除しますか？（習慣ページより復元できます）"
+                  }
+                },
+                class: "flex items-center gap-1 text-sm
+                        text-error
+                        hover:bg-error/10
+                        hover:underline
+                        transition-colors duration-150
+                        rounded-md
+                        bg-transparent border-0 p-0" do %>
+    <%= heroicon "trash", options: { class: "w-4 h-4" } %>
+    <span>削除</span>
+  <% end %>
+
+<% else %>
+  <!-- 復元 -->
+  <%= button_to restore_habit_path(habit),
+                method: :patch,
+                class: "flex items-center gap-1 text-sm
+                        text-base-content/70
+                        hover:text-primary
+                        transition-colors duration-150
+                        bg-transparent border-0 p-0" do %>
+    <%= heroicon "arrow-path", options: { class: "w-4 h-4" } %>
+    <span>復元</span>
+  <% end %>
+
+  <!-- 完全削除 -->
+  <%= button_to purge_habit_path(habit),
+                method: :delete,
+                form: {
+                  data: {
+                    turbo_confirm: "完全に削除します。関連する記録も失われますが本当によろしいですか？"
+                  }
+                },
+                class: "flex items-center gap-1 text-sm
+                        text-error
+                        hover:bg-error/10
+                        hover:underline
+                        transition-colors duration-150
+                        rounded-md
+                        bg-transparent border-0 p-0" do %>
+    <%= heroicon "x-circle", options: { class: "w-4 h-4" } %>
+    <span>完全削除</span>
+  <% end %>
+<% end %>

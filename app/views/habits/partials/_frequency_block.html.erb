@@ -1,0 +1,22 @@
+<div class="space-y-2">
+  <h4 class="text-base font-semibold"><%= title %></h4>
+
+  <% if habits.empty? %>
+    <div class="flex items-center justify-center w-full">
+      <div class="w-[95%] rounded-xl bg-base-200 p-3 shadow-sm h-14
+                  flex items-center justify-center text-center">
+        <p class="text-sm text-base-content/60">
+          <%= "#{title}の習慣はまだありません。" %>
+        </p>
+      </div>
+    </div>
+  <% else %>
+    <div class="space-y-2">
+      <% habits.each do |habit| %>
+        <%= render "habits/partials/card_habit_index",
+                   habit: habit,
+                   archived: false %>
+      <% end %>
+    </div>
+  <% end %>
+</div>
