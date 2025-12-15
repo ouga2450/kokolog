@@ -70,7 +70,7 @@ class HabitsController < ApplicationController
 
       flash.now[:notice] = "習慣を削除しました。"
     else
-      redirect_to request.referer.presence || habits_path ,
+      redirect_to request.referer.presence || habits_path,
                   notice: "習慣を削除しました。"
     end
   end
