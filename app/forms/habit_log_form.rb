@@ -111,6 +111,8 @@ class HabitLogForm
     active_start = habit.goal.start_date
     active_end   = habit.goal.end_date
 
+    return if active_start.blank? || active_end.blank?
+
     if started_at.present? &&
       !started_at.between?(active_start, active_end)
       errors.add(:started_at, "は習慣が有効な期間内で記録してください")
