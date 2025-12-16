@@ -69,10 +69,14 @@ class HabitLogForm
   end
 
   def new_attributes
+    default_mood = 3
     {
       habit_id: habit.id,
       goal_id: habit.goal&.id,
-      started_at: Time.current
+      started_at: Time.current,
+      before_mood_id: default_mood,
+      ended_at: Time.current,
+      after_mood_id: default_mood
     }
   end
 
