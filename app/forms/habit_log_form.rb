@@ -28,6 +28,7 @@ class HabitLogForm
   validates :performed_value,
             numericality: { greater_than_or_equal_to: 0 },
             allow_nil: true
+  validate :within_habit_active_range
 
   # new/edit データ構成
   def initialize(user:, habit: nil, habit_log: nil, attributes: {})
@@ -99,5 +100,25 @@ class HabitLogForm
       "#{timing}_feeling_id": log.feeling_id,
       "#{timing}_note": log.note
     }
+  end
+
+  # 時刻範囲がhabitの期間指定に収まっているか
+  def within_habit_active_range
+    return if habit.blank?
+    return if habit.goal.blank?
+    return if started_at.blank? && ended_at.blank?
+
+    active_start = habit.goal.start_date
+    active_end   = habit.goal.end_date
+
+    if started_at.present? &&
+      !started_at.between?(active_start, active_end)
+      errors.add(:started_at, "は習慣が有効な期間内で記録してください")
+    end
+
+    if ended_at.present? &&
+      !ended_at.between?(active_start, active_end)
+      errors.add(:ended_at, "は習慣が有効な期間内で記録してください")
+    end
   end
 end
