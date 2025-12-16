@@ -69,10 +69,14 @@ class HabitLogForm
   end
 
   def new_attributes
+    default_mood = 3
     {
       habit_id: habit.id,
       goal_id: habit.goal&.id,
-      started_at: Time.current
+      started_at: Time.current,
+      before_mood_id: default_mood,
+      ended_at: Time.current,
+      after_mood_id: default_mood
     }
   end
 
@@ -110,6 +114,8 @@ class HabitLogForm
 
     active_start = habit.goal.start_date
     active_end   = habit.goal.end_date
+
+    return if active_start.blank? || active_end.blank?
 
     if started_at.present? &&
       !started_at.between?(active_start, active_end)
