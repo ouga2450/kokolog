@@ -24,7 +24,7 @@
         <% if @habit_logs.any? %>
           <div class="space-y-3">
             <% @habit_logs.each do |log| %>
-              <%= render "logs/partials/card_habit_log_logs", habit_log: log %>
+              <%= render "calendars/partials/card_habit_log_logs", habit_log: log %>
             <% end %>
           </div>
         <% else %>
@@ -35,7 +35,7 @@
         <% if @mood_logs.any? %>
           <div class="space-y-3">
             <% @mood_logs.each do |log| %>
-              <%= render "logs/partials/card_mood_log_logs", mood_log: log %>
+              <%= render "calendars/partials/card_mood_log_logs", mood_log: log %>
             <% end %>
           </div>
         <% else %>

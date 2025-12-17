@@ -1,4 +1,4 @@
-class CalendarController < ApplicationController
+class CalendarsController < ApplicationController
   def index
     @date = params[:date] ? Date.parse(params[:date]) : Date.current
 
@@ -20,5 +20,27 @@ class CalendarController < ApplicationController
 
     @beginning = beginning
     @ending = ending
+  end
+
+  def show
+    @date = Date.parse(params[:date]) rescue nil
+
+    if @date.nil?
+      redirect_to calendars_path, alert: "無効な日付です"
+      return
+    end
+
+    @habit_logs = current_user.habit_logs
+      .where(started_at: @date.all_day)
+      .order(:started_at)
+
+    @mood_logs = current_user.mood_logs
+      .where(recorded_at: @date.all_day)
+      .order(:recorded_at)
+
+    respond_to do |format|
+      format.html  # ← 従来のshowページ
+      format.turbo_stream { render layout: false } # モーダル用
+    end
   end
 end
