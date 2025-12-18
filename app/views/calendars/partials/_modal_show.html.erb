@@ -49,9 +49,20 @@
 <% end %>
 
 <!-- ▼ モーダル固定閉じるボタン（frame の外）-->
-<button type="button"
-        data-action="click->modal#close"
-        class="btn btn-sm btn-outline h-9 min-h-9 px-4
-               fixed bottom-4 right-4 shadow-lg z-50">
-  閉じる
-</button>
+<div class="fixed bottom-4 left-4 right-4 z-50">
+  <div class="flex justify-between items-center max-w-md mx-auto">
+
+    <!-- 左：閉じる -->
+    <button type="button"
+            data-action="click->modal#close"
+            class="btn btn-sm btn-outline h-9 min-h-9 px-4 shadow-lg">
+      閉じる
+    </button>
+
+    <!-- 右：振り返り -->
+    <%= link_to "この日を振り返る",
+                reflection_path(date: @date),
+                class: "btn btn-primary btn-sm h-9 min-h-9 px-4 shadow-lg" %>
+
+  </div>
+</div>
