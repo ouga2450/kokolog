@@ -3,7 +3,7 @@
 
     <!-- ▼ 上部ナビ -->
     <div class="flex items-center justify-between mb-4">
-      <%= link_to log_path(@date.prev_day.to_s),
+      <%= link_to calendar_path(@date.prev_day.to_s),
                   data: { turbo_frame: "modal" },
                   class: "btn btn-sm btn-ghost" do %>←<% end %>
 
@@ -11,7 +11,7 @@
         <%= l(@date, format: :long) %>（<%= %w(日 月 火 水 木 金 土)[@date.wday] %>）
       </h2>
 
-      <%= link_to log_path(@date.next_day.to_s),
+      <%= link_to calendar_path(@date.next_day.to_s),
                   data: { turbo_frame: "modal" },
                   class: "btn btn-sm btn-ghost" do %>→<% end %>
     </div>
@@ -61,7 +61,8 @@
 
     <!-- 右：振り返り -->
     <%= link_to "この日を振り返る",
-                reflection_path(date: @date),
+                reaction_path(date: @date),
+                data: { turbo_frame: "_top" },
                 class: "btn btn-primary btn-sm h-9 min-h-9 px-4 shadow-lg" %>
 
   </div>

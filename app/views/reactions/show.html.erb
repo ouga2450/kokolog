@@ -2,12 +2,12 @@
 
   <!-- ヘッダー -->
   <div class="flex items-center justify-between">
-    <%= link_to "←", reaction_path(date: @date - 1.day), class: "btn btn-sm btn-ghost" %>
+    <%= link_to "←", reaction_path(date: @date.prev_day.to_s), class: "btn btn-sm btn-ghost" %>
     <div>
       <h1 class="text-lg font-bold">振り返り</h1>
       <p class="text-xs text-base-content/60"><%= l(@date, format: :long) %></p>
     </div>
-    <%= link_to "→", reaction_path(date: @date + 1.day), class: "btn btn-sm btn-ghost" %>
+    <%= link_to "→", reaction_path(date: @date.next_day.to_s), class: "btn btn-sm btn-ghost" %>
   </div>
 
   <!-- ① 今日のサマリー（数字あり / でも責めない） -->
