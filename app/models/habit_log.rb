@@ -16,7 +16,7 @@ class HabitLog < ApplicationRecord
 
   # --- スコープ ---
   scope :for_today, -> { where(started_at: Time.zone.today.all_day) }
-  scope :for_date, -> (date) { where(started_at: date.all_day) }
+  scope :for_date, ->(date) { where(started_at: date.all_day) }
   scope :for_habit, ->(habit_id) { where(habit_id: habit_id) }
   scope :for_goal, ->(goal_id) { where(goal_id: goal_id) }
   scope :recent, -> { order(started_at: :desc) }

@@ -168,8 +168,20 @@
               <% if h[:done] %>
                 <div class="mt-1 text-xs text-base-content/60">
                   <%# mood 表示はあなたのモデルに合わせて（name / value など） %>
-                  before: <%= h[:before_mood]&.label || "—" %>
-                  ／ after: <%= h[:after_mood]&.label || "—" %>
+                  行動前:
+                  <% if h[:before_mood].present? %>
+                    <%= emoji_for_label(h[:before_mood].label) %>
+                    <%= jp_label_for_label(h[:before_mood].label) %>
+                  <% else %>
+                    —
+                  <% end %>
+                  ／ 行動後:
+                  <% if h[:after_mood].present? %>
+                    <%= emoji_for_label(h[:after_mood].label) %>
+                    <%= jp_label_for_label(h[:after_mood].label) %>
+                  <% else %>
+                    —
+                  <% end %>
                   <% if h[:started_at].present? %>
                     <span class="ml-2 text-base-content/40"><%= l(h[:started_at], format: :short) %></span>
                   <% end %>
@@ -213,8 +225,18 @@
               <% before_log = log.mood_logs.before.max_by(&:recorded_at) %>
               <% after_log = log.mood_logs.after.max_by(&:recorded_at) %>
               <div class="mt-1 text-xs text-base-content/60">
-                行動前: <%= "#{emoji_for_label(before_log&.mood&.label)} #{jp_label_for_label(before_log&.mood&.label)}" || "—" %>
-                ／ 行動後: <%= "#{emoji_for_label(before_log&.mood&.label)} #{jp_label_for_label(before_log&.mood&.label)}" || "—" %>
+                行動前: 
+                <% if before_log&.mood.present? %>
+                  <%= "#{emoji_for_label(before_log.mood.label)} #{jp_label_for_label(before_log.mood.label)}" %>
+                <% else %>
+                  —
+                <% end %>
+                ／ 行動後:
+                <% if after_log&.mood.present? %>
+                  <%= "#{emoji_for_label(after_log.mood.label)} #{jp_label_for_label(after_log.mood.label)}" %>
+                <% else %>
+                  —
+                <% end %>
               </div>
             </div>
           <% end %>

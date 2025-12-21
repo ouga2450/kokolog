@@ -43,7 +43,7 @@ class HabitProgress
     return 0 if target_value.zero?
 
     ratio = total_value.to_f / target_value
-    [ratio, 1.0].min
+    [ ratio, 1.0 ].min
   end
 
 

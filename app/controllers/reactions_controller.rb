@@ -115,12 +115,12 @@ class ReactionsController < ApplicationController
   private
 
   def moods_for(log)
-    return [nil, nil] unless log
+    return [ nil, nil ] unless log
 
     before_log = log.mood_logs.before.max_by(&:recorded_at)
     after_log = log.mood_logs.after.max_by(&:recorded_at)
 
-    [before_log&.mood, after_log&.mood]
+    [ before_log&.mood, after_log&.mood ]
   end
 
   def parse_date(str)
