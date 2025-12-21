@@ -102,7 +102,7 @@
         <!-- 削除 -->
         <%= link_to "削除",
                     archive_habit_path(@habit, from: params[:from], tab: params[:tab]),
-                    data: { turbo_method: :patch, turbo_confirm: "この習慣を削除しますか？（習慣ページより復元できます）" },
+                    data: { turbo_method: :patch, turbo_confirm: "この行動を削除しますか？（行動ページより復元できます）" },
                     class: "btn btn-outline btn-error btn-sm" %>
       </div>
 

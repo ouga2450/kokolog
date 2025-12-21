@@ -42,8 +42,12 @@ Rails.application.routes.draw do
 
   resources :habit_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 
-  resources :logs, only: [ :index, :show ], param: :date
+  resources :reactions, only: [ :show ], param: :date
+  # reaction_today_pathで今日の振り返りに遷移
+  get "reaction", to: redirect { |_, req|
+    date = Time.zone.today.to_s
+    "/reactions/#{date}"
+  }, as: :reaction_today
 
-  # カレンダーページ
-  get "calendar", to: "calendar#index"
+  resources :calendars, only: [ :index, :show ], param: :date
 end

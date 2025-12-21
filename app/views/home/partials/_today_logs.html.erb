@@ -25,7 +25,7 @@
           class="px-3 py-1 text-sm font-semibold rounded-btn"
           aria-selected="false"
         >
-          習慣
+          行動
         </button>
       </div>
     </div>
@@ -54,14 +54,14 @@
           </div>
         </div>
 
-        <!-- 習慣ログ -->
+        <!-- 行動ログ -->
         <div class="swiper-slide">
           <div class="h-64 overflow-y-auto pr-1">
             <!-- ログカード一覧 -->
             <!-- ログがない場合の表示 -->
             <div id="habit_logs_home_empty" class="space-y-2">
               <% if @habit_logs_today.empty? %>
-                <%= render "home/partials/empty_card_home", msg: "習慣ログ" %>
+                <%= render "home/partials/empty_card_home", msg: "行動ログ" %>
               <% end %>
             </div>
 
@@ -81,16 +81,16 @@
       <!-- リンク -->
       <div class="w-[90%] mx-auto flex gap-4 mt-2 justify-center">
 
-        <%= link_to log_path(Date.current),
+        <%= link_to reaction_path(Date.current),
             class: "btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
           <%= heroicon "pencil-square", variant: :outline, options: { class: "h-4 w-4" } %>
           振り返り
         <% end %>
 
-        <%= link_to logs_path,
+        <%= link_to calendars_path,
             class: "btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
           <%= heroicon "calendar-days", variant: :outline, options: { class: "h-4 w-4" } %>
-          ログ一覧
+          カレンダー
         <% end %>
 
       </div>

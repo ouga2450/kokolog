@@ -30,19 +30,19 @@ class HabitLogsController < ApplicationController
 
       @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
       @mood_logs_exists_today = current_user.mood_logs.for_today.exists?
-      flash.now[:notice] = "習慣記録を登録しました。"
+      flash.now[:notice] = "行動記録を登録しました。"
 
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_back fallback_location: home_path, notice: "習慣記録を登録しました。" }
+        format.html { redirect_back fallback_location: home_path, notice: "行動記録を登録しました。" }
       end
 
     else
-      flash.now[:alert] = "習慣記録に失敗しました。"
+      flash.now[:alert] = "行動記録に失敗しました。"
 
       respond_to do |format|
         format.turbo_stream { render :create_failure }
-        format.html { redirect_back fallback_location: home_path, alert: "習慣記録に失敗しました。" }
+        format.html { redirect_back fallback_location: home_path, alert: "行動記録に失敗しました。" }
       end
     end
   end
@@ -82,11 +82,11 @@ class HabitLogsController < ApplicationController
       @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
       @mood_logs_exists_today = current_user.mood_logs.for_today.exists?
 
-      flash.now[:notice] = "習慣記録を更新しました。"
+      flash.now[:notice] = "行動記録を更新しました。"
 
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_back fallback_location: home_path, notice: "習慣記録を更新しました。" }
+        format.html { redirect_back fallback_location: home_path, notice: "行動記録を更新しました。" }
       end
 
     else
@@ -102,11 +102,11 @@ class HabitLogsController < ApplicationController
   def destroy
     if @habit_log.destroy
       @habit_logs_exists_today = current_user.habit_logs.for_today.exists?
-      flash.now[:notice] = "習慣記録を削除しました。"
+      flash.now[:notice] = "行動記録を削除しました。"
 
       respond_to do |format|
         format.turbo_stream
-        format.html { redirect_back fallback_location: home_path, notice: "習慣記録を削除しました。" }
+        format.html { redirect_back fallback_location: home_path, notice: "行動記録を削除しました。" }
       end
 
     else

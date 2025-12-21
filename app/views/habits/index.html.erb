@@ -1,12 +1,12 @@
 <div class="w-full max-w-md mx-auto">
 
   <div class="flex justify-between items-end mb-4">
-    <h2 class="text-xl font-semibold">習慣一覧</h2>
-    <!-- 習慣追加 -->
+    <h2 class="text-xl font-semibold">行動一覧</h2>
+    <!-- 行動追加 -->
     <%= link_to new_habit_path,
         class: "btn btn-primary btn-sm gap-1 rounded-full flex items-center" do %>
       <%= heroicon "plus", variant: :outline, options: { class: "h-4 w-4" } %>
-      追加
+      行動追加
     <% end %>
   </div>
 
@@ -14,7 +14,7 @@
     <!-- 有効 -->
     <section class="card bg-base-100 shadow-sm">
       <div class="card-body">
-        <h3 class="text-lg font-bold">有効な習慣</h3>
+        <h3 class="text-lg font-bold">セット中</h3>
 
         <!-- Daily -->
         <%= render "habits/partials/frequency_block",
@@ -37,21 +37,14 @@
     <%= render "habits/partials/section",
               title: "下書き",
               habits: @draft_habits,
-              empty_message: "下書きの習慣はありません。",
-              archived: false %>
-
-    <!-- 達成済み -->
-    <%= render "habits/partials/section",
-              title: "達成済み",
-              habits: @achieved_habits,
-              empty_message: "達成済みの習慣はありません。",
+              empty_message: "下書きの行動はありません。",
               archived: false %>
 
     <!-- 削除済み -->
     <%= render "habits/partials/section",
               title: "削除済み",
               habits: @discarded_habits,
-              empty_message: "削除された習慣はありません。",
+              empty_message: "削除された行動はありません。",
               archived: true %>
 
   </div>

@@ -2,6 +2,10 @@ class HabitForm
   include ActiveModel::Model
   include ActiveModel::Attributes
 
+  def self.model_name
+    ActiveModel::Name.new(self, nil, "Habit")
+  end
+
   # --- Habit の属性 ---
   attribute :id, :integer
   attribute :name, :string
@@ -29,13 +33,22 @@ class HabitForm
   validates :goal_unit, :frequency, presence: true
   validates :status, presence: true
 
-  # amount は count / time の時のみ必須
+  # amount は countの時のみ必須
   validates :amount,
     numericality: { greater_than: 0 },
-    if: -> { goal_unit.in?(%w[count_based time_based]) }
+    if: -> { goal_unit.in?(%w[count_based]) }
 
   # 日付チェック
   validate :start_date_must_be_before_end_date
+
+  def initialize(attributes = {})
+    super
+    self.status ||= "active"
+  end
+
+  def persisted?
+    id.present?
+  end
 
   # --- 編集用フォームオブジェクトを生成 ---
   def self.from_model(habit)
@@ -68,7 +81,7 @@ class HabitForm
         description: description,
         category_id: category_id,
         user_id: user_id,
-        archived: false
+        archived_at: nil
       )
 
       Goal.create!(

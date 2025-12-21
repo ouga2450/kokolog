@@ -1,21 +1,21 @@
 <div
   class="p-4"
   data-controller="calendar-swipe"
-  data-calendar-swipe-prev-url-value="<%= calendar_path(date: @date.prev_month) %>"
-  data-calendar-swipe-next-url-value="<%= calendar_path(date: @date.next_month) %>"
+  data-calendar-swipe-prev-url-value="<%= calendars_path(date: @date.prev_month) %>"
+  data-calendar-swipe-next-url-value="<%= calendars_path(date: @date.next_month) %>"
   data-action="touchstart->calendar-swipe#touchstart touchend->calendar-swipe#touchend"
 >
   <div class="calendar-wrapper">
 
     <!-- 月移動 -->
     <div class="flex justify-between items-center mb-4">
-      <%= link_to "←", calendar_path(date: @date.prev_month), class: "bg-base-100/80 btn btn-sm" %>
+      <%= link_to "←", calendars_path(date: @date.prev_month), class: "bg-base-100/80 btn btn-sm" %>
 
       <h2 class="text-lg font-bold">
         <%= @date.strftime("%Y年 %m月") %>
       </h2>
 
-      <%= link_to "→", calendar_path(date: @date.next_month), class: "bg-base-100/80 btn btn-sm" %>
+      <%= link_to "→", calendars_path(date: @date.next_month), class: "bg-base-100/80 btn btn-sm" %>
     </div>
 
     <!-- ▼ 曜日ヘッダー -->
@@ -48,7 +48,7 @@
           end
         %>
 
-        <%= link_to log_path(day.to_s),
+        <%= link_to calendar_path(day.to_s),
             data: { turbo_frame: "modal" },
             class: [
               "bg-base-100/80 rounded-lg border p-2 h-14 block relative transition",
@@ -68,7 +68,7 @@
             <% mood_count = mood_logs_for_day.size %>
             <% habit_count = habit_logs_for_day.size %>
 
-            <!-- 習慣ログ（primary） -->
+            <!-- 行動ログ（primary） -->
             <% if habit_count > 0 %>
               <div class="flex items-center gap-1 text-primary">
                 <span>●</span>
@@ -91,7 +91,7 @@
     <div class="text-xs text-base-content/60 mt-4 flex justify-center gap-4">
 
       <div class="flex items-center gap-1 text-primary">
-        <span>●</span><span>習慣ログ</span>
+        <span>●</span><span>行動ログ</span>
       </div>
 
       <div class="flex items-center gap-1 text-secondary">

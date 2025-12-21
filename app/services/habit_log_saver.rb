@@ -96,7 +96,7 @@ class HabitLogSaver
     }
   end
 
-  # 気分の記録時間を習慣の開始/終了時刻に合わせる
+  # 気分の記録時間を行動の開始/終了時刻に合わせる
   def recorded_time(timing)
     timing == :before ? @habit_log.started_at : (@habit_log.ended_at || Time.current)
   end

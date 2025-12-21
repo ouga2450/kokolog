@@ -1,9 +1,9 @@
 <section class="card bg-base-100 shadow-sm" data-controller="swiper">
   <div class="card-body">
     <div class="flex flex-wrap items-center justify-between gap-3">
-      <h2 class="card-title text-sm font-semibold">今日の習慣</h2>
+      <h2 class="card-title text-sm font-semibold">今日の行動</h2>
 
-      <div class="flex gap-2" role="tablist" aria-label="今日の習慣切替">
+      <div class="flex gap-2" role="tablist" aria-label="今日の行動切替">
         <button
           type="button"
           role="tab"
@@ -72,13 +72,13 @@
       <%= link_to new_habit_path,
           class: "btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
         <%= heroicon "plus", variant: :outline, options: { class: "h-4 w-4" } %>
-        習慣追加
+        行動追加
       <% end %>
 
       <%= link_to habits_path,
           class: "btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2" do %>
         <%= heroicon "bars-3", variant: :outline, options: { class: "h-4 w-4" } %>
-        習慣一覧
+        行動一覧
       <% end %>
 
     </div>

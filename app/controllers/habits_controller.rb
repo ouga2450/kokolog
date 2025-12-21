@@ -12,7 +12,6 @@ class HabitsController < ApplicationController
     @monthly_habits = kept.with_active_goal.monthly
 
     @draft_habits    = kept.with_draft_goal
-    @achieved_habits = kept.with_achieved_goal
 
     @discarded_habits = base.discarded
   end
@@ -37,7 +36,7 @@ class HabitsController < ApplicationController
 
     if @habit_form.save
       redirect_to(session.delete(:habit_return_to) || habits_path,
-                  notice: "習慣を登録しました。")
+                  notice: "行動を登録しました。")
     else
       flash.now[:alert] = "入力内容に誤りがあります。"
       render :new, status: :unprocessable_entity
@@ -54,7 +53,7 @@ class HabitsController < ApplicationController
 
     if @habit_form.update
       redirect_to(session.delete(:habit_return_to) || habits_path,
-                  notice: "習慣を更新しました。")
+                  notice: "行動を更新しました。")
     else
       flash.now[:alert] = "入力内容に誤りがあります。"
       render :edit, status: :unprocessable_entity
@@ -68,21 +67,21 @@ class HabitsController < ApplicationController
       query = HabitQuery.new(user: current_user)
       @none_flag = query.none_for?(params[:tab])
 
-      flash.now[:notice] = "習慣を削除しました。"
+      flash.now[:notice] = "行動を削除しました。"
     else
       redirect_to request.referer.presence || habits_path,
-                  notice: "習慣を削除しました。"
+                  notice: "行動を削除しました。"
     end
   end
 
   def restore
     @habit.restore!
-    redirect_to habits_path, notice: "習慣を復元しました"
+    redirect_to habits_path, notice: "行動を復元しました"
   end
 
   def purge
     @habit.destroy!
-    redirect_to habits_path, alert: "習慣を完全に削除しました"
+    redirect_to habits_path, alert: "行動を完全に削除しました"
   end
 
 
@@ -93,7 +92,7 @@ class HabitsController < ApplicationController
   end
 
   def habit_params
-    params.require(:habit_form).permit(
+    params.require(:habit).permit(
       :name,
       :description,
       :category_id,

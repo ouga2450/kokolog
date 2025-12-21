@@ -4,7 +4,7 @@
 
   <% if @none_flag %>
     <%= turbo_stream.replace "habits_home_#{params[:tab]}_empty" do %>
-      <%= render "home/partials/empty_card_home", msg: "習慣" %>
+      <%= render "home/partials/empty_card_home", msg: "行動" %>
     <% end %>
   <% end %>
 

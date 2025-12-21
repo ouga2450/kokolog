@@ -7,7 +7,7 @@ class HomeController < ApplicationController
     # 気分（候補一覧）
     @moods = Mood.order(:score)
 
-    # 習慣（Goal種別で分類）
+    # 行動（Goal種別で分類）
     @habits = habits_query.active_base
     @habits_today = habits_query.habits_for("today")
     @habits_this_week = habits_query.habits_for("this_week")
@@ -16,7 +16,7 @@ class HomeController < ApplicationController
     # 今日の気分ログ
     @mood_logs_today = mood_logs.for_today
 
-    # 今日の習慣ログ
+    # 今日の行動ログ
     @habit_logs_today = habit_logs.for_today
   end
 end

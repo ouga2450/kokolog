@@ -2,17 +2,15 @@ ja:
   enums:
     goal:
       goal_unit:
-        check_based: "チェックのみ"
-        count_based: "回数ベース"
-        time_based: "時間ベース"
+        check_based: "チェック"
+        count_based: "回数"
       frequency:
         daily: "毎日"
         weekly: "毎週"
         monthly: "毎月"
       status:
         draft: "下書き"
-        active: "進行中"
-        achieved: "達成"
+        active: "有効"
     mood_log:
       timing:
         before: "実行前"

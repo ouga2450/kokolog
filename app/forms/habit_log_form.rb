@@ -69,10 +69,12 @@ class HabitLogForm
   end
 
   def new_attributes
+    default_performed_value = 1
     default_mood = 3
     {
       habit_id: habit.id,
       goal_id: habit.goal&.id,
+      performed_value: default_performed_value,
       started_at: Time.current,
       before_mood_id: default_mood,
       ended_at: Time.current,
@@ -119,12 +121,12 @@ class HabitLogForm
 
     if started_at.present? &&
       !started_at.between?(active_start, active_end)
-      errors.add(:started_at, "は習慣が有効な期間内で記録してください")
+      errors.add(:started_at, "は行動が有効な期間内で記録してください")
     end
 
     if ended_at.present? &&
       !ended_at.between?(active_start, active_end)
-      errors.add(:ended_at, "は習慣が有効な期間内で記録してください")
+      errors.add(:ended_at, "は行動が有効な期間内で記録してください")
     end
   end
 end
