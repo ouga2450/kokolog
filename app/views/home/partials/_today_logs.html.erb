@@ -25,7 +25,7 @@
           class="px-3 py-1 text-sm font-semibold rounded-btn"
           aria-selected="false"
         >
-          習慣
+          行動
         </button>
       </div>
     </div>
@@ -54,14 +54,14 @@
           </div>
         </div>
 
-        <!-- 習慣ログ -->
+        <!-- 行動ログ -->
         <div class="swiper-slide">
           <div class="h-64 overflow-y-auto pr-1">
             <!-- ログカード一覧 -->
             <!-- ログがない場合の表示 -->
             <div id="habit_logs_home_empty" class="space-y-2">
               <% if @habit_logs_today.empty? %>
-                <%= render "home/partials/empty_card_home", msg: "習慣ログ" %>
+                <%= render "home/partials/empty_card_home", msg: "行動ログ" %>
               <% end %>
             </div>
 

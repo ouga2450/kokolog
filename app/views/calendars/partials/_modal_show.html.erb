@@ -20,7 +20,7 @@
     <div class="space-y-6 mt-4 pb-16">
       <div class="space-y-3">
 
-        <h3 class="text-lg font-semibold mb-2">習慣ログ</h3>
+        <h3 class="text-lg font-semibold mb-2">行動ログ</h3>
         <% if @habit_logs.any? %>
           <div class="space-y-3">
             <% @habit_logs.each do |log| %>
@@ -28,7 +28,7 @@
             <% end %>
           </div>
         <% else %>
-          <p class="text-base-content/60">この日の習慣ログはありません</p>
+          <p class="text-base-content/60">この日の行動ログはありません</p>
         <% end %>
 
         <h3 class="text-lg font-semibold mt-6 mb-2">気分ログ</h3>

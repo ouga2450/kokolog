@@ -25,7 +25,7 @@ class HabitLogQuery
     count_for_today.zero?
   end
 
-  # 特定の習慣に紐づくHabitLogを取得
+  # 特定の行動に紐づくHabitLogを取得
   def habit_logs(habit)
     base.for_habit(habit.id)
   end

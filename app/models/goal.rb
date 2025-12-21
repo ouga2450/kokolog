@@ -6,9 +6,9 @@ class Goal < ApplicationRecord
   has_many :habit_logs, dependent: :destroy
 
   # --- enum ---
-  enum goal_unit: { check_based: 0, count_based: 1, time_based: 2 }  # 目標の種類
+  enum goal_unit: { check_based: 0, count_based: 1 }  # 目標の種類 {time_based: 2} 将来用
   enum frequency: { daily: 0, weekly: 1, monthly: 2 }  # 達成頻度
-  enum status: { draft: 0, active: 1, achieved: 2 }  # 目標セット
+  enum status: { draft: 0, active: 1 }  # 目標セット
 
   # --- バリデーション ---
   before_validation :set_amount_for_check_based
@@ -47,20 +47,6 @@ class Goal < ApplicationRecord
 
     if start_date > end_date
       errors.add(:start_date, "は終了日より前に設定してください")
-    end
-  end
-
-  # 目標の達成判定
-  def achieved_on?(date)
-    logs = habit.habit_logs.where(started_at: date.all_day)
-
-    case goal_unit
-    when "check_based"
-      logs.exists?
-    when "count_based"
-      logs.count >= amount
-    when "time_based"
-      logs.sum(&:duration) >= amount.minutes
     end
   end
 

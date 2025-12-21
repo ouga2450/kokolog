@@ -23,69 +23,95 @@ class ReactionsController < ApplicationController
 
   def show
     @date = parse_date(params[:date]) || Time.zone.today
-    range = @date.beginning_of_day..@date.end_of_day
 
-    # その日の気分ログ（単体 + 習慣ログ紐づきのどちらでも）
     @mood_logs =
       current_user.mood_logs
                   .includes(:mood, :feeling)
-                  .where(recorded_at: range)
-                  .order(:recorded_at)
+                  .for_date(@date)
+                  .recent
 
-    # その日の習慣ログ
     @habit_logs =
       current_user.habit_logs
                   .includes(:habit, mood_logs: :mood)
-                  .where(started_at: range)
-                  .order(started_at: :desc)
+                  .for_date(@date)
+                  .recent
 
-    # 対象となる「その日に有効だった習慣」：まずは active を母数にする（設計が変わるならここだけ直す）
     @habits =
       current_user.habits
                   .includes(:category, :goal)
                   .kept
-                  .with_active_goal
-                  .order(:created_at)
+                  .recent
 
-    # --- 平均気分（数字を出す） ---
-    # mood.value が数値(例: 1..5) という前提。違うならここをあなたの実装に合わせて調整。
+    # --- 平均気分 ---
     @avg_mood =
       @mood_logs
         .joins(:mood)
         .average("moods.score")
         &.to_f
 
-    # --- 達成率（成果として出す / ただし責めない見せ方は view で） ---
-    @habits_count = @habits.size
+    # --- 日・週・月 の行動に分離 ---
+    @daily_habits = @habits.daily
+    @weekly_habits = @habits.weekly
+    @monthly_habits = @habits.monthly
 
-    # “達成”の定義：その日に habit_log が1件でもあれば「その習慣は達成」扱い（まずはシンプルに）
-    completed_habit_ids = @habit_logs.map(&:habit_id).uniq
-    @completed_habits_count = completed_habit_ids.size
-
-    @achievement_rate =
-      if @habits_count.positive?
-        ((@completed_habits_count.to_f / @habits_count) * 100).round
-      else
-        nil
+    # --- Progress 生成 ---
+    @daily_progresses =
+      @daily_habits.map do |habit|
+        HabitProgress.new(habit: habit, date: @date, frequency: :daily)
       end
 
-    # 表示用：習慣ごとの before/after（1日複数回ある場合は「最新」を採用）
+    @weekly_progresses =
+      @weekly_habits.map do |habit|
+        HabitProgress.new(habit: habit, date: @date, frequency: :weekly)
+      end
+
+    @monthly_progresses =
+      @monthly_habits.map do |habit|
+        HabitProgress.new(habit: habit, date: @date, frequency: :monthly)
+      end
+
+    # 達成率
+    @daily_summary = HabitProgressSummary.new(@daily_progresses)
+    @weekly_summary = HabitProgressSummary.new(@weekly_progresses)
+    @monthly_summary = HabitProgressSummary.new(@monthly_progresses)
+
+    @daily_rate = @daily_summary.achievement_rate
+    @weekly_rate = @weekly_summary.achievement_rate
+    @monthly_rate = @monthly_summary.achievement_rate
+
+    # 件数
+    @daily_done = @daily_summary.achieved_count
+    @daily_total = @daily_summary.total
+    @weekly_done = @weekly_summary.achieved_count
+    @weekly_total = @weekly_summary.total
+    @monthly_done = @monthly_summary.achieved_count
+    @monthly_total = @monthly_summary.total
+
+    # 表示用：行動ごとの before/after（1日複数回ある場合は「最新」を採用）
     latest_by_habit = @habit_logs.group_by(&:habit_id).transform_values { |logs| logs.max_by(&:started_at) }
 
     @habit_summaries =
       @habits.map do |habit|
         log = latest_by_habit[habit.id]
         before_mood, after_mood = moods_for(log)
+        progress = HabitProgress.new(
+          habit: habit,
+          date: @date,
+          frequency: habit.goal.frequency.to_sym
+        )
+
         {
           habit: habit,
           done: log.present?,
+          progress: progress,
+          achieved: progress.achieved?,
+          status: progress.status,
           before_mood: before_mood,
           after_mood: after_mood,
           started_at: log&.started_at
         }
       end
   end
-
   private
 
   def moods_for(log)

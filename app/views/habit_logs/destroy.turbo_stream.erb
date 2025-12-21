@@ -4,7 +4,7 @@
 
   <% unless @habit_logs_exists_today %>
     <%= turbo_stream.update "habit_logs_home_empty" do %>
-      <%= render "home/partials/empty_card_home", msg: "習慣ログ" %>
+      <%= render "home/partials/empty_card_home", msg: "行動ログ" %>
     <% end %>
   <% end %>
 

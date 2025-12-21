@@ -9,14 +9,14 @@ class HabitLog < ApplicationRecord
   has_many :mood_logs, dependent: :nullify
 
   # --- バリデーション ---
+  before_validation :set_performed_value_for_check_based
   validates :started_at, presence: true
   validate  :ended_at_after_started_at
-  validates :performed_value,
-            numericality: { greater_than_or_equal_to: 0 },
-            if: -> { goal&.goal_unit.in?(%w[count_based time_based]) }
+  validates :performed_value, presence: true
 
   # --- スコープ ---
   scope :for_today, -> { where(started_at: Time.zone.today.all_day) }
+  scope :for_date, -> (date) { where(started_at: date.all_day) }
   scope :for_habit, ->(habit_id) { where(habit_id: habit_id) }
   scope :for_goal, ->(goal_id) { where(goal_id: goal_id) }
   scope :recent, -> { order(started_at: :desc) }
@@ -63,5 +63,11 @@ class HabitLog < ApplicationRecord
     if ended_at < started_at
       errors.add(:ended_at, "は開始時間より後に設定してください")
     end
+  end
+
+  def set_performed_value_for_check_based
+    return unless goal&.goal_unit == "check_based"
+
+    self.performed_value = 1
   end
 end

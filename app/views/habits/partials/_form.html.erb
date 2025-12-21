@@ -1,0 +1,155 @@
+<% if habit_form.errors.any? %>
+  <div class="alert alert-soft alert-error max-sm:alert-vertical text-xs font-bold mb-4">
+    <div class="flex items-start gap-2">
+      <ul class="list-none space-y-1">
+        <% habit_form.errors.full_messages.each do |message| %>
+          <li class="flex items-center gap-1">
+            <%= heroicon "x-circle", variant: :outline, options: { class: "w-5 h-5 flex-shrink-0" } %>
+            <span><%= message %></span>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
+<%= form_with model: habit_form,
+              local: true do |f| %>
+
+  <!-- ▼ 必須項目 -->
+  <div class="space-y-4">
+    <div class="border-l-4 border-primary/50 pl-3">
+      <p class="text-base font-semibold">必須項目</p>
+    </div>
+
+    <!-- 名前 -->
+    <div class="form-control">
+      <%= f.label :name, "行動名", class: "label-text text-sm font-semibold" %>
+      <%= f.text_field :name,
+        class: "input input-bordered w-full",
+        placeholder: "例：日記、スクワット30回、読書10分" %>
+    </div>
+
+    <!-- カテゴリ -->
+    <div class="form-control">
+      <%= f.label :category_id, "カテゴリ", class: "label-text text-sm font-semibold" %>
+      <%= f.select :category_id,
+            options_from_collection_for_select(
+              Category.all,
+              :id,
+              ->(c){ "#{c.icon} #{c.name}" },
+              habit_form.category_id
+            ),
+            { prompt: "選択してください" },
+            class: "select select-bordered w-full" %>
+      <p class="text-xs text-base-content/60 mt-2">
+        カテゴリは行動の種類です（例：運動、睡眠、食事、暮らし）
+      </p>
+    </div>
+
+    <!-- ▼ 目標範囲（frequency） -->
+    <div class="form-control">
+      <%= f.label :frequency, "目標範囲", class: "label-text text-sm font-semibold" %>
+      <%= f.select :frequency,
+            Goal.frequencies.keys.map { |k| [I18n.t("enums.goal.frequency.#{k}"), k] },
+            { prompt: "選択してください" },
+            class: "select select-bordered w-full" %>
+      <p class="text-xs text-base-content/60 mt-1">
+        目標の範囲を指定してください。毎日、毎週、毎月から選択。
+      </p>
+    </div>
+
+    <!-- ▼ 目標タイプ（goal_unit） + セット数（amount） -->
+    <div class="form-control" data-controller="amount">
+      <%= f.label :goal_unit, "目標タイプ", class: "label-text text-sm font-semibold" %>
+      <%= f.select :goal_unit,
+            Goal.goal_units.keys.map { |k| [I18n.t("enums.goal.goal_unit.#{k}"), k] },
+            { prompt: "選択してください" },
+            class: "select select-bordered w-full",
+            data: {action: "change->amount#toggle"},
+            "data-amount-target": "typeSelect" %>
+      <p class="text-xs text-base-content/60 mt-1">
+        目標タイプを選択してください。1回ならチェック・複数回なら回数を選択。
+      </p>
+
+      <div data-amount-target="amountField"
+          class="<%= habit_form.goal_unit.in?(%w[count_based time_based]) ? '' : 'hidden' %> mt-3">
+        <%= f.label :amount, "目標回数", class: "label-text text-sm font-semibold" %>
+        <%= f.number_field :amount, min: 1,
+              class: "input input-bordered w-full",
+              placeholder: "例：3" %>
+        <p class="text-xs text-base-content/60 mt-1">
+          半角数字で目標回数を入力。
+        </p>
+      </div>
+    </div>
+    
+    <!-- 状態管理 -->
+    <div class="form-control">
+      <%= f.label :status, "状態管理", class: "label-text text-sm font-semibold" %>
+      <%= f.select :status,
+            Goal.statuses.keys.map { |k| [I18n.t("enums.goal.status.#{k}"), k] },
+            { prompt: "選択してください" },
+            class: "select select-bordered w-full" %>
+      <div class="text-xs text-base-content/60 mt-1">
+        <div>この行動の状態管理です。</div>
+        <div>有効：すぐに実行できる状態になります。</div>
+        <div>下書き：仮保存になります。行動ページより有効にできます。</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ▼ 任意項目 -->
+  <div data-toggle-form-target="details"
+        class="hidden space-y-4">
+
+    <div class="border-b border-base-300 mt-4 mb-4"></div>
+
+    <div class="border-l-4 border-secondary pl-3">
+      <p class="text-base font-semibold">任意項目</p>
+    </div>
+
+    <!-- 期間設定 -->
+    <div>
+      <p class="text-sm font-semibold mb-1">期間設定</p>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="form-control">
+          <%= f.date_field :start_date, class: "input input-bordered w-full" %>
+        </div>
+        <div class="form-control">
+          <%= f.date_field :end_date, class: "input input-bordered w-full" %>
+        </div>
+      </div>
+      <p class="text-xs text-base-content/60 mt-1">
+        行動に期間を設けたい場合は入力してください。
+      </p>
+    </div>
+
+    <!-- 説明欄 -->
+    <div class="form-control">
+      <%= f.label :description, "説明欄", class: "label-text text-sm font-semibold" %>
+      <%= f.text_area :description, rows: 3,
+            class: "textarea textarea-bordered w-full",
+            placeholder: "例：毎日スクワットを30回して身体を整える行動です" %>
+    </div>
+  </div>
+
+  <!-- ▼ ボタン -->
+  <div class="w-[90%] mx-auto flex gap-4 mt-6">
+
+    <button type="submit"
+            class="btn btn-primary btn-sm flex-1 px-3 flex items-center justify-center gap-2">
+      <%= heroicon "check", options: { class: "w-4 h-4" } %>
+      登録する
+    </button>
+
+    <button type="button"
+            class="btn btn-outline btn-sm flex-1 px-3 flex items-center justify-center gap-2"
+            data-action="toggle-form#toggle">
+      <span data-toggle-form-target="icon">+</span>
+      <span data-toggle-form-target="label">任意項目</span>
+    </button>
+
+  </div>
+
+<% end %>

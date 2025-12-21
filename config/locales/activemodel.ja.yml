@@ -5,7 +5,7 @@ ja:
   activerecord:
     attributes:
       habit:
-        name: "習慣名"
+        name: "行動名"
         description: "説明"
 
       habit_log:
@@ -21,7 +21,7 @@ ja:
   activemodel:
     attributes:
       habit_log:
-        habit_id: "習慣"
+        habit_id: "行動"
         goal_id: "目標"
         performed_value: "実行値"
         started_at: "開始時刻"
@@ -34,7 +34,7 @@ ja:
         after_note: "終了時のメモ"
 
       habit_form:
-        name: "習慣名"
+        name: "行動名"
         category_id: "カテゴリ"
         frequency: "達成頻度"
         goal_unit: "目標タイプ"

@@ -14,7 +14,7 @@ class HabitQuery
         .distinct
   end
 
-  # Goal（daily/weekly/monthly）に応じた対象習慣
+  # Goal（daily/weekly/monthly）に応じた対象行動
   # Home のタブ切り替えに使う
 
   def habits_for(tab)

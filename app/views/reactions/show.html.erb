@@ -10,8 +10,9 @@
     <%= link_to "→", reaction_path(date: @date.next_day.to_s), class: "btn btn-sm btn-ghost" %>
   </div>
 
-  <!-- ① 今日のサマリー（数字あり / でも責めない） -->
+  <!-- 今日のサマリー -->
   <div class="grid grid-cols-2 gap-3">
+    <!-- 気分結果 -->
     <div class="card bg-base-100 shadow-sm">
       <div class="card-body p-4">
         <div class="text-xs text-base-content/60">平均気分</div>
@@ -21,9 +22,9 @@
             <div class="text-2xl font-bold"><%= format("%.1f", @avg_mood) %></div>
             <div class="text-xs text-base-content/50">/ 5</div>
           </div>
-          <div class="mt-2 text-xs text-base-content/60">
-            今日の空気を数字で確認できます
-          </div>
+          <p class="mt-2 text-xs text-base-content/60">
+            <%= daily_mood_text(@avg_mood, @mood_logs) %>
+          </p>
         <% else %>
           <div class="mt-2 text-sm text-base-content/50">記録なし</div>
           <div class="mt-2 text-xs text-base-content/60">
@@ -33,43 +34,113 @@
       </div>
     </div>
 
-    <div class="card bg-base-100 shadow-sm">
+    <!-- 行動結果 -->
+    <div class="card bg-base-100 shadow-sm" data-controller="swiper">
       <div class="card-body p-4">
-        <div class="text-xs text-base-content/60">習慣達成率</div>
+        <div class="space-y-2">
+        <!-- 1行目：行動率 -->
+        <div class="text-xs text-base-content/60">
+          行動率
+        </div>
 
-        <% if @habits_count.positive? %>
-          <div class="mt-1 flex items-baseline gap-2">
-            <div class="text-2xl font-bold">
-              <%= @achievement_rate || 0 %><span class="text-base font-bold">%</span>
-            </div>
-          </div>
-
-          <div class="mt-2 text-xs text-base-content/60">
-            今日は <span class="font-semibold"><%= @completed_habits_count %> / <%= @habits_count %></span> 達成
-          </div>
-
-          <%# 責めない：未達成でもニュートラルな言い方だけ %>
-          <% if (@achievement_rate || 0) == 0 %>
-            <div class="mt-2 text-xs text-base-content/50">
-              今日はここまで。記録が残るだけで十分です
-            </div>
+        <!-- 2行目：ボタン群（均等配置） -->
+        <div
+          class="grid grid-cols-3 gap-2"
+          role="tablist"
+          aria-label="行動率切替"
+        >
+          <% ["毎日", "毎週", "毎月"].each_with_index do |label, i| %>
+            <button
+              type="button"
+              role="tab"
+              data-index="<%= i %>"
+              data-swiper-target="tab"
+              data-action="click->swiper#slideTo"
+              class="px-3 py-1 text-xs font-semibold rounded-btn text-center"
+              aria-selected="<%= i.zero? %>"
+            >
+              <%= label %>
+            </button>
           <% end %>
-        <% else %>
-          <div class="mt-2 text-sm text-base-content/50">対象の習慣なし</div>
-          <div class="mt-2 text-xs text-base-content/60">
-            まずは習慣を登録すると達成率が表示されます
+        </div>
+      </div>
+
+        <!-- Swiper -->
+        <div class="swiper w-full mt-4" data-swiper-target="container">
+          <div class="swiper-wrapper">
+
+            <!-- ========== 今日（毎日行動） ========== -->
+            <div class="swiper-slide space-y-2">
+              <% if @daily_habits.count.to_i.positive? %>
+                <div class="flex items-baseline gap-2">
+                  <div class="text-2xl font-bold">
+                    <%= @daily_rate || 0 %><span class="text-base font-bold">%</span>
+                  </div>
+                </div>
+
+                <div class="text-xs text-base-content/60">
+                  今日は
+                  <span class="font-semibold">
+                    <%= @daily_done %> / <%= @daily_total %>
+                  </span>
+                  記録
+                </div>
+
+                <div class="text-xs text-base-content/50">
+                  <%= daily_achievement_text(@daily_rate) %>
+                </div>
+              <% else %>
+                <div class="text-sm text-base-content/50">対象の行動はありません</div>
+                <div class="text-xs text-base-content/60">
+                  行動を登録すると、ここに表示されます
+                </div>
+              <% end %>
+            </div>
+
+            <!-- ========== 今週（週次行動） ========== -->
+            <div class="swiper-slide space-y-2">
+              <% if @weekly_total.to_i.positive? %>
+                <div class="text-sm font-semibold">
+                  <%= @weekly_done %> / <%= @weekly_total %> 回
+                </div>
+                <div class="text-xs text-base-content/60">
+                  今週の進捗
+                </div>
+              <% else %>
+                <div class="text-sm text-base-content/50">
+                  今週の行動はありません
+                </div>
+              <% end %>
+            </div>
+
+            <!-- ========== 今月（月次行動） ========== -->
+            <div class="swiper-slide space-y-2">
+              <% if @monthly_total.to_i.positive? %>
+                <div class="text-sm font-semibold">
+                  <%= @monthly_done %> / <%= @monthly_total %> 回
+                </div>
+                <div class="text-xs text-base-content/60">
+                  今月の進捗
+                </div>
+              <% else %>
+                <div class="text-sm text-base-content/50">
+                  今月の行動はありません
+                </div>
+              <% end %>
+            </div>
+
           </div>
-        <% end %>
+        </div>
+
       </div>
     </div>
   </div>
 
-  <!-- ② 行動 × 気分（断定しない） -->
+  <!-- 行動 × 気分 -->
   <div class="card bg-base-100 shadow-sm">
     <div class="card-body p-4">
       <div class="flex items-center justify-between">
         <h2 class="text-sm font-bold">行動と気分</h2>
-        <div class="text-xs text-base-content/50">断定はしません</div>
       </div>
 
       <div class="mt-3 space-y-2">
@@ -80,7 +151,15 @@
                 <span class="text-base"><%= h[:habit].category&.icon %></span>
                 <div class="truncate text-sm font-semibold"><%= h[:habit].name %></div>
                 <% if h[:done] %>
-                  <span class="badge badge-primary badge-outline text-xs">達成</span>
+                  <% if h[:achieved] %>
+                  <span class="badge badge-primary badge-outline text-xs">
+                    <%= t("habit.progress_status.achieved") %>
+                  </span>
+                  <% else %>
+                    <span class="badge badge-primary badge-outline text-xs">
+                      <%= h[:progress].total_value %> / <%= h[:progress].target_value %>
+                    </span>
+                  <% end %>
                 <% else %>
                   <span class="badge badge-ghost text-xs">未実行</span>
                 <% end %>
@@ -111,28 +190,11 @@
     </div>
   </div>
 
-  <!-- ③ 言語化ゾーン（強制しない） -->
-  <div class="card bg-base-100 shadow-sm">
-    <div class="card-body p-4">
-      <h2 class="text-sm font-bold">今日のひとこと</h2>
-      <p class="mt-1 text-xs text-base-content/60">数字にできない部分を残しておけます</p>
-
-      <%# ここはあなたの実装に合わせてフォームに差し替え（例: DailyNote / LogSummary など） %>
-      <div class="mt-3">
-        <div class="rounded-lg bg-base-200/60 p-3 text-sm text-base-content/60">
-          （ここにメモ機能を後で接続）
-          <div class="mt-1 text-xs text-base-content/40">例：今日は眠くてペースが落ちた</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- ④ ログ一覧（下に置く：補助資料） -->
   <div class="card bg-base-100 shadow-sm">
     <div class="card-body p-4">
       <div class="flex items-center justify-between">
         <h2 class="text-sm font-bold">ログ一覧</h2>
-        <div class="text-xs text-base-content/50">確認したいときだけ</div>
       </div>
 
       <div class="mt-3 space-y-2">
@@ -151,13 +213,13 @@
               <% before_log = log.mood_logs.before.max_by(&:recorded_at) %>
               <% after_log = log.mood_logs.after.max_by(&:recorded_at) %>
               <div class="mt-1 text-xs text-base-content/60">
-                before: <%= before_log&.mood&.label || "—" %>
-                ／ after: <%= after_log&.mood&.label || "—" %>
+                行動前: <%= "#{emoji_for_label(before_log&.mood&.label)} #{jp_label_for_label(before_log&.mood&.label)}" || "—" %>
+                ／ 行動後: <%= "#{emoji_for_label(before_log&.mood&.label)} #{jp_label_for_label(before_log&.mood&.label)}" || "—" %>
               </div>
             </div>
           <% end %>
         <% else %>
-          <div class="text-sm text-base-content/50">この日の習慣ログはありません</div>
+          <div class="text-sm text-base-content/50">この日の行動ログはありません</div>
         <% end %>
 
         <% if @mood_logs.any? %>
@@ -165,7 +227,7 @@
           <% @mood_logs.each do |m| %>
             <div class="rounded-lg bg-base-200/60 p-3">
               <div class="flex items-center justify-between">
-                <div class="text-sm font-semibold"><%= m.mood&.label || "気分" %></div>
+                <div class="text-sm font-semibold"><%= "#{emoji_for_label(m.mood&.label)} #{jp_label_for_label(m.mood&.label)}" || "気分" %></div>
                 <div class="text-xs text-base-content/50"><%= l(m.recorded_at, format: :short) %></div>
               </div>
               <% if m.feeling.present? %>
