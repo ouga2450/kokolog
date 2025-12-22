@@ -1,7 +1,4 @@
-puts "→ Reseeding moods..."
-
-MoodLog.delete_all
-Mood.delete_all
+puts "→ Seeding moods..."
 
 presets = [
   { score: 1, label: "very_bad",  color: "bg-blue-300" },
@@ -12,7 +9,10 @@ presets = [
 ]
 
 presets.each do |attrs|
-  Mood.create!(attrs)
+  Mood.find_or_create_by!(score: attrs[:score]) do |mood|
+    mood.label = attrs[:label]
+    mood.color = attrs[:color]
+  end
 end
 
-puts "✅ Moods reseeded: #{Mood.count}"
+puts "✅ Moods seeded: #{Mood.count}"
