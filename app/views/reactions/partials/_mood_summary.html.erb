@@ -1,0 +1,30 @@
+<div class="card bg-base-100 shadow-sm">
+  <div class="card-body p-4 space-y-4">
+
+    <!-- A. テキストサマリー -->
+    <div>
+      <div class="text-xs text-base-content/60">
+        平均気分
+      </div>
+
+      <% if avg_mood.present? %>
+        <div class="text-2xl font-bold mt-1">
+          <%= avg_mood.round(2) %>
+        </div>
+      <% else %>
+        <div class="text-sm text-base-content/40 mt-1">
+          記録なし
+        </div>
+      <% end %>
+    </div>
+
+    <!-- B. グラフエリア（描画は JS に委譲） -->
+    <div
+      class="w-full h-24"
+      data-controller="mood-graph"
+      data-mood-graph-values-value="<%= @mood_graph_values&.to_json %>">
+      <!-- グラフはここに描画される -->
+    </div>
+
+  </div>
+</div>
