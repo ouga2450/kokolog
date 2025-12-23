@@ -28,12 +28,12 @@ class HabitLog < ApplicationRecord
     ((ended_at - started_at) / 60).floor
   end
 
-  def before_mood
-    mood_logs.find { |ml| ml.timing == "before" }&.mood
+  def before_mood_log
+    mood_logs.before.first
   end
 
-  def after_mood
-    mood_logs.find { |ml| ml.timing == "after" }&.mood
+  def after_mood_log
+    mood_logs.after.first
   end
 
   # 今日のログ？

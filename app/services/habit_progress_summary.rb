@@ -19,6 +19,14 @@ class HabitProgressSummary
     progresses.flat_map(&:habit_logs)
   end
 
+  def total_performed
+    progresses.sum { |p| p.total_value.to_f }
+  end
+
+  def total_target
+    progresses.sum { |p| p.target_value.to_f }
+  end
+
   def achievement_rate
     return nil if progresses.empty?
 

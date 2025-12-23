@@ -1,20 +1,66 @@
+<!-- セクション見出し -->
+<div class="flex items-center gap-2 pt-3">
+  <span class="text-sm font-semibold text-base-content">
+    行動ログ一覧
+  </span>
+  <div class="flex-1 h-px bg-base-content/10"></div>
+</div>
+
+<!-- ログ一覧 -->
 <div class="space-y-2">
   <% habit_logs.each do |log| %>
-    <div class="rounded-lg bg-base-200/60 p-2 text-xs space-y-1">
 
-      <div class="font-semibold">
-        <%= log.habit.name %>
+    <%= link_to habit_log_path(log),
+                data: { turbo_frame: "modal" },
+                class: "block focus:outline-none" do %>
+
+      <div
+        class="rounded-lg bg-base-200/60 px-3 py-2 text-xs
+               cursor-pointer
+               transition
+               hover:bg-base-200/80
+               hover:shadow-sm
+               active:scale-[0.98]
+               focus-visible:ring-2
+               focus-visible:ring-primary/30">
+
+        <!-- 上段：行動名 + 日時 -->
+        <div class="flex items-center justify-between">
+          <span class="flex items-center gap-1 font-medium text-base-content truncate">
+            <span class="text-sm">
+              <%= log.habit.category&.icon %>
+            </span>
+            <span class="truncate">
+              <%= log.habit.name %>
+            </span>
+          </span>
+
+          <span class="text-base-content/40 shrink-0">
+            <%= l(log.started_at, format: :short) %>
+          </span>
+        </div>
+
+        <!-- 下段：気分の変化 -->
+        <% before = log.before_mood_log %>
+        <% after  = log.after_mood_log %>
+
+        <div class="mt-1 flex items-center gap-2 text-base-content/60">
+          <span>
+            <%= before.present? ?
+                [emoji_for_mood(before.mood), jp_label_for_mood(before.mood)].compact.join(" ")
+                : "—" %>
+          </span>
+
+          <span class="text-base-content/40">→</span>
+
+          <span>
+            <%= after.present? ?
+                [emoji_for_mood(after.mood), jp_label_for_mood(after.mood)].compact.join(" ")
+                : "—" %>
+          </span>
+        </div>
+
       </div>
-
-      <div>
-        行動前：<%= log.before_mood&.label || "—" %>
-        ／ 行動後：<%= log.after_mood&.label || "—" %>
-      </div>
-
-      <div class="text-base-content/40">
-        <%= l(log.started_at, format: :short) %>
-      </div>
-
-    </div>
+    <% end %>
   <% end %>
 </div>

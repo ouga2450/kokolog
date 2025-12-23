@@ -1,23 +1,50 @@
-<div class="card bg-base-100 shadow-sm">
-  <div class="card-body p-4 space-y-2">
+<div class="rounded-xl bg-base-100 shadow-sm">
+  <div class="p-4 space-y-3">
 
-    <div class="text-xs text-base-content/60">
-      気分の推移
+    <!-- 見出し -->
+    <div class="flex items-center gap-2">
+      <span class="text-sm font-semibold text-base-content">
+        気分ログ一覧
+      </span>
+      <div class="flex-1 h-px bg-base-content/10"></div>
     </div>
 
-    <% mood_logs.each do |log| %>
-      <div class="flex justify-between items-center text-sm">
+    <!-- ログ一覧 -->
+    <div class="space-y-2">
+      <% mood_logs.each do |log| %>
+        <%= link_to mood_log_path(log),
+              data: { turbo_frame: "modal" },
+              class: "block focus:outline-none" do %>
 
-        <div>
-          <%= log.mood.label %>
-        </div>
+          <div
+            class="flex items-center justify-between rounded-lg bg-base-200/40 px-3 py-2 text-sm
+                   cursor-pointer
+                   transition
+                   hover:bg-base-200/70
+                   hover:shadow-sm
+                   active:scale-[0.98]
+                   focus-visible:ring-2
+                   focus-visible:ring-primary/30">
 
-        <div class="text-xs text-base-content/40">
-          <%= l(log.recorded_at, format: :short) %>
-        </div>
+            <!-- 気分 -->
+            <div class="flex items-center gap-1">
+              <span class="text-base">
+                <%= emoji_for_mood(log.mood) %>
+              </span>
+              <span class="text-base-content">
+                <%= jp_label_for_mood(log.mood) %>
+              </span>
+            </div>
 
-      </div>
-    <% end %>
+            <!-- 日時 -->
+            <div class="shrink-0 text-xs text-base-content/40">
+              <%= l(log.recorded_at, format: :short) %>
+            </div>
+
+          </div>
+        <% end %>
+      <% end %>
+    </div>
 
   </div>
 </div>
