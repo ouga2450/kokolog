@@ -1,0 +1,14 @@
+<div class="swiper" data-swiper-target="container">
+  <div class="swiper-wrapper">
+
+    <% summaries.each do |frequency, summary| %>
+      <div class="swiper-slide">
+
+        <%= render "reactions/partials/habit_summary",
+                   summary: summary %>
+
+      </div>
+    <% end %>
+
+  </div>
+</div>

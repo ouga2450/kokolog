@@ -1,4 +1,6 @@
 class HabitProgress
+  attr_reader :habit, :frequency, :date
+
   def initialize(habit:, date: Time.zone.today, frequency: :daily)
     @habit = habit
     @date  = date
@@ -7,20 +9,24 @@ class HabitProgress
 
   # 集計
   def total_value
-    logs.sum(&:value_for_goal)
+    habit_logs.sum(&:value_for_goal)
   end
 
   def target_value
     habit.goal.amount
   end
 
+  def range
+    range_for_frequency
+  end
+
   # 判定
   def achieved?
     case habit.goal.goal_unit
     when "check_based"
-      logs.exists?
+      habit_logs.exists?
     when "count_based", "time_based"
-      logs.sum(:performed_value) >= habit.goal.amount
+      habit_logs.sum(:performed_value) >= habit.goal.amount
     else
       false
     end
@@ -46,16 +52,13 @@ class HabitProgress
     [ ratio, 1.0 ].min
   end
 
-
-  private
-
-  attr_reader :habit, :date, :frequency
-
-  def logs
+  def habit_logs
     habit.habit_logs.where(started_at: range_for_frequency)
   end
 
-  # 頻度別に範囲分け
+  private
+
+  # 集計範囲
   def range_for_frequency
     case frequency
     when :daily

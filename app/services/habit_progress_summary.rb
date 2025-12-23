@@ -1,4 +1,6 @@
 class HabitProgressSummary
+  attr_reader :progresses
+
   def initialize(progresses)
     @progresses = progresses
   end
@@ -11,6 +13,10 @@ class HabitProgressSummary
     progresses.count(&:achieved?)
   end
 
+  def logs
+    progresses.flat_map(&:habit_logs)
+  end
+
   def achievement_rate
     return nil if progresses.empty?
 
@@ -18,7 +24,19 @@ class HabitProgressSummary
     (avg * 100).round
   end
 
-  private
+  def range_label
+    return "" if progresses.empty?
 
-  attr_reader :progresses
+    # progresses は同一 frequency / date で生成されているため
+    # 全要素が同じ range を持つ
+    range = progresses.first.range
+    from = range.begin.to_date
+    to   = range.end.to_date
+
+    if from == to
+      I18n.l(from, format: :long)
+    else
+      "#{I18n.l(from, format: :short)}〜#{I18n.l(to, format: :short)}"
+    end
+  end
 end

@@ -1,0 +1,13 @@
+<div class="grid grid-cols-3 gap-2" role="tablist">
+  <% summaries.each_with_index do |(frequency, summary), i| %>
+    <button
+      type="button"
+      role="tab"
+      data-index="<%= i %>"
+      data-swiper-target="tab"
+      data-action="click->swiper#slideTo"
+      aria-selected="<%= i.zero? %>">
+      <%= t("frequency.#{frequency}") %>
+    </button>
+  <% end %>
+</div>
