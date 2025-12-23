@@ -33,11 +33,18 @@ class ReactionsController < ApplicationController
 
     @summaries =
       frequency.index_with do |frequency|
-        frequency_habits = @habits.public_send(frequency)
+        # Habit.noneを返すことでActiveRecord::Relationとなる
+        frequency_habits = @habits.public_send(frequency) || Habit.none
         progresses =
-          frequency_habits.map { |habit| HabitProgress.new(habit: habit, date: @date, frequency: frequency) }
+          frequency_habits.map do |habit|
+            HabitProgress.new(
+              habit: habit, 
+              date: @date, 
+              frequency: frequency
+            )
+          end
 
-        HabitProgressSummary.new(progresses)
+        HabitProgressSummary.new(progresses, @date, frequency)
       end
   end
 

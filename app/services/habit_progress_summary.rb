@@ -1,8 +1,10 @@
 class HabitProgressSummary
-  attr_reader :progresses
+  attr_reader :progresses, :date, :frequency
 
-  def initialize(progresses)
+  def initialize(progresses, date, frequency)
     @progresses = progresses
+    @date       = date
+    @frequency  = frequency
   end
 
   def total
@@ -25,16 +27,23 @@ class HabitProgressSummary
   end
 
   def range_label
-    return "" if progresses.empty?
+    range =
+    case frequency.to_sym
+    when :daily
+      date.all_day
+    when :weekly
+      date.beginning_of_week..date.end_of_day
+    when :monthly
+      date.beginning_of_month..date.end_of_day
+    else
+      return ""
+    end
 
-    # progresses は同一 frequency / date で生成されているため
-    # 全要素が同じ range を持つ
-    range = progresses.first.range
     from = range.begin.to_date
     to   = range.end.to_date
 
     if from == to
-      I18n.l(from, format: :long)
+      I18n.l(from, format: :short)
     else
       "#{I18n.l(from, format: :short)}〜#{I18n.l(to, format: :short)}"
     end
