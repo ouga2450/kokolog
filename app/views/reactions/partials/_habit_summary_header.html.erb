@@ -1,13 +1,50 @@
-<div class="space-y-1">
-  <div class="text-xs text-base-content/60">
-    期間：<%= summary.range_label %>
+<div class="flex items-center gap-2 pt-3">
+  <span class="text-sm font-semibold text-base-content">
+    行動達成率
+  </span>
+  <div class="flex-1 h-px bg-base-content/10"></div>
+</div>
+<div class="space-y-3 rounded-xl bg-base-200/60 px-4 py-3">
+
+  <!-- 期間 -->
+  <div class="flex items-center gap-1 text-xs text-base-content/50">
+    <span class="opacity-70">📅</span>
+    <span><%= summary.range_label %></span>
   </div>
 
-  <div class="text-2xl font-bold">
-    <%= summary.achievement_rate || 0 %>%
+  <!-- 達成率 -->
+  <div class="flex items-end gap-2">
+    <span class="text-3xl font-bold tracking-tight">
+      <%= summary.achievement_rate || 0 %>%
+    </span>
+    <span class="text-xs text-base-content/60 mb-1">
+      全体達成率
+    </span>
   </div>
 
-  <div class="text-xs text-base-content/60">
-    <%= summary.achieved_count %> / <%= summary.total %> 行動
+  <!-- 内訳 -->
+  <div class="space-y-1 text-xs text-base-content/70">
+
+    <div>
+      実行数：
+      <span class="font-medium text-base-content">
+        <%= summary.total_performed %>
+      </span>
+      /
+      <%= summary.total_target %>
+      <span class="ml-1 text-base-content/40">
+        （目標数を超えた実行を除く）
+      </span>
+    </div>
+
+    <div>
+      目標達成数：
+      <span class="font-medium text-base-content">
+        <%= summary.achieved_count %>
+      </span>
+      /
+      <%= summary.total %>
+    </div>
+
   </div>
 </div>

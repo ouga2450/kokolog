@@ -34,7 +34,7 @@
     <!-- 実行量 -->
     <% if @habit_log.goal.goal_unit != "check_based" %>
       <div class="bg-base-200/50 p-3 rounded-lg text-sm space-y-1">
-        <p class="font-semibold text-base-content/80">今日の実行量</p>
+        <p class="font-semibold text-base-content/80">実行量</p>
         <p class="text-base-content">
           <%= @habit_log.performed_value.present? ? @habit_log.performed_value : "—" %>
           <%# 単位の表示（例：回 / 分）%>
@@ -66,8 +66,8 @@
     <% end %>
 
     <!-- 気分ログ --->
-    <% before = @habit_log.mood_logs.before.first %>
-    <% after = @habit_log.mood_logs.after.first %>
+    <% before = @habit_log.before_mood_log %>
+    <% after = @habit_log.after_mood_log %>
     <!-- 気分ログ（before） -->
     <% if before.present? %>
       <div class="bg-base-200/40 p-3 rounded-lg text-sm space-y-1">

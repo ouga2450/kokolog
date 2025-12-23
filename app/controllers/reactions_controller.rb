@@ -1,6 +1,6 @@
 class ReactionsController < ApplicationController
   def show
-    @date = parse_date(params[:date]) || Time.zone.today
+    @date = parse_date(params[:date]) || Date.current
 
     # --- その日のログ ---
     @mood_logs =
@@ -20,6 +20,7 @@ class ReactionsController < ApplicationController
                   .includes(:goal, :category)
                   .kept
                   .with_active_goal
+                  .with_effective_goal_on(@date)
 
     # --- 平均気分 ---
     @avg_mood =
@@ -33,11 +34,18 @@ class ReactionsController < ApplicationController
 
     @summaries =
       frequency.index_with do |frequency|
-        frequency_habits = @habits.public_send(frequency)
+        # Habit.noneを返すことでActiveRecord::Relationとなる
+        frequency_habits = @habits.public_send(frequency) || Habit.none
         progresses =
-          frequency_habits.map { |habit| HabitProgress.new(habit: habit, date: @date, frequency: frequency) }
+          frequency_habits.map do |habit|
+            HabitProgress.new(
+              habit: habit,
+              date: @date,
+              frequency: frequency
+            )
+          end
 
-        HabitProgressSummary.new(progresses)
+        HabitProgressSummary.new(progresses, @date, frequency)
       end
   end
 

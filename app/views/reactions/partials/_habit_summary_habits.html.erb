@@ -1,20 +1,40 @@
-<div class="space-y-2">
+<div class="flex items-center gap-2 pt-3">
+  <span class="text-sm font-semibold text-base-content">
+    行動一覧
+  </span>
+  <div class="flex-1 h-px bg-base-content/10"></div>
+</div>
+<div class="grid grid-cols-1 gap-2 pt-2">
   <% progresses.each do |progress| %>
-    <div class="flex justify-between items-center text-sm">
 
-      <div class="flex items-center gap-1">
-        <%= progress.habit.category&.icon %>
-        <%= progress.habit.name %>
-      </div>
+    <%= link_to habit_path(progress.habit),
+                data: { turbo_frame: "modal" },
+                class: "block" do %>
 
-      <div class="text-xs text-base-content/60">
+      <div class="flex items-center gap-2 rounded-lg bg-base-200/60 px-3 py-2 text-sm
+                  transition hover:bg-base-200/80 active:scale-[0.98]">
+
+        <!-- アイコン -->
+        <span class="text-base">
+          <%= progress.habit.category&.icon %>
+        </span>
+
+        <!-- 行動名 -->
+        <span class="flex-1 truncate font-medium text-base-content">
+          <%= progress.habit.name %>
+        </span>
+
+        <!-- 状態 -->
         <% if progress.achieved? %>
-          達成
+          <span class="shrink-0 text-xs text-success">
+            達成済 ✓
+          </span>
         <% else %>
-          <%= progress.total_value %> / <%= progress.target_value %>
+          <span class="shrink-0 text-xs text-base-content/60">
+            <%= progress.total_value %>/<%= progress.target_value %>
+          </span>
         <% end %>
       </div>
-
-    </div>
+    <% end %>
   <% end %>
 </div>

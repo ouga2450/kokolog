@@ -44,6 +44,10 @@ class Habit < ApplicationRecord
   scope :weekly, -> { joins(:goal).where(goals: { frequency: :weekly }) }
   scope :monthly, -> { joins(:goal).where(goals: { frequency: :monthly }) }
 
+  scope :with_effective_goal_on, ->(date) {
+    joins(:goal).merge(Goal.effective_on(date))
+  }
+
   def archive!
     update!(archived_at: Time.current)
   end
