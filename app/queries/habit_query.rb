@@ -1,6 +1,7 @@
 class HabitQuery
-  def initialize(user:)
+  def initialize(user:, date: Date.current)
     @user = user
+    @date = date
   end
 
   def base
@@ -10,13 +11,12 @@ class HabitQuery
   def active_base
     base.where(archived_at: nil)
         .joins(:goal)
-        .merge(Goal.active)
+        .merge(Goal.active.effective_on(@date))
         .distinct
   end
 
   # Goal（daily/weekly/monthly）に応じた対象行動
   # Home のタブ切り替えに使う
-
   def habits_for(tab)
     scope = active_base
 
@@ -33,8 +33,6 @@ class HabitQuery
   end
 
   # 件数（空カードの判定用）
-  # destroy / create / update 時に使用
-
   def count_for(tab)
     habits_for(tab).count
   end
@@ -42,8 +40,6 @@ class HabitQuery
   def exists_for?(tab)
     count_for(tab).positive?
   end
-
-  # 0 件判定（UI に最も便利）
 
   def none_for?(tab)
     count_for(tab).zero?
