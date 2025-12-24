@@ -18,12 +18,13 @@
       <% end %>
     </div>
 
-    <!-- B. グラフエリア（描画は JS に委譲） -->
+    <!-- B. ミニグラフ（1日の中の推移） -->
     <div
       class="w-full h-24"
       data-controller="mood-graph"
-      data-mood-graph-values-value="<%= @mood_graph_values&.to_json %>">
-      <!-- グラフはここに描画される -->
+      data-mood-graph-values-value="<%= @mood_graph_values.to_json %>">
+
+      <canvas class="w-full h-full"></canvas>
     </div>
 
   </div>
