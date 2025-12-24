@@ -9,11 +9,11 @@ class HabitProgress
 
   # 集計
   def total_value
-    habit_logs.sum(&:value_for_goal)
+    habit_logs.sum(&:value_for_goal).to_i
   end
 
   def target_value
-    habit.goal.amount
+    habit.goal.amount.to_i
   end
 
   def range
@@ -26,14 +26,14 @@ class HabitProgress
     when "check_based"
       habit_logs.exists?
     when "count_based", "time_based"
-      habit_logs.sum(:performed_value) >= habit.goal.amount
+      habit_logs.sum(:performed_value) >= target_value
     else
       false
     end
   end
 
   def status
-    return :not_applicable unless target_value.to_i.positive?
+    return :not_applicable unless target_value.positive?
 
     rate = total_value.to_f / target_value
 
