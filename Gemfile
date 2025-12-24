@@ -36,7 +36,7 @@ gem "jbuilder"
 gem "devise", "~> 4.9"
 gem "devise-i18n"
 gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection", "~> 1.0.2"
+gem "omniauth-rails_csrf_protection", "~> 2.0.1"
 
 gem "rails-i18n"
 
