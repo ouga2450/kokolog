@@ -14,6 +14,9 @@ gem "jsbundling-rails"
 gem "turbo-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
+# 📊 Charts
+gem "chartkick"
+gem "groupdate"
 # SVG icon helper for Heroicons [https://github.com/avdgaag/heroicon]
 gem "heroicon"
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]

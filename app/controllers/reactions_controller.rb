@@ -9,6 +9,9 @@ class ReactionsController < ApplicationController
                   .for_date(@date)
                   .recent
 
+    @mood_graph_values =
+      @mood_logs.pluck(:recorded_at, :score)
+
     @habit_logs =
       current_user.habit_logs
                   .includes(:habit, mood_logs: :mood)

@@ -36,3 +36,6 @@ application.register("reveal", RevealController)
 
 import ParallaxController from "./parallax_controller"
 application.register("parallax", ParallaxController)
+
+import MoodGraphController from "./mood_graph_controller"
+application.register("mood-graph", MoodGraphController)

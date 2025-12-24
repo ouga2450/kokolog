@@ -94,6 +94,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    chartkick (5.2.1)
     coderay (1.1.3)
     concurrent-ruby (1.3.5)
     connection_pool (2.5.4)
@@ -128,6 +129,8 @@ GEM
       net-http (~> 0.5)
     globalid (1.3.0)
       activesupport (>= 6.1)
+    groupdate (6.7.0)
+      activesupport (>= 7.1)
     hashid-rails (1.4.1)
       activerecord (>= 4.0)
       hashids (~> 1.0)
@@ -403,11 +406,13 @@ DEPENDENCIES
   bootsnap
   brakeman
   capybara
+  chartkick
   cssbundling-rails
   debug
   devise (~> 4.9)
   devise-i18n
   dotenv-rails
+  groupdate
   hashid-rails (~> 1.0)
   heroicon
   jbuilder
