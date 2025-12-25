@@ -27,10 +27,15 @@ export default class extends Controller {
     const accent      = themeColor("--color-accent")
 
     // 時系列データ
-    const data = this.valuesValue.map(v => ({
-      x: new Date(v[0]),
-      y: v[1]
-    }))
+    const data = this.valuesValue
+      .map((v) => {
+        const time = v?.time ?? v?.[0]
+        const value = v?.value ?? v?.[1]
+        if (time == null || value == null) return null
+
+        return { x: new Date(time), y: value }
+      })
+      .filter(Boolean)
 
     this.chart = new Chart(canvas, {
       type: "line",
