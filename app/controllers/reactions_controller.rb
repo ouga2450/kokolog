@@ -9,8 +9,13 @@ class ReactionsController < ApplicationController
                   .for_date(@date)
                   .recent
 
-    @mood_graph_values =
-      @mood_logs.pluck(:recorded_at, :score)
+    logs_scope =
+      current_user.mood_logs
+                  .includes(:mood)
+                  .for_date(@date)
+
+    aggregation = TimeSeriesAggregation.new(logs_scope).call
+    @mood_graph_values = aggregation[:points]
 
     @habit_logs =
       current_user.habit_logs
