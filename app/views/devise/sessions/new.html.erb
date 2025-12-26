@@ -50,8 +50,8 @@
         <!-- ログイン -->
         <%= f.button type: "submit",
               class: "btn btn-primary w-full h-11 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow-md shadow-primary/20" do %>
-          <%= heroicon "key", options: { class: "w-4 h-4" } %>
-          ログイン
+        <%= heroicon "key", options: { class: "w-4 h-4" } %>
+          <%= t("actions.login") %>
         <% end %>
 
       <% end %>
@@ -78,14 +78,14 @@
           </svg>
         </span>
 
-        <span>Googleでログイン</span>
+        <span><%= t("actions.sign_in_with_google") %></span>
       <% end %>
 
       <!-- 新規登録導線（サブCTA） -->
       <%= link_to new_user_registration_path,
             class: "btn btn-secondary btn-outline w-full h-11 rounded-lg text-sm flex items-center justify-center gap-2" do %>
         <%= heroicon "arrow-right-on-rectangle", options: { class: "w-4 h-4" } %>
-        はじめる
+        <%= t("actions.get_started") %>
       <% end %>
 
       <!-- パスワードリセット -->

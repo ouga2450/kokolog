@@ -4,25 +4,25 @@
     <!-- ホーム -->
     <%= link_to home_path, class: "flex flex-col items-center justify-center gap-1 py-2" do %>
       <%= heroicon "home", options: { class: "w-5 h-5" } %>
-      <span class="text-xs">ホーム</span>
+      <span class="text-xs"><%= t("navigation.home") %></span>
     <% end %>
 
     <!-- 行動管理 -->
     <%= link_to habits_path, class: "flex flex-col items-center justify-center gap-1 py-2" do %>
       <%= heroicon "arrow-path", options: { class: "w-5 h-5" } %>
-      <span class="text-xs">行動</span>
+      <span class="text-xs"><%= t("navigation.habits") %></span>
     <% end %>
 
     <!-- カレンダー -->
     <%= link_to calendars_path, class: "flex flex-col items-center justify-center gap-1 py-2" do %>
       <%= heroicon "calendar-days", options: { class: "w-5 h-5" } %>
-      <span class="text-xs">カレンダー</span>
+      <span class="text-xs"><%= t("navigation.calendar") %></span>
     <% end %>
 
     <!-- 振り返り -->
     <%= link_to reaction_today_path, class: "flex flex-col items-center justify-center gap-1 py-2" do %>
       <%= heroicon "newspaper", options: { class: "w-5 h-5" } %>
-      <span class="text-xs">振り返り</span>
+      <span class="text-xs"><%= t("navigation.reflection") %></span>
     <% end %>
 
   </div>
