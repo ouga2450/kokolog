@@ -63,6 +63,9 @@ group :development, :test do
 
   # 環境変数管理
   gem "dotenv-rails"
+
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
 end
 
 group :development do
