@@ -1,0 +1,20 @@
+ja:
+  navigation:
+    home: "ホーム"
+    habits: "行動"
+    calendar: "カレンダー"
+    reflection: "振り返り"
+    profile_settings: "プロフィール設定"
+    terms: "利用規約"
+    privacy_policy: "プライバシーポリシー"
+
+  actions:
+    login: "ログイン"
+    logout: "ログアウト"
+    sign_up: "新規登録"
+    get_started: "はじめる"
+    sign_in_with_google: "Googleでログイン"
+
+  cta:
+    start_free: "無料ではじめる"
+    start_now: "今すぐはじめる"

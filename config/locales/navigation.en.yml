@@ -1,0 +1,20 @@
+en:
+  navigation:
+    home: "Home"
+    habits: "Habits"
+    calendar: "Calendar"
+    reflection: "Reflection"
+    profile_settings: "Profile settings"
+    terms: "Terms"
+    privacy_policy: "Privacy policy"
+
+  actions:
+    login: "Login"
+    logout: "Log out"
+    sign_up: "Sign up"
+    get_started: "Get started"
+    sign_in_with_google: "Sign in with Google"
+
+  cta:
+    start_free: "Start free"
+    start_now: "Start now"

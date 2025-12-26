@@ -46,23 +46,23 @@
             <li class="text-sm font-semibold mb-1 text-base-content/80">
               <%= current_user.name %> さん
             </li>
-            <li><%= link_to "ホーム", home_path %></li>
-            <li><%= link_to "行動", habits_path %></li>
-            <li><%= link_to "カレンダー", calendars_path %></li>
-            <li><%= link_to "振り返り", reaction_today_path %></li>
-            <li><%= link_to "プロフィール設定", "#" %></li>
+            <li><%= link_to t("navigation.home"), home_path %></li>
+            <li><%= link_to t("navigation.habits"), habits_path %></li>
+            <li><%= link_to t("navigation.calendar"), calendars_path %></li>
+            <li><%= link_to t("navigation.reflection"), reaction_today_path %></li>
+            <li><%= link_to t("navigation.profile_settings"), "#" %></li>
             <li>
-              <%= link_to "ログアウト", destroy_user_session_path,
+              <%= link_to t("actions.logout"), destroy_user_session_path,
                            data: { turbo_method: :delete },
                            class: "text-error" %>
             </li>
 
             <li class="border-t my-1"></li>
-            <li><%= link_to "利用規約", "#", class: "text-xs" %></li>
-            <li><%= link_to "プライバシーポリシー", "#", class: "text-xs" %></li>
+            <li><%= link_to t("navigation.terms"), "#", class: "text-xs" %></li>
+            <li><%= link_to t("navigation.privacy_policy"), "#", class: "text-xs" %></li>
           <% else %>
-            <li><%= link_to "ログイン", new_user_session_path %></li>
-            <li><%= link_to "新規登録", new_user_registration_path %></li>
+            <li><%= link_to t("actions.login"), new_user_session_path %></li>
+            <li><%= link_to t("actions.sign_up"), new_user_registration_path %></li>
           <% end %>
         </ul>
       </div>

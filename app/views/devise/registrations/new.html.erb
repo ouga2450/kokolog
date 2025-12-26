@@ -59,7 +59,7 @@
         <%= f.button type: "submit",
               class: "btn btn-primary w-full h-11 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 shadow-md shadow-primary/20" do %>
           <%= heroicon "user-plus", options: { class: "w-4 h-4" } %>
-          はじめる
+          <%= t("actions.get_started") %>
         <% end %>
 
       <% end %>
@@ -87,13 +87,13 @@
           </svg>
         </span>
 
-        <span>Googleでログイン</span>
+        <span><%= t("actions.sign_in_with_google") %></span>
       <% end %>
 
       <!-- ログイン導線 -->
       <p class="text-center text-xs text-base-content/70">
         すでにアカウントをお持ちですか？
-        <%= link_to "ログイン", new_user_session_path, class: "link link-primary" %>
+        <%= link_to t("actions.login"), new_user_session_path, class: "link link-primary" %>
       </p>
 
     </div>

@@ -28,14 +28,14 @@
                 class: "btn btn-primary h-12 px-12 rounded-xl
                         transition-transform duration-200 ease-out
                         hover:scale-105 active:scale-95" do %>
-            無料ではじめる
+            <%= t("cta.start_free") %>
           <% end %>
 
           <%= link_to new_user_session_path,
                 class: "btn btn-outline h-12 px-12 rounded-xl
                         transition-transform duration-200 ease-out
                         hover:scale-105 active:scale-95" do %>
-            ログイン
+            <%= t("actions.login") %>
           <% end %>
         </div>
       </div>
@@ -94,7 +94,7 @@
               class: "btn btn-secondary h-12 px-12 rounded-xl
                       transition-transform duration-200 ease-out
                       hover:scale-105 active:scale-95" do %>
-          今すぐはじめる
+          <%= t("cta.start_now") %>
         <% end %>
       </div>
     </div>
