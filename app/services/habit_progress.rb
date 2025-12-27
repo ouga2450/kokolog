@@ -1,7 +1,7 @@
 class HabitProgress
   attr_reader :habit, :frequency, :date
 
-  def initialize(habit:, date: Time.zone.today, frequency: :daily)
+  def initialize(habit:, date: Date.current, frequency: :daily)
     @habit = habit
     @date  = date
     @frequency = frequency

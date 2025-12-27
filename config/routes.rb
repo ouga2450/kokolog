@@ -45,7 +45,7 @@ Rails.application.routes.draw do
   resources :reactions, only: [ :show ], param: :date
   # reaction_today_pathで今日の振り返りに遷移
   get "reaction", to: redirect { |_, req|
-    date = Time.zone.today.to_s
+    date = Date.current.to_s
     "/reactions/#{date}"
   }, as: :reaction_today
 

@@ -62,6 +62,6 @@ class Habit < ApplicationRecord
 
   # 実行済みの行動か確認
   def executed_today?
-  habit_logs.where(started_at: Time.zone.today.all_day).exists?
+  habit_logs.where(started_at: Date.current.all_day).exists?
   end
 end
