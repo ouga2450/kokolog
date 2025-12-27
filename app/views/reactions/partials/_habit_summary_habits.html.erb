@@ -7,7 +7,7 @@
 <div class="grid grid-cols-1 gap-2 pt-2">
   <% progresses.each do |progress| %>
 
-    <%= link_to habit_path(progress.habit),
+    <%= link_to habit_path(progress.habit, date: @date),
                 data: { turbo_frame: "modal" },
                 class: "block" do %>
 

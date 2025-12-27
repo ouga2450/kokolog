@@ -19,7 +19,7 @@ class MoodLog < ApplicationRecord
   enum timing: { before: 0, after: 1 }
 
   # --- スコープ ---
-  scope :for_today, -> { where(recorded_at: Time.zone.today.all_day) } # Time.currentではall_dayが使用できないため、Time.zone.todayを採用
+  scope :for_today, -> { where(recorded_at: Date.current.all_day) }
   scope :for_date, ->(date) { where(recorded_at: date.all_day) }
   scope :recent, -> { order(recorded_at: :desc) }
 

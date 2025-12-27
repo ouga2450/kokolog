@@ -17,7 +17,14 @@ class HabitsController < ApplicationController
   end
 
   def show
-    @progress = HabitProgress.new(habit: @habit)
+    @date =
+      begin
+        params[:date].present? ? Date.parse(params[:date]) : Date.current
+      rescue ArgumentError
+        Date.current
+      end
+
+    @progress = HabitProgress.new(habit: @habit, date: @date)
     if turbo_frame_request?
       render :show, layout: false
     else
