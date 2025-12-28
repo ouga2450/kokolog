@@ -1,17 +1,30 @@
-<html data-theme="kokolog">
+<html lang="ja" data-theme="kokolog">
   <head>
-  <% if Rails.env.production? %>
-    <!-- Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV['GA_MEASUREMENT_ID'] %>"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', '<%= ENV['GA_MEASUREMENT_ID'] %>');
-    </script>
-  <% end %>
+    <% if Rails.env.production? %>
+      <!-- Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=<%= ENV['GA_MEASUREMENT_ID'] %>"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<%= ENV['GA_MEASUREMENT_ID'] %>');
+      </script>
+    <% end %>
 
-    <title><%= content_for(:title) || "kokolog" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "kokolog" %></title>
+
+    <meta property="og:title" content="<%= content_for?(:og_title) ? yield(:og_title) : 'kokolog' %>">
+    <meta property="og:description" content="<%= content_for?(:og_description) ? yield(:og_description) : '行動と気分を記録するアプリ' %>">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="kokolog">
+    <meta property="og:url" content="<%= request.base_url + request.path %>">
+    <meta property="og:image" content="<%= request.base_url %>/ogp.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="<%= content_for?(:og_title) ? yield(:og_title) : 'kokolog' %>">
+    <meta name="twitter:description" content="<%= content_for?(:og_description) ? yield(:og_description) : '行動と気分を記録するアプリ' %>">
+    <meta name="twitter:image" content="<%= request.base_url %>/ogp.png">
+
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -21,9 +34,8 @@
     <%= yield :head %>
 
     <link rel="manifest" href="/manifest.json">
-    <link rel="icon" href="/icon.png" type="image/png">
-    <link rel="icon" href="/icon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/icon.png">
+    <link rel="icon" href="/favicon.ico">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
