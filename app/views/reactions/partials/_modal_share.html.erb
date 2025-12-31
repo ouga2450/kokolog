@@ -10,9 +10,11 @@
     </div>
 
     <div class="flex justify-end gap-2">
-      <%= link_to "キャンセル",
-                  reaction_path(@context.date),
-                  class: "btn btn-ghost btn-sm" %>
+      <button type="button"
+              data-action="click->modal#close"
+              class="btn btn-sm btn-outline h-9 min-h-9 px-4">
+        キャンセル
+      </button>
 
       <a href="https://twitter.com/intent/tweet?text=Hello%20kokolog"
         target="_blank"
