@@ -1,0 +1,25 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <div class="p-6 space-y-4">
+    <h2 class="text-sm font-medium">
+      Xに投稿する内容（仮）
+    </h2>
+
+    <div class="text-sm text-base-content/60 whitespace-pre-wrap">
+      📅 <%= @context.date %>
+      気分：<%= @context.avg_mood || "—" %>
+    </div>
+
+    <div class="flex justify-end gap-2">
+      <%= link_to "キャンセル",
+                  reaction_path(@context.date),
+                  class: "btn btn-ghost btn-sm" %>
+
+      <a href="https://twitter.com/intent/tweet?text=Hello%20kokolog"
+        target="_blank"
+        rel="noopener"
+        class="btn btn-primary btn-sm">
+        Xに投稿
+      </a>
+    </div>
+  </div>
+<% end %>
