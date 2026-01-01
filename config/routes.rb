@@ -21,14 +21,14 @@ Rails.application.routes.draw do
   get "service-worker" => "rails/pwa#service_worker", as: :pwa_service_worker
   get "manifest" => "rails/pwa#manifest", as: :pwa_manifest
 
-  # Defines the root path route ("/")
   root "static_pages#top"
 
-  # ログイン後のホーム画面
+  get "/top", to: "static_pages#top"
+
+  get "/terms", to: "static_pages#terms"
+
   get "home", to: "home#index"
 
-  # mood_logsリソースのルーティング設定
-  # indexは別途logsコントローラーで定義予定
   resources :mood_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]
 
   # habitsリソースのルーティング設定
@@ -48,11 +48,11 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :calendars, only: [ :index, :show ], param: :date
+
   # reaction_today_pathで今日の振り返りに遷移
   get "reaction", to: redirect { |_, _|
     date = Date.current.to_s
     "/reactions/#{date}"
   }, as: :reaction_today
-
-  resources :calendars, only: [ :index, :show ], param: :date
 end

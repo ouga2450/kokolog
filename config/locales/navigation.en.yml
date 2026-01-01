@@ -1,5 +1,6 @@
 en:
   navigation:
+    top: "Top"
     home: "Home"
     habits: "Habits"
     calendar: "Calendar"
