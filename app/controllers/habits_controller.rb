@@ -17,12 +17,7 @@ class HabitsController < ApplicationController
   end
 
   def show
-    @date =
-      begin
-        params[:date].present? ? Date.parse(params[:date]) : Date.current
-      rescue ArgumentError
-        Date.current
-      end
+    @date = parse_date(params[:date]) || Date.current
 
     @progress = HabitProgress.new(habit: @habit, date: @date)
     if turbo_frame_request?
@@ -110,5 +105,12 @@ class HabitsController < ApplicationController
       :end_date,
       :status
     )
+  end
+
+  def parse_date(str)
+    return nil if str.blank?
+    Date.parse(str)
+  rescue ArgumentError
+    nil
   end
 end

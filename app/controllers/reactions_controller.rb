@@ -4,6 +4,11 @@ class ReactionsController < ApplicationController
     @context = ReactionContext.new(user: current_user, date: @date)
   end
 
+  def share
+    date = parse_date(params[:date]) || Date.current
+    @context = ReactionContext.new(user: current_user, date: date)
+  end
+
   private
 
   def parse_date(str)

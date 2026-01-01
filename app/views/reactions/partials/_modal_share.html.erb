@@ -1,0 +1,85 @@
+<%= turbo_frame_tag "modal-content" do %>
+  <div class="p-6 space-y-5">
+
+    <!-- 見出し -->
+    <div class="space-y-1">
+      <h2 class="text-sm font-medium text-base-content">
+        この日の振り返り
+      </h2>
+      <p class="text-xs text-base-content/50">
+        投稿イメージ
+      </p>
+    </div>
+
+    <%# ===== 投稿文を組み立てる ===== %>
+    <%
+      score = @context.avg_mood
+
+      mood_face =
+        if score.nil?
+          "😶"
+        elsif score >= 4.0
+          "😊"
+        elsif score >= 3.0
+          "🙂"
+        elsif score >= 2.0
+          "😐"
+        else
+          "😶"
+        end
+
+      activities =
+        @context.habit_logs
+                .map { |log| log.habit }
+                .compact
+                .uniq
+                .take(4)
+                .map { |habit| "#{habit.category.icon} #{habit.name}" }
+
+      activities_text =
+        if activities.any?
+          activities.join("\n")
+        else
+          "☁️ 静かな一日でした"
+        end
+
+      tweet_text = <<~TEXT
+      📅 #{@context.date.strftime("%Y/%m/%d")}の振り返り
+      🌱 今日の気分
+      #{mood_face} #{score&.round(2) || "—"} / 5
+      🧩 今日やったこと
+      #{activities_text}
+      #kokolog
+      https://kokolog.onrender.com
+      TEXT
+    %>
+
+    <!-- 日誌表示 -->
+    <div
+      class="rounded-md border border-base-200 bg-base-100/60
+             p-4 text-sm leading-relaxed text-base-content/80">
+      <%= simple_format(tweet_text) %>
+    </div>
+
+    <!-- アクション -->
+    <div class="flex justify-end gap-2 pt-2">
+      <button type="button"
+              data-action="click->modal#close"
+              class="btn btn-sm btn-ghost">
+        閉じる
+      </button>
+
+      <a href="https://twitter.com/intent/tweet?text=<%= ERB::Util.url_encode(tweet_text) %>"
+         target="_blank"
+         rel="noopener"
+         class="btn btn-outline btn-sm group
+                bg-neutral-900 text-white
+                inline-flex items-center gap-2">
+        <%= image_tag "logo-white.png",
+          class: "w-4 h-4" %>
+        にシェア
+      </a>
+    </div>
+
+  </div>
+<% end %>
