@@ -27,6 +27,8 @@ Rails.application.routes.draw do
 
   get "/terms", to: "static_pages#terms"
 
+  get "/privacy", to: "static_pages#privacy"
+
   get "home", to: "home#index"
 
   resources :mood_logs, only: [ :new, :create, :show, :edit, :update, :destroy ]

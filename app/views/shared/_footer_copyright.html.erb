@@ -1,5 +1,9 @@
 <footer class="footer footer-center p-2 bg-base-300 text-base-content mt-2 mb-[calc(4rem+env(safe-area-inset-bottom))]">
-  <aside>
+  <aside class="space-y-1">
+    <div class="flex items-center gap-4 text-xs text-base-content/70">
+      <%= link_to "プライバシーポリシー", privacy_path, class: "link link-hover" %>
+      <%= link_to "利用規約", terms_path, class: "link link-hover" %>
+    </div>
     <p>© <%= Time.current.year %> kokolog - 心を整える行動記録アプリ</p>
   </aside>
 </footer>
