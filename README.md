@@ -86,24 +86,32 @@ kokolog は、
 ---
 
 ## 主な機能
+### MVPリリース時
+- ユーザー登録 / ログイン
+- 行動登録機能
+- 行動前後の気分記録
+- 気分登録機能
+- 1日の記録一覧
 
-- 気分の記録
-- 行動の記録
-- 気分と行動の関連記録
-- 日ごとの振り返り
-- 気分グラフ
-- カレンダーによる振り返り表示
+### 本リリース
+- 行動カテゴリ追加、検索機能
+- 行動による気分の改善度合い表示
+- 1日、月単位の記録をグラフ化
+- turboによるUX向上
+- カレンダーで日ごとのログ数を表示
+- 振り返り画面
+- Xでの投稿機能
+- Google認証
 
 ---
 
 ## 技術スタック
-
-- **Backend**: Ruby on Rails 7.2.2  
-- **Frontend**: Tailwind CSS v4 / daisyUI / Hotwire（Turbo / Stimulus）  
-- **Database**: PostgreSQL  
-- **Infra**: Render / Neon  
-- **Auth**: Devise / Google認証  
-- **Development**: Docker  
+- **フレームワーク**: Ruby on Rails 7.2.2
+- **フロントエンド**: Tailwind CSS v4 / daisyUI / Hotwire（turbo/stimulus）
+- **データベース**: PostgreSQL
+- **開発環境**: Docker
+- **インフラ**: Render / neon
+- **認証**: Devise / Google認証
 
 ---
 
