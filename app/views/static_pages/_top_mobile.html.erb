@@ -1,118 +1,191 @@
-<div class="min-h-screen bg-base-200 text-base-content">
+<div class="bg-base-200 text-base-content">
 
-  <!-- ================= HERO ================= -->
-  <section class="relative overflow-hidden px-6 pt-24 pb-20 text-center">
-    <div data-controller="parallax" class="absolute inset-0 bg-primary/10"></div>
+  <!-- ================= HERO (MOBILE) ================= -->
+  <section class="relative overflow-hidden"
+           data-controller="reveal">
 
-    <div data-controller="reveal" class="relative space-y-8">
-      <div data-reveal-target="item" class="badge badge-primary badge-outline">
-        こころ × 行動
+    <!-- 背景（上部だけ見せる） -->
+    <div class="absolute top-0 right-0 w-full h-64 pointer-events-none">
+      <%= image_tag "title.png",
+            class: "w-full h-full object-contain object-right opacity-90",
+            alt: "" %>
+    </div>
+
+    <div class="relative z-10 px-6 pt-50 pb-10 space-y-8">
+
+      <div class="badge badge-primary badge-outline w-fit"
+           data-reveal-target="item">
+        kokolog｜habit × mood
       </div>
 
-      <h1 data-reveal-target="item" class="text-4xl font-bold leading-tight">
-        行動の前後で、<br>
-        <span class="text-primary">こころが動く</span>
+      <h1 class="leading-tight"
+          data-reveal-target="item">
+        <span class="block text-3xl font-semibold">
+          行動×気分で、
+        </span>
+        <span class="block mt-1 text-4xl font-extrabold text-primary">
+          気分の流れが<br>
+          見えてくる。
+        </span>
       </h1>
 
-      <p data-reveal-target="item" class="text-sm text-base-content/70 leading-relaxed">
-        気分と行動を、同時に記録。<br>
-        日常の「小さな変化」が積み重なっていく。
-      </p>
-
-      <!-- 修正版ボタン -->
-      <div data-reveal-target="item" class="space-y-3">
-
-        <%= link_to new_user_registration_path,
-          class: "btn btn-primary w-full h-12 rounded-xl
-                  transition-transform duration-200 ease-out
-                  hover:scale-105 active:scale-95" do %>
-          <%= t("cta.start_free") %>
-        <% end %>
-
-        <%= link_to new_user_session_path,
-          class: "btn btn-outline w-full h-12 rounded-xl
-                  transition-transform duration-200 ease-out
-                  hover:scale-105 active:scale-95" do %>
-          <%= t("actions.login") %>
-        <% end %>
-
-      </div>
     </div>
   </section>
 
 
-  <!-- ================= 体験 Swiper ================= -->
-  <section class="bg-base-100 py-20">
-    <div class="px-6 mb-10 text-center" data-controller="reveal">
-      <h2 data-reveal-target="item" class="text-2xl font-bold">kokolog の体験</h2>
-      <p data-reveal-target="item" class="text-xs text-base-content/60 mt-1">
-        記録 → 行動 → 振り返り
+  <!-- ================= EXPLAIN ================= -->
+  <section class="bg-base-200 py-8"
+           data-controller="reveal">
+    <div class="px-6 space-y-4 text-center">
+
+      <p class="text-base text-base-content/80 leading-loose"
+         data-reveal-target="item">
+        kokolog は、日々の気分と行動を記録し、<br>
+        あとから自分の調子を振り返るためのアプリです。
       </p>
-    </div>
 
-    <div class="swiper px-4"
-         data-controller="swiper"
-         data-swiper-target="container">
-      <div class="swiper-wrapper">
+      <p class="text-sm text-base-content/60 leading-loose"
+         data-reveal-target="item">
+        頑張りを評価せず、<br>
+        「どんなときに調子が良かったか」に気づくことを大切にしています。
+      </p>
 
-        <% slides = [
-          ["今のこころをつける", "top/mood_input.png", "まずは今の気分をひとつ。"],
-          ["今日のやること", "top/today_habit.png", "今日は、これだけ。"],
-          ["こころの履歴", "top/today_mood_logs.png", "感情は、ちゃんと残る。"],
-          ["行動の履歴", "top/today_habit_logs.png", "やった自分は、消えない。"],
-          ["生活の軸になる", "top/habit_list.png", "繰り返したものが並ぶ。"],
-          ["日々が履歴になる", "top/log_list.png", "日常そのものが記録になる。"]
-        ] %>
-
-        <% slides.each do |title, img, text| %>
-          <div class="swiper-slide">
-            <div class="card bg-base-200 p-4 shadow space-y-3">
-              <p class="text-xs text-primary font-bold"><%= title %></p>
-              <%= image_tag img, class: "rounded-xl w-full" %>
-              <p class="text-xs text-base-content/70"><%= text %></p>
-            </div>
-          </div>
-        <% end %>
-
-      </div>
-
-      <div class="swiper-pagination mt-6"></div>
     </div>
   </section>
 
 
-  <!-- ================= グラフ枠 ================= -->
-  <section class="py-20 px-6 bg-base-200">
-    <div class="card bg-base-100 shadow p-6 text-center space-y-3" data-controller="reveal">
-      <h3 data-reveal-target="item" class="font-bold text-sm">こころの変化（近日追加）</h3>
+  <!-- ================= CTA (MOBILE) ================= -->
+  <section class="bg-base-100 py-16"
+           data-controller="reveal">
+    <div class="px-6 text-center space-y-6">
 
-      <div data-reveal-target="item"
-           class="w-full h-40 rounded-xl border-2 border-dashed border-base-300
-                  flex items-center justify-center text-xs text-base-content/50">
-        グラフ表示エリア（今後実装）
-      </div>
-
-      <p data-reveal-target="item" class="text-xs text-base-content/60">
-        週間・月間の気分を可視化予定
-      </p>
-    </div>
-  </section>
-
-
-  <!-- ================= CTA ================= -->
-  <section class="bg-primary py-20 text-center text-primary-content">
-    <div data-controller="reveal" class="space-y-6 px-6">
-      <h2 data-reveal-target="item" class="text-2xl font-bold">
-        今日の一歩が、未来をつくる
+      <h2 class="text-xl font-bold"
+          data-reveal-target="item">
+        今の気分を、<br>
+        記録してみませんか
       </h2>
 
-      <%= link_to new_user_registration_path,
-            class: "btn btn-secondary w-full h-12 rounded-xl
-                    transition-transform duration-200 ease-out
-                    hover:scale-105 active:scale-95" do %>
-        <%= t("cta.start_now") %>
+      <div class="flex flex-col gap-3"
+           data-reveal-target="item">
+
+        <%= link_to "はじめる",
+              new_user_registration_path,
+              class: "btn btn-primary w-full rounded-full" %>
+
+        <%= link_to "ログイン",
+              new_user_session_path,
+              class: "btn btn-ghost w-full rounded-full" %>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ================= HOW TO (MOBILE) ================= -->
+  <section class="bg-base-200 py-20"
+           data-controller="reveal">
+
+    <h2 class="text-2xl font-bold text-center mb-12"
+        data-reveal-target="item">
+      使い方はとてもシンプル
+    </h2>
+
+    <div class="space-y-12 px-6">
+
+      <% [
+        ["01", "いつでも気分登録", "思い立った瞬間に、今の気分を記録"],
+        ["02", "行動登録", "よく行う行動をあらかじめ登録"],
+        ["03", "行動実行", "行動と気分をつなげる"],
+        ["04", "振り返る", "カレンダーやXで振り返り"]
+      ].each do |step, title, body| %>
+
+        <div class="space-y-2"
+             data-reveal-target="item">
+
+          <div class="text-primary font-semibold">
+            STEP <%= step %>
+          </div>
+
+          <h3 class="text-lg font-bold">
+            <%= title %>
+          </h3>
+
+          <p class="text-base-content/70">
+            <%= body %>
+          </p>
+
+        </div>
+
       <% end %>
     </div>
   </section>
 
+
+  <!-- ================= GRAPH (MOBILE) ================= -->
+  <section class="bg-base-100 py-20"
+           data-controller="reveal">
+    <div class="px-6 space-y-6">
+
+      <h2 class="text-2xl font-bold"
+          data-reveal-target="item">
+        気分の変化を、<br>
+        見える形で
+      </h2>
+
+      <p class="text-base-content/70"
+         data-reveal-target="item">
+        行動の前後で変わる気分を、時間の流れとして振り返れます。
+      </p>
+
+      <%= image_tag "top/mood_graph.png",
+            class: "rounded-xl shadow",
+            alt: "気分の変化を可視化したグラフ",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= SHARE (MOBILE) ================= -->
+  <section class="bg-base-200 py-20"
+           data-controller="reveal">
+    <div class="px-6 space-y-6">
+
+      <h2 class="text-2xl font-bold"
+          data-reveal-target="item">
+        振り返りは、<br>
+        シェアもできる
+      </h2>
+
+      <p class="text-base-content/70"
+         data-reveal-target="item">
+        振り返りの内容は、Xにそのままシェアできます。
+      </p>
+
+      <%= image_tag "top/x_share.png",
+            class: "rounded-xl shadow border border-base-200",
+            alt: "Xへのシェア投稿イメージ",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= END (MOBILE) ================= -->
+  <section class="relative bg-base-200 py-24"
+           data-controller="reveal">
+
+    <div class="px-6 text-center space-y-8"
+         data-reveal-target="item">
+      <h2 class="text-2xl font-bold leading-relaxed">
+        今日の気分と行動が、<br>
+        明日の自分をつくっていく
+      </h2>
+
+      <div>
+        <%= link_to "今すぐはじめる",
+              new_user_registration_path,
+              class: "btn btn-primary w-full rounded-full" %>
+      </div>
+
+    </div>
+  </section>
 </div>
