@@ -1,0 +1,178 @@
+<main class="min-h-screen bg-base-100">
+  <!-- Hero -->
+  <section class="border-b border-base-200/70">
+    <div class="mx-auto w-full px-4 py-8">
+      <div class="flex items-start gap-4">
+        <div class="mt-1 inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+          <span class="text-lg">🔐</span>
+        </div>
+
+        <div class="flex-1">
+          <div class="flex items-center justify-between mb-4">
+            <h1 class="text-xl font-semibold tracking-tight text-base-content">
+              プライバシーポリシー
+            </h1>
+
+            <% back = request.referer %>
+            <% back = nil if back == request.url %>
+
+            <button
+              type="button"
+              class="btn btn-outline btn-xs flex items-center gap-1"
+              onclick="window.location = '<%= back || habits_path %>'">
+              <%= heroicon "arrow-uturn-left", variant: :outline, options: { class: "w-4 h-4" } %>
+              戻る
+            </button>
+          </div>
+
+          <div class="mt-3 flex flex-wrap items-center gap-2">
+            <span class="badge badge-primary badge-outline">kokolog</span>
+            <span class="badge badge-ghost">最終更新日：2026年1月1日</span>
+          </div>
+
+          <p class="mt-4 text-sm leading-relaxed text-base-content/70">
+            「kokolog」（以下、「本サービス」といいます。）は、ユーザーの個人情報および関連情報の取扱いについて、
+            以下のとおりプライバシーポリシー（以下、「本ポリシー」といいます。）を定めます。
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content -->
+  <section>
+    <div class="mx-auto max-w-3xl px-4 py-8 sm:py-10">
+      <!-- 目次 -->
+      <div class="rounded-xl border border-base-200 bg-base-100 p-4">
+        <div class="flex items-center justify-between gap-3">
+          <h2 class="text-sm font-semibold text-base-content">目次</h2>
+          <span class="text-xs text-base-content/50">※タップで移動</span>
+        </div>
+
+        <div class="text-xs mt-4 grid gap-2 sm:grid-cols-2">
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-1">1. 個人情報</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-2">2. 収集方法</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-3">3. 利用目的</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-4">4. 第三者提供</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-5">5. 訂正・削除</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-6">6. 保存期間</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-7">7. アクセス解析</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-8">8. Cookie</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-9">9. 外部サービス</a>
+          <a class="btn btn-ghost btn-sm h-10 justify-start items-center text-base-content hover:text-primary rounded-xl" href="#sec-10">10. お問い合わせ</a>
+        </div>
+      </div>
+
+      <!-- 本文 -->
+      <article class="mt-8 space-y-8">
+        <section id="sec-1" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">1. 個人情報</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            本ポリシーにおいて「個人情報」とは、個人情報保護法にいう個人情報を指し、
+            メールアドレスその他特定の個人を識別できる情報を含みます。
+          </p>
+          <p class="mt-3 text-sm text-base-content/70">
+            また、本サービスでは、ユーザーが入力する気分・行動・メモ等の記録情報を取り扱います。
+            これらの情報は、ユーザー自身の振り返りを支援する目的に限定して利用され、
+            原則としてユーザー本人以外に公開されることはありません。
+          </p>
+        </section>
+
+        <section id="sec-2" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">2. 個人情報の収集方法</h2>
+          <ul class="mt-3 space-y-2 text-sm text-base-content/75">
+            <li>・利用登録時に入力されるメールアドレス</li>
+            <li>・ユーザーが任意で登録するプロフィール情報</li>
+            <li>・気分・行動・メモ等の記録情報</li>
+            <li>・アクセス日時、閲覧ページ、利用端末等のアクセスログ</li>
+          </ul>
+          <p class="mt-3 text-sm text-base-content/70">
+            これらの情報は、ユーザーが本サービスを利用する過程で自発的に入力したもの、
+            またはサービス提供上必要な範囲で自動的に取得されるものに限られます。
+          </p>
+        </section>
+
+        <section id="sec-3" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">3. 利用目的</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            本サービスは、取得した情報を以下の目的で利用します。
+          </p>
+          <ul class="mt-3 space-y-2 text-sm text-base-content/75">
+            <li>・本サービスの提供および運営のため</li>
+            <li>・ユーザー自身が行動や気分を振り返るため</li>
+            <li>・利用状況の分析およびサービス改善のため</li>
+            <li>・不正利用防止およびセキュリティ確保のため</li>
+            <li>・お問い合わせへの対応および必要な連絡のため</li>
+          </ul>
+          <p class="mt-3 text-sm text-base-content/70">
+            本サービスは、ユーザーの個人情報および記録データを
+            広告配信や第三者への販売目的で利用することはありません。
+          </p>
+        </section>
+
+        <section id="sec-4" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">4. 第三者提供</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            本サービスは、以下の場合を除き、ユーザーの個人情報を第三者に提供することはありません。
+          </p>
+          <ul class="mt-3 space-y-2 text-sm text-base-content/75">
+            <li>・ユーザー本人の同意がある場合</li>
+            <li>・法令に基づき開示が必要とされる場合</li>
+          </ul>
+        </section>
+
+        <section id="sec-5" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">5. 訂正・削除</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            ユーザーは、自己の個人情報および記録データについて、
+            確認・訂正・削除を請求することができます。
+          </p>
+        </section>
+
+        <section id="sec-6" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">6. 保存期間</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            個人情報および記録データは、本サービスの提供に必要な期間に限り保存されます。
+            退会後は、法令上保存が必要な場合を除き、適切に削除または匿名化されます。
+          </p>
+        </section>
+
+        <section id="sec-7" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">7. アクセス解析</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            本サービスでは、サービス改善を目的として Google Analytics を利用しています。
+            これらのデータは匿名で収集され、個人を特定するものではありません。
+          </p>
+        </section>
+
+        <section id="sec-8" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">8. Cookie</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            ログイン状態の維持や利便性向上のため Cookie を使用する場合があります。
+            Cookie を無効化した場合、一部機能が正常に動作しないことがあります。
+          </p>
+        </section>
+
+        <section id="sec-9" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">9. 外部サービス</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            本サービスは Render を利用してホスティングされています。
+          </p>
+        </section>
+
+        <section id="sec-10" class="scroll-mt-24 rounded-2xl border border-base-200 p-6 shadow-sm">
+          <h2 class="text-lg font-bold">10. お問い合わせ</h2>
+          <p class="mt-3 text-sm text-base-content/70">
+            本ポリシーに関するお問い合わせは、お問い合わせフォームよりご連絡ください。
+          </p>
+
+          <div class="mt-4">
+            <a class="btn btn-primary btn-sm rounded-xl" href="#">
+              お問い合わせフォームへ
+            </a>
+          </div>
+        </section>
+      </article>
+    </div>
+  </section>
+</main>

@@ -59,7 +59,7 @@
 
             <li class="border-t my-1"></li>
             <li><%= link_to t("navigation.terms"), terms_path, class: "text-xs" %></li>
-            <li><%= link_to t("navigation.privacy_policy"), "#", class: "text-xs" %></li>
+            <li><%= link_to t("navigation.privacy_policy"), privacy_path, class: "text-xs" %></li>
           <% else %>
             <li><%= link_to t("navigation.top"), top_path %></li>
             <li><%= link_to t("actions.login"), new_user_session_path %></li>
@@ -67,7 +67,7 @@
 
             <li class="border-t my-1"></li>
             <li><%= link_to t("navigation.terms"), terms_path, class: "text-xs" %></li>
-            <li><%= link_to t("navigation.privacy_policy"), "#", class: "text-xs" %></li>
+            <li><%= link_to t("navigation.privacy_policy"), privacy_path, class: "text-xs" %></li>
           <% end %>
         </ul>
       </div>
