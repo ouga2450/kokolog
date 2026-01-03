@@ -1,0 +1,33 @@
+<div class="space-y-6">
+
+  <!-- プロフィールカード -->
+  <div class="card bg-base-100 shadow-sm">
+    <div class="card-body flex gap-4">
+
+      <!-- アイコン（仮） -->
+      <div class="avatar placeholder">
+        <div class="w-16 rounded-full bg-base-200"></div>
+      </div>
+
+      <!-- 名前 & ひとこと -->
+      <div class="flex-1">
+        <div class="text-lg font-semibold">
+          <%= @user.name %>
+        </div>
+
+        <div class="text-sm text-base-content/60 mt-1 whitespace-pre-wrap">
+          <%= @user.bio.presence || "ひとことメモはまだありません" %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 編集ボタン -->
+  <div class="text-right">
+    <%= link_to "プロフィールを編集",
+        edit_mypage_path,
+        class: "btn btn-outline btn-sm" %>
+  </div>
+
+</div>
