@@ -52,6 +52,8 @@ Rails.application.routes.draw do
 
   resources :calendars, only: [ :index, :show ], param: :date
 
+  resource :mypage, only: [ :show, :edit, :update ]
+
   # reaction_today_pathで今日の振り返りに遷移
   get "reaction", to: redirect { |_, _|
     date = Date.current.to_s

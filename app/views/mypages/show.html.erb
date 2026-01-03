@@ -1,0 +1,23 @@
+<div class="space-y-6">
+
+  <!-- プロフィールカード -->
+  <div class="card bg-base-100 shadow-sm">
+    <div class="card-body flex gap-4">
+
+      <div class="flex-1">
+        <div class="text-lg font-semibold">
+          ユーザー名：<%= @user.name %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 編集ボタン -->
+  <div class="text-right">
+    <%= link_to "プロフィールを編集",
+        edit_mypage_path,
+        class: "btn btn-outline btn-sm" %>
+  </div>
+
+</div>
