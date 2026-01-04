@@ -47,16 +47,20 @@
         <div class="mt-1 flex items-center gap-2 text-base-content/60">
           <span>
             <%= before.present? ?
-                [emoji_for_mood(before.mood), jp_label_for_mood(before.mood)].compact.join(" ")
-                : "—" %>
+                safe_join(
+                  [emoji_for_mood(before.mood), jp_label_for_mood(before.mood)].compact,
+                  " "
+                ): "—" %>
           </span>
 
           <span class="text-base-content/40">→</span>
 
           <span>
             <%= after.present? ?
-                [emoji_for_mood(after.mood), jp_label_for_mood(after.mood)].compact.join(" ")
-                : "—" %>
+                safe_join(
+                  [emoji_for_mood(after.mood), jp_label_for_mood(after.mood)].compact,
+                  " "
+                ): "—" %>
           </span>
         </div>
 
