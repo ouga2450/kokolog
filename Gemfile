@@ -19,6 +19,10 @@ gem "chartkick"
 gem "groupdate"
 # SVG icon helper for Heroicons [https://github.com/avdgaag/heroicon]
 gem "heroicon"
+# SVG icon helper for Inline SVGs [https://github.com/jamesmartin/inline_svg]
+gem "inline_svg"
+# Use Active Storage variants
+gem "image_processing", "~> 1.2"
 # Bundle and process CSS [https://github.com/rails/cssbundling-rails]
 gem "cssbundling-rails"
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
