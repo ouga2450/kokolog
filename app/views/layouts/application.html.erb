@@ -43,7 +43,19 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="bg-base-200 min-h-screen flex flex-col font-sans">
+  <body class="bg-base-200 min-h-screen flex flex-col font-sans"
+        style="
+          background: linear-gradient(
+            180deg,
+            var(--color-base-200) 0%,
+            color-mix(
+              in oklab,
+              var(--color-base-100) 85%,
+              var(--color-primary) 15%
+            ) 100%
+          );
+        "
+      >
 
     <%= render 'shared/header' %>
 
