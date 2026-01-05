@@ -1,7 +1,314 @@
-<h1>使い方説明</h1>
-<p>このアプリは、日々の気分や習慣を記録し、振り返るためのものです。</p>
-<ul>
-  <li>気分ログを記録できます</li>
-  <li>習慣を設定し、達成状況を管理できます</li>
-  <li>振り返りページで過去の記録を見ることができます</li>
-</ul>
+<div class="fixed top-[calc(var(--header-height,3.5rem)+0.7rem)]
+            left-1/2 z-50 w-full max-w-md -translate-x-1/2 px-4">
+  <div class="flex justify-end">
+    <%= link_to "スキップ",
+          root_path,
+          class: "btn btn-outline btn-xs bg-base-100/80 backdrop-blur
+                 border-base-300 text-base-content/70" %>
+  </div>
+</div>
+
+<div class="space-y-6">
+
+  <!-- ================= タイトル ================= -->
+  <section class="card bg-base-100 shadow-sm border-l-2 border-primary/60">
+    <div class="card-body px-6 space-y-4">
+
+      <h2 class="text-lg font-bold">
+        <span class="text-primary">koko</span><span class="text-accent">log</span>へようこそ！
+      </h2>
+
+      <p class="text-sm text-base-content/60">
+        ここでは、kokologの基本的な使い方を紹介します。<br>
+        必要なところだけ、軽く目を通してください。<br>
+        画面右上の「スキップ」からホームへ移動できます。
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ================= ナビゲーション ================= -->
+  <section class="card bg-base-100 shadow-sm border-l-2 border-primary/60">
+    <div class="card-body px-6 space-y-4">
+      <p class="text-sm text-base-content/60">
+        左の項目をタップすると説明へ移動します。<br>
+        右側のリンクから、実際の画面を開くこともできます。
+      </p>
+
+        <li class="flex items-center justify-between gap-4">
+          <a href="#step-01" class="transition-colors hover:text-primary">
+            ① 今の気分をパッと記録
+          </a>
+          <%= link_to "ホームへ",
+                root_path(anchor: "mood"),
+                class: "btn btn-ghost btn-xs text-primary shrink-0" %>
+        </li>
+
+        <li class="flex items-center justify-between gap-4">
+          <a href="#step-02" class="transition-colors hover:text-primary">
+            ② いつもの行動を登録
+          </a>
+          <%= link_to "行動登録へ",
+                new_habit_path,
+                class: "btn btn-ghost btn-xs text-primary shrink-0" %>
+        </li>
+
+        <li class="flex items-center justify-between gap-4">
+          <a href="#step-03" class="transition-colors hover:text-primary">
+            ③ 行動一覧でまとめて管理
+          </a>
+          <%= link_to "行動一覧へ",
+                habits_path,
+                class: "btn btn-ghost btn-xs text-primary shrink-0" %>
+        </li>
+
+        <li class="flex items-center justify-between gap-4">
+          <a href="#step-04" class="transition-colors hover:text-primary">
+            ④ 行動を実行して、前後の気分を記録
+          </a>
+          <%= link_to "ホームへ",
+                root_path,
+                class: "btn btn-ghost btn-xs text-primary shrink-0" %>
+        </li>
+
+        <li class="flex items-center justify-between gap-4">
+          <a href="#step-05" class="transition-colors hover:text-primary">
+            ⑤ 記録したログをすぐ確認
+          </a>
+          <%= link_to "ログを見る",
+                root_path(anchor: "logs"),
+                class: "btn btn-ghost btn-xs text-primary shrink-0" %>
+        </li>
+
+        <li class="flex items-center justify-between gap-4">
+          <a href="#step-06" class="transition-colors hover:text-primary">
+            ⑥ カレンダーで過去も振り返り
+          </a>
+          <%= link_to "カレンダーへ",
+                calendars_path,
+                class: "btn btn-ghost btn-xs text-primary shrink-0" %>
+        </li>
+
+        <li class="flex items-center justify-between gap-4">
+          <a href="#step-07" class="transition-colors hover:text-primary">
+            ⑦ 振り返りをXに投稿
+          </a>
+          <%= link_to "振り返りへ",
+                reaction_path(date: Date.current),
+                class: "btn btn-ghost btn-xs text-primary shrink-0" %>
+        </li>
+
+      </ul>
+    </div>
+  </section>
+
+
+  <!-- ================= STEP 01 ================= -->
+  <section id="step-01" class="card bg-base-100 shadow-sm border-l-2 border-primary/60" data-controller="reveal">
+    <div class="card-body px-6 space-y-6">
+
+      <div class="flex items-start justify-between gap-4" data-reveal-target="item">
+        <div>
+          <p class="text-xs tracking-widest text-primary font-semibold">STEP 01</p>
+          <h2 class="text-xl font-bold mt-1">気分を記録</h2>
+          <p class="text-sm text-base-content/60 mt-2">
+            今の気分を、思い立ったときにそのまま記録します
+          </p>
+        </div>
+
+        <%= link_to "ホームへ",
+              root_path(anchor: "mood"),
+              class: "btn btn-ghost btn-xs text-primary shrink-0 mt-1" %>
+      </div>
+
+      <%= image_tag "onboarding/step01_mood_log_register.gif",
+            class: "rounded-xl border border-base-200",
+            alt: "気分登録",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= STEP 02 ================= -->
+  <section id="step-02" class="card bg-base-100 shadow-sm border-l-2 border-primary/60" data-controller="reveal">
+    <div class="card-body px-6 space-y-6">
+
+      <div class="flex items-start justify-between gap-4" data-reveal-target="item">
+        <div>
+          <p class="text-xs tracking-widest text-primary font-semibold">STEP 02</p>
+          <h2 class="text-xl font-bold mt-1">行動を登録</h2>
+          <p class="text-sm text-base-content/60 mt-2">
+            よく行う行動を、あらかじめ登録しておきます
+          </p>
+        </div>
+
+        <%= link_to "行動登録へ",
+              new_habit_path,
+              class: "btn btn-ghost btn-xs text-primary shrink-0 mt-1" %>
+      </div>
+
+      <%= image_tag "onboarding/step02_habit_set.gif",
+            class: "rounded-xl border border-base-200",
+            alt: "行動登録",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= STEP 03 ================= -->
+  <section id="step-03" class="card bg-base-100 shadow-sm border-l-2 border-primary/60" data-controller="reveal">
+    <div class="card-body px-6 space-y-6">
+
+      <div class="flex items-start justify-between gap-4" data-reveal-target="item">
+        <div>
+          <p class="text-xs tracking-widest text-primary font-semibold">STEP 03</p>
+          <h2 class="text-xl font-bold mt-1">行動一覧で管理</h2>
+          <p class="text-sm text-base-content/60 mt-2">
+            登録した行動は、一覧で編集・削除できます
+          </p>
+        </div>
+
+        <%= link_to "行動一覧へ",
+              habits_path,
+              class: "btn btn-ghost btn-xs text-primary shrink-0 mt-1" %>
+      </div>
+
+      <%= image_tag "onboarding/step03_habits.gif",
+            class: "rounded-xl border border-base-200",
+            alt: "行動一覧",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= STEP 04 ================= -->
+  <section id="step-04" class="card bg-base-100 shadow-sm border-l-2 border-primary/60" data-controller="reveal">
+    <div class="card-body px-6 space-y-6">
+
+      <div class="flex items-start justify-between gap-4" data-reveal-target="item">
+        <div>
+          <p class="text-xs tracking-widest text-primary font-semibold">STEP 04</p>
+          <h2 class="text-xl font-bold mt-1">行動を実行して記録</h2>
+          <p class="text-sm text-base-content/60 mt-2">
+            行動と、その前後の気分を一緒に記録します
+          </p>
+        </div>
+
+        <%= link_to "ホームへ",
+              root_path,
+              class: "btn btn-ghost btn-xs text-primary shrink-0 mt-1" %>
+      </div>
+
+      <%= image_tag "onboarding/step04_habit_log_register.gif",
+            class: "rounded-xl border border-base-200",
+            alt: "行動ログ記録",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= STEP 05 ================= -->
+  <section id="step-05" class="card bg-base-100 shadow-sm border-l-2 border-primary/60" data-controller="reveal">
+    <div class="card-body px-6 space-y-6">
+
+      <div class="flex items-start justify-between gap-4" data-reveal-target="item">
+        <div>
+          <p class="text-xs tracking-widest text-primary font-semibold">STEP 05</p>
+          <h2 class="text-xl font-bold mt-1">ログを確認</h2>
+          <p class="text-sm text-base-content/60 mt-2">
+            記録した内容は、ホームですぐに確認できます
+          </p>
+        </div>
+
+        <%= link_to "ログを見る",
+              root_path(anchor: "logs"),
+              class: "btn btn-ghost btn-xs text-primary shrink-0 mt-1" %>
+      </div>
+
+      <%= image_tag "onboarding/step05_log_list.gif",
+            class: "rounded-xl border border-base-200",
+            alt: "ログ一覧",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= STEP 06 ================= -->
+  <section id="step-06" class="card bg-base-100 shadow-sm border-l-2 border-primary/60" data-controller="reveal">
+    <div class="card-body px-6 space-y-6">
+
+      <div class="flex items-start justify-between gap-4" data-reveal-target="item">
+        <div>
+          <p class="text-xs tracking-widest text-primary font-semibold">STEP 06</p>
+          <h2 class="text-xl font-bold mt-1">カレンダーで振り返り</h2>
+          <p class="text-sm text-base-content/60 mt-2">
+            カレンダーから、過去の記録も振り返れます
+          </p>
+        </div>
+
+        <%= link_to "カレンダーへ",
+              calendars_path,
+              class: "btn btn-ghost btn-xs text-primary shrink-0 mt-1" %>
+      </div>
+
+      <%= image_tag "onboarding/step06_calendar.gif",
+            class: "rounded-xl border border-base-200",
+            alt: "カレンダー振り返り",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+
+  <!-- ================= STEP 07 ================= -->
+  <section id="step-07" class="card bg-base-100 shadow-sm border-l-2 border-primary/60" data-controller="reveal">
+    <div class="card-body px-6 space-y-6">
+
+      <div class="flex items-start justify-between gap-4" data-reveal-target="item">
+        <div>
+          <p class="text-xs tracking-widest text-primary font-semibold">STEP 07</p>
+          <h2 class="text-xl font-bold mt-1">振り返りをXに投稿</h2>
+          <p class="text-sm text-base-content/60 mt-2">
+            振り返り内容を、そのままXに投稿できます
+          </p>
+        </div>
+
+        <%= link_to "振り返りへ",
+              reaction_path(date: Date.current),
+              class: "btn btn-ghost btn-xs text-primary shrink-0 mt-1" %>
+      </div>
+
+      <%= image_tag "onboarding/step07_x_share.gif",
+            class: "rounded-xl border border-base-200",
+            alt: "X投稿",
+            data: { reveal_target: "item" } %>
+    </div>
+  </section>
+
+  <!-- ================= CTA ================= -->
+  <section class="relative" data-controller="reveal">
+    <div class="card shadow-md border border-base-200">
+      <div class="card-body px-8 py-10 space-y-2 text-center"
+          data-reveal-target="item">
+
+        <!-- 状態ラベル -->
+        <p class="text-[11px] tracking-[0.2em] text-primary font-semibold">
+          READY
+        </p>
+
+        <!-- メインメッセージ -->
+        <h3 class="text-xl font-bold leading-relaxed">
+          さあ、kokologで<br>
+          気分と行動を記録しましょう！
+        </h3>
+
+        <!-- CTA -->
+        <div class="pt-4">
+          <%= link_to "今の気分を記録する",
+                root_path(anchor: "mood"),
+                class: "btn btn-primary rounded-full px-8 h-11 text-sm" %>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
