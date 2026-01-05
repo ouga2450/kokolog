@@ -51,6 +51,7 @@
             <li><%= link_to t("navigation.calendar"), calendars_path %></li>
             <li><%= link_to t("navigation.reflection"), reaction_today_path %></li>
             <li><%= link_to t("navigation.mypages"), mypage_path %></li>
+            <li><%= link_to t("navigation.onboarding"), onboarding_path %></li>
             <li>
               <%= link_to t("actions.logout"), destroy_user_session_path,
                            data: { turbo_method: :delete },
