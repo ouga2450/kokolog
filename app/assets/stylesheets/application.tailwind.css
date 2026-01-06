@@ -4,6 +4,7 @@
   --font-serif: "Noto Serif JP", ui-serif, serif;
 }
 @import "tailwindcss";
+@import "./loading.css";
 @plugin "daisyui" {
   themes: all;
   default: "kokolog-dark";
