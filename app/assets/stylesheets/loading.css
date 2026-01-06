@@ -1,0 +1,75 @@
+.loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+
+  /* 空気感だけ変える */
+  background: rgba(255,255,255,0.02);
+  backdrop-filter: blur(2px) saturate(0.95);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: opacity 120ms ease-out;
+}
+
+.loading-overlay.hidden {
+  opacity: 0;
+}
+
+/* ===== Ripple ===== */
+
+.ripple-svg {
+  overflow: visible;
+}
+
+.ripple {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+
+  /* delay中は完全に存在しない */
+  opacity: 0;
+  transform: scale(0);
+
+  transform-box: fill-box;
+  transform-origin: center;
+
+  animation: ripple-scale 2.0s infinite ease-out;
+  animation-fill-mode: both;
+
+  /* 画面と馴染ませる */
+  mix-blend-mode: overlay;
+}
+
+/* 時間差 */
+.ripple-1 { animation-delay: 0s; }
+.ripple-2 { animation-delay: 0.15s; }
+.ripple-3 { animation-delay: 0.3s; }
+/* ===== Animation ===== */
+
+@keyframes ripple-scale {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+
+  /* 雫が落ちた瞬間 */
+  6% {
+    transform: scale(0.35);
+    opacity: 0.65;
+  }
+
+  /* 一気に外へ */
+  25% {
+    transform: scale(0.9);
+    opacity: 0.25;
+  }
+
+  100% {
+    transform: scale(1.25);
+    opacity: 0;
+  }
+}

@@ -39,3 +39,6 @@ application.register("parallax", ParallaxController)
 
 import MoodGraphController from "./mood_graph_controller"
 application.register("mood-graph", MoodGraphController)
+
+import GlobalLoadingController from "./global_loading_controller"
+application.register("global-loading", GlobalLoadingController)
