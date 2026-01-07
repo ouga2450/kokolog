@@ -21,7 +21,7 @@ class HabitProgress
     when "check_based"
       habit_logs.any?
     when "count_based", "time_based"
-      habit_logs.sum(:performed_value) >= target_value
+      habit_logs.sum(&:performed_value) >= target_value
     else
       false
     end
