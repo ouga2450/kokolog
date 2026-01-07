@@ -42,17 +42,19 @@
         else
           "☁️ 静かな一日でした"
         end
-
-      tweet_text = <<~TEXT
-      📅 #{@context.date.strftime("%Y/%m/%d")}の振り返り
-      🌱 今日の気分
-      #{mood_face} #{score&.round(2) || "—"} / 5
-      🧩 今日やったこと
-      #{activities_text}
-      #kokolog
-      https://kokolog.onrender.com
-      TEXT
     %>
+
+<%
+tweet_text = <<~TEXT
+📅 #{@context.date.strftime("%Y/%m/%d")}の振り返り
+🌱 今日の気分
+#{mood_face} #{score&.round(2) || "—"} / 5
+🧩 今日やったこと
+#{activities_text}
+#kokolog
+https://kokolog-app.com
+TEXT
+%>
 
     <!-- 日誌表示 -->
     <div
