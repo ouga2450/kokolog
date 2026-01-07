@@ -9,11 +9,11 @@ default: &default
 
 development:
   <<: *default
-  database: kokolog_development
+  database: kocolog_development
 
 test:
   <<: *default
-  database: kokolog_test
+  database: kocolog_test
 
 # 単一のDBで運用
 production:

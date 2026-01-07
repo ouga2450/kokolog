@@ -1,13 +1,13 @@
-# kokolog（こころぐ）
+# kocolog（こころぐ）
 
 ## サービス概要
 
-**kokolog は、行動と気分の相関に気づき、より良い一日を過ごすための内省支援アプリです。**
+**kocolog は、行動と気分の相関に気づき、より良い一日を過ごすための内省支援アプリです。**
 
 人は日々さまざまな行動をしていますが、  
 「その行動が自分の調子にどう影響しているのか」まで意識できている人は多くありません。
 
-kokolog では、行動と気分をゆるやかに記録し、  
+kocolog では、行動と気分をゆるやかに記録し、  
 振り返ることで **自分の調子を整えるヒントに気づける状態** を目指しています。
 
 行動を管理したり、達成を競うアプリではありません。  
@@ -22,7 +22,7 @@ kokolog では、行動と気分をゆるやかに記録し、
 - 調子が良かった日も、理由を振り返らずに終わってしまう
 - 安定してパフォーマンスを出したいが、方法が見えない
 
-kokolog は  
+kocolog は  
 **行動と気分の関係を可視化し、客観的に気づける状態を作ること** で、  
 これらの課題を解決しようとしています。
 
@@ -45,7 +45,7 @@ kokolog は
 一方で、調子が悪い日には  
 「自分がダメだからだ」と考えてしまいがちでした。
 
-kokolog は、  
+kocolog は、  
 こうした体験から生まれた
 
 - 行動を押し付けない
@@ -56,7 +56,7 @@ kokolog は、
 
 ---
 
-## kokolog が提供したい体験
+## kocolog が提供したい体験
 
 - **調子が良くなる行動に気づく**  
   → 無理なく、その行動を続けられるようになる
@@ -116,15 +116,15 @@ kokolog は、
 ---
 
 ### 画面遷移図
-Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kokolog?node-id=0-1&t=SEncSvWt1HWWR0MB-1
+Figma：https://www.figma.com/design/QTo6iqzroFB655HoUNJTrc/kocolog?node-id=0-1&t=SEncSvWt1HWWR0MB-1
 
 ---
 
 ### ER図
 
-![ER図](./kokolog.svg)
+![ER図](./kocolog.svg)
 
-[▶︎ dbdiagramで開く](https://dbdiagram.io/d/kokolog-684047aa76955641c29f01ca)
+[▶︎ dbdiagramで開く](https://dbdiagram.io/d/kocolog-684047aa76955641c29f01ca)
 ---
 
 ## 🌟 キャッチコピー

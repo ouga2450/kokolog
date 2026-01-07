@@ -5,7 +5,7 @@ export default class extends Controller {
 
   connect() {
     const saved = localStorage.getItem("koko-theme")
-    const fallback = document.documentElement.getAttribute("data-theme") || "kokolog"
+    const fallback = document.documentElement.getAttribute("data-theme") || "kocolog"
     const theme = saved || fallback
 
     document.documentElement.setAttribute("data-theme", theme)
@@ -16,8 +16,8 @@ export default class extends Controller {
 
   switch() {
     const newTheme = this.checkboxTarget.checked
-      ? "kokolog-dark"
-      : "kokolog"
+      ? "kocolog-dark"
+      : "kocolog"
 
     document.documentElement.setAttribute("data-theme", newTheme)
     localStorage.setItem("koko-theme", newTheme)
