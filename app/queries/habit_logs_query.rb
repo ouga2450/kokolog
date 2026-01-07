@@ -19,6 +19,11 @@ class HabitLogsQuery
   end
 
   def logs
-    @logs ||= @user.habit_logs.where(started_at: range)
+    @logs ||= @user.habit_logs
+      .includes(
+        habit: [ :goal, :category ],
+        mood_logs: [ :mood ]
+      )
+      .where(started_at: range)
   end
 end

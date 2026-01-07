@@ -29,10 +29,12 @@ class HabitLog < ApplicationRecord
   end
 
   def before_mood_log
+    return mood_logs.detect(&:before?) if mood_logs.loaded?
     mood_logs.before.first
   end
 
   def after_mood_log
+    return mood_logs.detect(&:after?) if mood_logs.loaded?
     mood_logs.after.first
   end
 
