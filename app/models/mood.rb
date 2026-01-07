@@ -1,6 +1,6 @@
 class Mood < ApplicationRecord
   # --- 関連 ---
-  has_many :mood_logs, dependent: :nullify
+  has_many :mood_logs
 
   # --- バリデーション ---
   validates :score, presence: true, uniqueness: true
