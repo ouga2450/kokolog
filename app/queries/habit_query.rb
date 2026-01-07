@@ -4,44 +4,47 @@ class HabitQuery
     @date = date
   end
 
-  def base
-    Habit.where(user: @user)
-  end
+  # =========================
+  # public API
+  # =========================
 
   def active_base
-    base.where(archived_at: nil)
+    @active_base ||= begin
+      Habit
+        .where(user: @user, archived_at: nil)
         .joins(:goal)
         .merge(Goal.active.effective_on(@date))
+        .includes(:goal)
         .distinct
-  end
-
-  # Goal（daily/weekly/monthly）に応じた対象行動
-  # Home のタブ切り替えに使う
-  def habits_for(tab)
-    scope = active_base
-
-    case tab.to_s
-    when "today"
-      scope.merge(Goal.daily)
-    when "this_week"
-      scope.merge(Goal.weekly)
-    when "this_month"
-      scope.merge(Goal.monthly)
-    else
-      raise ArgumentError, "Unknown tab: #{tab}"
+        .to_a
     end
   end
 
-  # 件数（空カードの判定用）
+  # Home のタブ切り替え用
+  def habits_for(tab)
+    grouped_habits.fetch(tab.to_s, [])
+  end
+
+  # 件数（空カード判定など）
   def count_for(tab)
-    habits_for(tab).count
+    habits_for(tab).size
   end
 
   def exists_for?(tab)
-    count_for(tab).positive?
+    habits_for(tab).any?
   end
 
   def none_for?(tab)
-    count_for(tab).zero?
+    habits_for(tab).empty?
+  end
+
+  # =========================
+  # internal
+  # =========================
+
+  def grouped_habits
+    @grouped_habits ||= active_base.group_by do |habit|
+      habit.goal.frequency # "daily" / "weekly" / "monthly"
+    end
   end
 end
