@@ -31,7 +31,7 @@ class CalendarsController < ApplicationController
     @habit_logs = current_user.habit_logs
       .where(started_at: @date.all_day)
       .order(:started_at)
-      .includes(:habit, :category)
+      .includes(habit: :category)
 
     @mood_logs = current_user.mood_logs
       .where(recorded_at: @date.all_day)

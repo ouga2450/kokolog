@@ -18,7 +18,6 @@ class ReactionContext
   def build
     build_mood_logs
     build_mood_graph
-    build_habit_logs
     build_habits
     build_avg_mood
     build_summaries
@@ -27,7 +26,7 @@ class ReactionContext
   def build_mood_logs
     @mood_logs =
       @user.mood_logs
-           .includes(:mood, :feeling)
+           .includes(:mood)
            .for_date(@date)
            .recent
   end
@@ -40,14 +39,6 @@ class ReactionContext
 
     aggregation = TimeSeriesAggregation.new(logs_scope).call
     @mood_graph_values = aggregation[:points]
-  end
-
-  def build_habit_logs
-    @habit_logs =
-      @user.habit_logs
-           .includes(:habit, mood_logs: :mood)
-           .for_date(@date)
-           .recent
   end
 
   def build_habits
@@ -70,20 +61,33 @@ class ReactionContext
   def build_summaries
     frequency = %i[daily weekly monthly]
 
+    # ① 期間ごとのログを一括取得
+    logs_by_frequency =
+      frequency.index_with do |freq|
+        HabitLogsQuery.new(
+          user: @user,
+          date: @date,
+          frequency: freq
+          )
+          .logs
+          .group_by(&:habit_id)
+      end
+
+    # ② Progress を組み立てる
     @summaries =
-      frequency.index_with do |frequency|
-        frequency_habits = @habits.public_send(frequency) || Habit.none
+      frequency.index_with do |freq|
+        frequency_habits = @habits.public_send(freq) || Habit.none
+        logs_by_habit = logs_by_frequency[freq]
 
         progresses =
           frequency_habits.map do |habit|
             HabitProgress.new(
               habit: habit,
-              date: @date,
-              frequency: frequency
+              habit_logs: logs_by_habit[habit.id] || []
             )
           end
 
-        HabitProgressSummary.new(progresses, @date, frequency)
+        HabitProgressSummary.new(progresses, @date, freq)
       end
   end
 end

@@ -25,12 +25,14 @@ class HabitsController < ApplicationController
 
     logs_query = HabitLogsQuery.new(
       user: current_user,
-      habit: @habit,
       date: @date,
       frequency: @habit.goal.frequency.to_sym
     )
 
-    @progress = HabitProgress.new(habit: @habit, habit_logs: logs_query.logs)
+    habit_logs =
+      logs_query.logs.select { |log| log.habit_id == @habit.id }
+
+    @progress = HabitProgress.new(habit: @habit, habit_logs: habit_logs)
     if turbo_frame_request?
       render :show, layout: false
     else
@@ -60,7 +62,7 @@ class HabitsController < ApplicationController
     session[:habit_return_to] = request.referer
     @habit =
       current_user
-        .habits.includes(:goal, :category)
+        .habits.includes(:goal)
         .find(params[:id])
 
     @habit_form = HabitForm.from_model(@habit)

@@ -19,7 +19,7 @@ class HabitProgress
   def achieved?
     case habit.goal.goal_unit
     when "check_based"
-      habit_logs.exists?
+      habit_logs.any?
     when "count_based", "time_based"
       habit_logs.sum(:performed_value) >= target_value
     else

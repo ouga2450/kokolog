@@ -1,7 +1,6 @@
 class HabitLogsQuery
-  def initialize(user:, habit:, date:, frequency:)
+  def initialize(user:, date:, frequency:)
     @user = user
-    @habit = habit
     @date = date
     @frequency = frequency
   end
@@ -20,9 +19,6 @@ class HabitLogsQuery
   end
 
   def logs
-    @logs ||= @user.habit_logs.where(
-      habit_id: @habit.id,
-      started_at: range
-    )
+    @logs ||= @user.habit_logs.where(started_at: range)
   end
 end
