@@ -18,26 +18,28 @@ class User < ApplicationRecord
   validates :uid, presence: true, uniqueness: { scope: :provider }, if: -> { uid.present? }
 
   def self.from_omniauth(auth)
-    # provider / uid が一致するユーザーがいればそのままログイン
-    user = find_by(provider: auth.provider, uid: auth.uid)
-    return user if user
+    transaction do
+      # provider / uid が一致するユーザーがいればそのままログイン
+      user = find_by(provider: auth.provider, uid: auth.uid)
+      return user if user
 
-    # メールアドレスが一致する既存ユーザーがいればgoogleに紐づけ
-    user = find_by(email: auth.info.email)
-    if user
-      user.update(
+      # メールアドレスが一致する既存ユーザーがいればgoogleに紐づけ
+      user = find_by(email: auth.info.email)
+      if user
+        user.update!(
+          provider: auth.provider,
+          uid: auth.uid,
+        )
+        return user
+      end
+      create!(
+        name: auth.info.name,
+        email: auth.info.email,
+        password: Devise.friendly_token[0, 20],
         provider: auth.provider,
-        uid: auth.uid,
+        uid: auth.uid
       )
-      return user
     end
-    create(
-      name: auth.info.name,
-      email: auth.info.email,
-      password: Devise.friendly_token[0, 20],
-      provider: auth.provider,
-      uid: auth.uid
-    )
   end
 
   def self.create_unique_string
