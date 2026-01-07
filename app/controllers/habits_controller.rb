@@ -1,5 +1,5 @@
 class HabitsController < ApplicationController
-  before_action :set_habit, only: [ :show, :edit, :update, :archive, :restore, :purge ]
+  before_action :set_habit, only: [ :update, :archive, :restore, :purge ]
 
   def index
     base = current_user.habits
@@ -18,8 +18,21 @@ class HabitsController < ApplicationController
 
   def show
     @date = parse_date(params[:date]) || Date.current
+    @habit =
+      current_user.habits
+        .includes(:goal, :category)
+        .find(params[:id])
 
-    @progress = HabitProgress.new(habit: @habit, date: @date)
+    logs_query = HabitLogsQuery.new(
+      user: current_user,
+      date: @date,
+      frequency: @habit.goal.frequency.to_sym
+    )
+
+    habit_logs =
+      logs_query.logs.select { |log| log.habit_id == @habit.id }
+
+    @progress = HabitProgress.new(habit: @habit, habit_logs: habit_logs)
     if turbo_frame_request?
       render :show, layout: false
     else
@@ -47,6 +60,11 @@ class HabitsController < ApplicationController
 
   def edit
     session[:habit_return_to] = request.referer
+    @habit =
+      current_user
+        .habits.includes(:goal)
+        .find(params[:id])
+
     @habit_form = HabitForm.from_model(@habit)
   end
 

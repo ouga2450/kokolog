@@ -114,7 +114,7 @@ class MoodLogsController < ApplicationController
   private
 
   def set_mood_log
-    @mood_log = current_user.mood_logs.find(params[:id])
+    @mood_log = current_user.mood_logs.includes(:mood, :feeling).find(params[:id])
   end
 
   def mood_log_params

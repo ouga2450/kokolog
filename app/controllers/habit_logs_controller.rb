@@ -122,7 +122,7 @@ class HabitLogsController < ApplicationController
   private
 
   def set_habit_log
-    @habit_log = current_user.habit_logs.find(params[:id])
+    @habit_log = current_user.habit_logs.includes(:habit, mood_logs: [ :mood, :feeling ]).find(params[:id])
   end
 
   def habit_log_params

@@ -2,22 +2,25 @@ class HomeController < ApplicationController
   def index
     date = Date.current
     habits_query = HabitQuery.new(user: current_user, date: date)
-    habit_logs = current_user.habit_logs.recent
-    mood_logs = current_user.mood_logs.recent
 
-    # 気分（候補一覧）
+    habit_logs =
+      current_user.habit_logs
+        .for_today
+        .includes(:habit)
+
+    mood_logs =
+      current_user.mood_logs
+        .for_today
+        .includes(:mood, :feeling)
+
     @moods = Mood.order(:score)
 
-    # 行動（Goal種別で分類）
-    @habits = habits_query.active_base
-    @habits_today = habits_query.habits_for("today")
-    @habits_this_week = habits_query.habits_for("this_week")
-    @habits_this_month = habits_query.habits_for("this_month")
+    @habits           = habits_query.active_base
+    @habits_today     = habits_query.habits_for("daily")
+    @habits_this_week = habits_query.habits_for("weekly")
+    @habits_this_month= habits_query.habits_for("monthly")
 
-    # 今日の気分ログ
-    @mood_logs_today = mood_logs.for_today
-
-    # 今日の行動ログ
-    @habit_logs_today = habit_logs.for_today
+    @habit_logs_today = habit_logs
+    @mood_logs_today  = mood_logs
   end
 end
