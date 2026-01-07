@@ -10,7 +10,7 @@ services: # コンテナの定義開始
     ports: # ポート設定
       - 5433:5432
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -d kokolog_development -U postgres"]
+      test: ["CMD-SHELL", "pg_isready -d kocolog_development -U postgres"]
       interval: 10s # チェック間隔
       timeout: 5s # タイムアウト時間
       retries: 5 # リトライ回数
