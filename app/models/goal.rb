@@ -6,9 +6,9 @@ class Goal < ApplicationRecord
   has_many :habit_logs, dependent: :destroy
 
   # --- enum ---
-  enum goal_unit: { check_based: 0, count_based: 1 }  # 目標の種類 {time_based: 2} 将来用
-  enum frequency: { daily: 0, weekly: 1, monthly: 2 }  # 達成頻度
-  enum status: { draft: 0, active: 1 }  # 目標セット
+  enum :goal_unit, [ :check_based, :count_based ]  # 目標の種類 {time_based: 2} 将来用
+  enum :frequency, [ :daily, :weekly, :monthly ]  # 達成頻度
+  enum :status, [ :draft, :active ]  # 目標セット
 
   # --- バリデーション ---
   before_validation :set_amount_for_check_based

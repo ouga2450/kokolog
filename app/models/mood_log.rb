@@ -16,7 +16,7 @@ class MoodLog < ApplicationRecord
   validates :timing, presence: true, if: -> { self[:habit_log_id].present? }
 
   # --- enum ---
-  enum timing: { before: 0, after: 1 }
+  enum :timing:, [ :before, :after ]
 
   # --- スコープ ---
   scope :for_today, -> { where(recorded_at: Date.current.all_day) }
